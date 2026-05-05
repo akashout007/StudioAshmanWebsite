@@ -19,7 +19,7 @@ const VALUES = [
   },
   {
     title: 'Honest partnerships',
-    desc: 'We tell you what we think — even when it's uncomfortable. Our clients keep coming back because we treat their challenges as our own.',
+    desc: "We tell you what we think — even when it's uncomfortable. Our clients keep coming back because we treat their challenges as our own.",
   },
   {
     title: 'Made to last',

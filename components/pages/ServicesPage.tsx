@@ -17,7 +17,7 @@ const SERVICES = [
   {
     num: '02',
     title: 'Wayfinding\nSystems',
-    desc: 'Navigation design that respects people's time while reinforcing your brand at every touchpoint. We work from masterplan to material specification.',
+    desc: "Navigation design that respects people's time while reinforcing your brand at every touchpoint. We work from masterplan to material specification.",
     items: ['Signage systems', 'Architectural wayfinding', 'Campus navigation', 'Transport & infrastructure', 'Digital wayfinding integration'],
   },
   {
