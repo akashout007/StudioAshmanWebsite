@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ComponentType } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Footer from '@/components/Footer'
@@ -18,7 +18,7 @@ interface Project {
   catLabel: string
   title: string
   sub: string
-  Diag: React.ComponentType
+  Diag: ComponentType
 }
 
 const PROJECTS: Project[] = [

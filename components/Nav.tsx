@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback, type ReactNode } from 'react'
 import gsap from 'gsap'
 import { usePage, PageName } from '@/context/PageContext'
 
@@ -8,7 +8,7 @@ type MegaKey = 'work' | 'services' | 'studio' | null
 interface MegaData {
   colA: { title: string; items: { name: string; meta: string; page: PageName }[] }
   colB: { title: string; items: { name: string; meta: string; page: PageName }[] }
-  feature: { eyebrow: string; title: React.ReactNode; meta: string[]; page: PageName }
+  feature: { eyebrow: string; title: ReactNode; meta: string[]; page: PageName }
 }
 
 const MEGA: Record<string, MegaData> = {

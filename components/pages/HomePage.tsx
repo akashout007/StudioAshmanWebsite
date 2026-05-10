@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, type ComponentType } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { usePage } from '@/context/PageContext'
@@ -64,7 +64,7 @@ const PRACTICES = [
   },
 ]
 
-const ArtMap: Record<string, React.ComponentType> = {
+const ArtMap: Record<string, ComponentType> = {
   wayfinding: DiagWayfinding,
   sign: DiagSign,
   facade: DiagFacade,
@@ -105,7 +105,7 @@ const FEATURED = [
   },
 ]
 
-const ProjArtMap: Record<string, React.ComponentType> = {
+const ProjArtMap: Record<string, ComponentType> = {
   wayfinding: DiagWayfinding,
   retail: DiagRetail,
   facade: DiagFacade,
