@@ -123,12 +123,12 @@ export default function StudioPage() {
 
       /* ─── Story two-col ─── */
       if (storyRef.current) {
-        const [left, right] = storyRef.current.querySelectorAll('.two-col > div')
-        gsap.fromTo(left, { opacity: 0, x: -28 }, {
+        const cols = storyRef.current.querySelectorAll('.two-col > div')
+        gsap.fromTo(cols[0], { opacity: 0, x: -28 }, {
           opacity: 1, x: 0, duration: .85, ease: 'power3.out',
           scrollTrigger: { trigger: storyRef.current, start: 'top 78%' },
         })
-        gsap.fromTo(right, { opacity: 0, y: 24 }, {
+        gsap.fromTo(cols[1], { opacity: 0, y: 24 }, {
           opacity: 1, y: 0, duration: .85, ease: 'power3.out', delay: .1,
           scrollTrigger: { trigger: storyRef.current, start: 'top 78%' },
         })
