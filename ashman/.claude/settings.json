@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la /Users/akashout/ashman-studio/ && ls -la /Users/akashout/ashman-studio/ashman/ 2>/dev/null || true)",
+      "Read(//Users/akashout/ashman-studio/**)"
+    ],
+    "additionalDirectories": [
+      "/Users/akashout/ashman-studio/app",
+      "/Users/akashout/ashman-studio/components/svg",
+      "/Users/akashout/ashman-studio/components"
+    ]
+  }
+}

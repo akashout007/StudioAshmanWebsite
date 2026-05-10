@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Case Studies — Ashman Studio</title>
+<link rel="stylesheet" href="css/colors_and_type.css"/>
+<link rel="stylesheet" href="css/site.css"/>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+.cs-feature-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-top: var(--border); border-bottom: var(--border);
+}
+.cs-feature-row .vis { background: var(--ink); aspect-ratio: 5/4; position: relative; overflow: hidden; }
+.cs-feature-row .vis svg { width: 100%; height: 100%; }
+.cs-feature-row .copy { padding: 64px; display: flex; flex-direction: column; justify-content: center; }
+.cs-feature-row.alt .vis { order: 2; border-left: var(--border); }
+.cs-feature-row .meta { font-family: var(--font-label); font-size: 9px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; display: flex; gap: 24px; margin-bottom: 22px; color: var(--accent); }
+.cs-feature-row .meta .mid { color: var(--mid); }
+.cs-feature-row h2 { font-family: var(--font-display); font-size: 48px; font-weight: 800; line-height: 1; letter-spacing: -.02em; margin-bottom: 22px; max-width: 14ch; }
+.cs-feature-row h2 em { font-style: italic; font-weight: 600; color: var(--accent); }
+.cs-feature-row .desc { font-size: 15px; color: var(--mid); line-height: 1.85; font-weight: 300; max-width: 50ch; margin-bottom: 28px; }
+.cs-feature-row .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding-top: 28px; border-top: .5px solid var(--light); margin-bottom: 28px; }
+.cs-feature-row .stat .n { font-family: var(--font-display); font-size: 40px; font-weight: 700; color: var(--accent); line-height: 1; letter-spacing: -.02em; }
+.cs-feature-row .stat .l { font-family: var(--font-label); font-size: 9px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--mid); margin-top: 10px; }
+.cs-feature-row .credits { display: flex; gap: 32px; flex-wrap: wrap; font-family: var(--font-label); font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--mid); }
+.cs-feature-row .credits .v { color: var(--ink); margin-left: 8px; }
+
+.idx-row {
+  display: grid; grid-template-columns: 60px 2fr 1fr 1fr 80px;
+  gap: 32px; padding: 22px 8px;
+  border-bottom: 0.5px solid var(--light);
+  align-items: baseline; cursor: pointer;
+  transition: background var(--dur-base) var(--ease), padding var(--dur-base) var(--ease);
+}
+.idx-row:hover { background: var(--white); padding-left: 16px; padding-right: 16px; }
+.idx-row .idx-num { font-family: var(--font-label); font-size: 10px; font-weight: 700; letter-spacing: .2em; color: var(--mid); }
+.idx-row .idx-title { font-family: var(--font-display); font-size: 22px; font-weight: 600; letter-spacing: -.01em; }
+.idx-row .idx-title em { font-style: italic; color: var(--accent); }
+.idx-row .idx-tag { font-family: var(--font-label); font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); }
+.idx-row .idx-loc { font-size: 13px; color: var(--mid); font-weight: 300; }
+.idx-row .idx-year { font-family: var(--font-label); font-size: 11px; font-weight: 700; letter-spacing: .15em; color: var(--ink); text-align: right; }
+.idx-head {
+  display: grid; grid-template-columns: 60px 2fr 1fr 1fr 80px;
+  gap: 32px; padding: 18px 8px;
+  border-top: var(--border); border-bottom: var(--border);
+  font-family: var(--font-label); font-size: 9px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; color: var(--mid);
+}
+</style>
+</head>
+<body data-screen-label="Case Studies">
+<div id="root"></div>
+<script type="text/babel" src="js/shared.jsx"></script>
+<script type="text/babel">
+
+const PageHead = () => (
+  <section className="ash-wrap">
+    <div className="ash-pagehead">
+      <div>
+        <div className="ash-breadcrumb">
+          <a href="index.html">Ashman.Studio</a>
+          <span className="sep">/</span>
+          <span className="crumb-on">Case studies</span>
+        </div>
+        <div className="ash-eyebrow"><span className="dash"></span>05 — Selected work</div>
+        <h1>Four named<br/><em>projects</em>.</h1>
+      </div>
+      <div>
+        <p className="lede">
+          A young studio with a small, deliberate output. Healthcare wayfinding,
+          heritage retail, an artist's atelier and a photography collective — most
+          still in active phases. Some shipped this year; some are quietly opening
+          across the next twelve months.
+        </p>
+        <div style={{display:'flex', gap: 24, marginTop: 32, flexWrap: 'wrap'}}>
+          <span className="ash-eyebrow muted"><span className="dash"></span>Wayfinding</span>
+          <span className="ash-eyebrow muted"><span className="dash"></span>Signage</span>
+          <span className="ash-eyebrow muted"><span className="dash"></span>EGD</span>
+          <span className="ash-eyebrow muted"><span className="dash"></span>Spatial Identity</span>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+const TAGS = ['All', 'Wayfinding', 'Sign Design', 'Environmental Graphics', 'Brand Activation', 'Retail', 'Spatial Identity'];
+const SECTORS = ['All sectors', 'Aviation', 'Civic & Cultural', 'Sport & Arena', 'Workplace', 'Retail & F&B', 'Transit'];
+
+const FEATURES = [
+  {
+    key: 'regency',
+    sector: 'Healthcare',
+    discipline: 'Wayfinding · Signage',
+    diag: 'wayfinding',
+    title: <>Regency Hospital — bilingual <em>wayfinding</em>.</>,
+    loc: 'Lucknow, Uttar Pradesh',
+    year: '2024 — 2025',
+    desc: 'A multi-block hospital campus across roughly 460,000 sq ft. The brief was a complete bilingual wayfinding rebuild — English and Hindi — covering OPD, IPD, emergency, diagnostics and the staff routes that thread between them. We delivered the strategy, sign masterplan, custom Devanagari-Latin pictogram set and supervised installation across two phased openings.',
+    stats: [
+      { n: '460k', l: 'Sq ft surveyed' },
+      { n: '720', l: 'Sign types installed' },
+      { n: '2', l: 'Languages · EN/HI' }
+    ],
+    credits: [
+      { k: 'Client', v: 'Regency Healthcare Ltd.' },
+      { k: 'Architect', v: 'IMK Architects' },
+      { k: 'Lead studio', v: 'New Delhi' }
+    ]
+  },
+  {
+    key: 'chopra',
+    sector: 'Heritage Retail',
+    discipline: 'Spatial Identity · Sign Design',
+    diag: 'retail',
+    title: <>Chopra Soda — a <em>heritage</em> revival.</>,
+    loc: 'Faridkot, Punjab',
+    year: '2024',
+    desc: 'Chopra Soda has been bottled in Faridkot since the 1950s. We were asked to revive the brand for a new generation of dukans (kiosks) and street-cart vendors across Punjab. The work covered spatial identity, hand-painted sign typology, glass bottle livery and the in-store environment of the flagship outlet on the Faridkot bazaar. Painted signage hand-finished by local sign-painters working in the original Punjabi street style.',
+    stats: [
+      { n: '74', l: 'Stockists rolled out' },
+      { n: '12', l: 'Hand-painted sign types' },
+      { n: '1953', l: 'Brand origin' }
+    ],
+    credits: [
+      { k: 'Client', v: 'Chopra Beverages Pvt. Ltd.' },
+      { k: 'Sign-painter', v: 'Singh & Sons, Faridkot' },
+      { k: 'Lead studio', v: 'Chandigarh' }
+    ]
+  },
+  {
+    key: 'artnest',
+    sector: 'Studio',
+    discipline: 'Environmental Graphics · Spatial Identity',
+    diag: 'facade',
+    title: <>Artnest Studio — an <em>atelier</em> finds its voice.</>,
+    loc: 'Charmwood Village, Faridabad',
+    year: '2025',
+    desc: 'A working artist\'s atelier inside a residential complex in Charmwood Village. The brief was tight: introduce visitors to a private working space without making it precious, and signal where to enter, where to wait, where to look. We designed an environmental identity — a threshold marker, a routing system and a series of supergraphics on the studio walls that double as cataloguing for the artist\'s archive.',
+    stats: [
+      { n: '4,200', l: 'Sq ft of studio' },
+      { n: '14', l: 'Surface treatments' },
+      { n: '1', l: 'Artist · archive of 600+' }
+    ],
+    credits: [
+      { k: 'Client', v: 'Artnest Studio' },
+      { k: 'Architect', v: 'In-house' },
+      { k: 'Lead studio', v: 'New Delhi' }
+    ]
+  },
+  {
+    key: 'delhigrapher',
+    sector: 'Cultural',
+    discipline: 'Spatial Identity · Wayfinding',
+    diag: 'floorplan',
+    title: <>Delhigrapher — a photography <em>collective</em>.</>,
+    loc: 'New Delhi',
+    year: '2025 — 2026',
+    desc: 'Delhigrapher is a Delhi-based photography collective documenting the city. The studio was asked to design a spatial identity for the collective\'s new exhibition and gathering space — wayfinding from the building threshold to the salon, a hanging system for rotating shows, and an environmental tone of voice that lets the photographs do the talking. We co-developed the system with the collective\'s editorial team.',
+    stats: [
+      { n: '8', l: 'Rotating exhibitions/yr' },
+      { n: '1,800', l: 'Sq ft gallery' },
+      { n: '14', l: 'Founding members' }
+    ],
+    credits: [
+      { k: 'Client', v: 'Delhigrapher Collective' },
+      { k: 'Curatorial', v: 'In-house' },
+      { k: 'Lead studio', v: 'New Delhi' }
+    ]
+  }
+];
+
+const FeatureRow = ({ p, alt }) => {
+  const map = { wayfinding: DiagWayfinding, sign: DiagSign, facade: DiagFacade, activation: DiagActivation, retail: DiagRetail, floorplan: DiagFloorplan, transit: DiagTransit, section: DiagSection };
+  const Comp = map[p.diag] || DiagWayfinding;
+  return (
+    <section className={'cs-feature-row ' + (alt ? 'alt' : '')}>
+      <div className="vis"><Comp/></div>
+      <div className="copy">
+        <div className="meta">
+          <span>{p.discipline}</span>
+          <span className="mid">{p.sector}</span>
+          <span className="mid">— {p.year}</span>
+        </div>
+        <h2>{p.title}</h2>
+        <div style={{fontSize: 13, color:'var(--mid)', fontFamily:'var(--font-label)', fontWeight: 700, letterSpacing:'.22em', textTransform:'uppercase', marginBottom: 22}}>{p.loc}</div>
+        <p className="desc">{p.desc}</p>
+        <div className="stats">
+          {p.stats.map(s => (
+            <div className="stat" key={s.l}>
+              <div className="n">{s.n}</div>
+              <div className="l">{s.l}</div>
+            </div>
+          ))}
+        </div>
+        <div className="credits">
+          {p.credits.map(c => (
+            <div key={c.k}>{c.k}<span className="v">{c.v}</span></div>
+          ))}
+        </div>
+        <div style={{marginTop: 36}}>
+          <a className="btn-ghost" href="#" style={{paddingLeft:0}}>Read full case study <span>→</span></a>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const FILTER_PROJECTS = [
+  ['001', <>Regency Hospital — bilingual <em>wayfinding</em></>, 'Wayfinding', 'Lucknow, IN', '2025'],
+  ['002', 'Chopra Soda — retail revival', 'Spatial Identity', 'Faridkot, IN', '2024'],
+  ['003', 'Artnest Studio — atelier identity', 'EGD', 'Faridabad, IN', '2025'],
+  ['004', <>Delhigrapher — gallery <em>wayfinding</em></>, 'Spatial Identity', 'New Delhi, IN', '2026'],
+  ['005', 'Chopra Soda — dukan sign system', 'Sign Design', 'Punjab, IN', '2025'],
+  ['006', 'Regency Hospital — emergency route signs', 'Wayfinding', 'Lucknow, IN', '2025'],
+  ['007', 'Artnest — supergraphic series', 'EGD', 'Faridabad, IN', '2026'],
+  ['008', 'Studio launch identity', 'Spatial Identity', 'New Delhi, IN', '2024']
+];
+
+const ProjectIndex = () => {
+  const [active, setActive] = useState('All');
+  const [sector, setSector] = useState('All sectors');
+  const filtered = FILTER_PROJECTS.filter(p => {
+    if (active === 'All') return true;
+    if (active === 'Wayfinding') return p[2] === 'Wayfinding';
+    if (active === 'Sign Design') return p[2] === 'Sign Design';
+    if (active === 'Environmental Graphics') return p[2] === 'EGD';
+    if (active === 'Brand Activation') return p[2] === 'Activation';
+    if (active === 'Retail') return p[2] === 'Retail';
+    if (active === 'Spatial Identity') return p[2] === 'Spatial Identity';
+    return true;
+  });
+  return (
+    <section className="ash-section">
+      <div className="ash-wrap">
+        <div className="section-head">
+          <div className="left">
+            <div className="num">— 02 / Index</div>
+            <h2>Full project<br/><em>register</em>.</h2>
+          </div>
+          <p className="lede">
+            Filter by discipline. Each entry is a real engagement — some published in detail
+            above, most under continuing client confidentiality. Reach out and we can usually
+            walk through the work in a private session.
+          </p>
+        </div>
+
+        <div className="ash-filterbar">
+          {TAGS.map(t => (
+            <button key={t} className={'ash-filter ' + (active === t ? 'on' : '')} onClick={() => setActive(t)}>
+              {t}
+              {active !== t && t !== 'All' && <span className="count">·</span>}
+            </button>
+          ))}
+        </div>
+
+        <div className="idx-head">
+          <span>№</span>
+          <span>Project</span>
+          <span>Discipline</span>
+          <span>Location</span>
+          <span style={{textAlign:'right'}}>Year</span>
+        </div>
+        {filtered.map((p, i) => (
+          <a key={p[0]} href="#" className="idx-row" style={{textDecoration:'none', color:'inherit'}}>
+            <span className="idx-num">{p[0]}</span>
+            <span className="idx-title">{p[1]}</span>
+            <span className="idx-tag">{p[2]}</span>
+            <span className="idx-loc">{p[3]}</span>
+            <span className="idx-year">{p[4]}</span>
+          </a>
+        ))}
+        {filtered.length === 0 && (
+          <div style={{padding: 64, textAlign:'center', color:'var(--mid)', fontStyle:'italic'}}>No projects match this filter.</div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+const App = () => (
+  <>
+    <Nav current="work"/>
+    <Ticker paper/>
+    <PageHead/>
+
+    <section className="ash-wrap">
+      <div className="section-head">
+        <div className="left">
+          <div className="num">— 01 / Featured</div>
+          <h2>Four <em>case studies</em>.</h2>
+        </div>
+        <p className="lede">
+          A closer look at the four named engagements shipped or underway in the studio's
+          first two years — healthcare wayfinding, heritage retail, an artist's atelier
+          and a photography collective's gallery.
+        </p>
+      </div>
+    </section>
+    {FEATURES.map((p, i) => <FeatureRow key={p.key} p={p} alt={i % 2 === 1}/>)}
+
+    <ProjectIndex/>
+    <CtaStrip
+      title="Like what you see? <em>Brief us</em>."
+      sub="If a project on this page resembles something you're scoping, we'd be happy to share more — case study PDFs, walk-through decks, references."
+      label="Get in touch"
+    />
+    <Footer/>
+  </>
+);
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

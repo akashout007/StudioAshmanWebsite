@@ -1,0 +1,122 @@
+/* ============================================================
+   Ashman Studio — Foundations
+   Colors, typography, spacing, borders, motion tokens.
+   Import this in any artifact that needs the Ashman look.
+   ============================================================ */
+
+/* Local brand webfonts (variable). Italics for Playfair fall back to synthetic
+   italic — the user supplied the upright variable file only. */
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('../fonts/PlayfairDisplay-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Syne';
+  src: url('../fonts/Syne-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DM Sans';
+  src: url('../fonts/DMSans-VariableFont_opsz_wght.ttf') format('truetype-variations');
+  font-weight: 100 1000;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ── Core palette ── */
+  --ink:        #0e0e0d;   /* primary dark — text on paper, dark surfaces */
+  --ink2:       #1c1c1a;   /* secondary dark surface */
+  --paper:      #f2efe8;   /* primary background — warm off-white */
+  --paper2:     #ebe7de;   /* secondary surface */
+  --white:      #faf9f6;   /* elevated surface (cards on paper) */
+
+  /* ── Accent (burnt terracotta) ── */
+  --accent:     #c8502a;   /* primary accent */
+  --accent-dk:  #9e3d1e;   /* hover / pressed */
+  --accent-lt:  #e8b49e;   /* on dark surfaces */
+
+  /* ── Neutrals ── */
+  --mid:        #7a7670;   /* body text, secondary */
+  --light:      #e2ddd4;   /* hairline borders, dividers */
+  --light2:     #cdc8be;   /* emphasis borders */
+
+  /* ── Semantic ── */
+  --success:    #3a7d44;
+  --warning:    #b5860d;
+  --danger:     #b93a2a;
+  --info:       #2563a8;
+
+  /* ── Type families ── */
+  --font-display: 'Playfair Display', 'Times New Roman', serif;
+  --font-label:   'Syne', 'Helvetica Neue', sans-serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  --font-mono:    'DM Mono', ui-monospace, monospace;
+
+  /* ── Type scale ── */
+  --text-xs:    11px;
+  --text-sm:    13px;
+  --text-base:  15px;
+  --text-lg:    18px;
+  --text-xl:    24px;
+  --text-2xl:   32px;
+  --text-3xl:   48px;
+  --text-4xl:   64px;
+
+  /* ── Spacing (base-4) ── */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+  --sp-12: 48px; --sp-16: 64px; --sp-20: 80px; --sp-24: 96px;
+
+  /* ── Borders (always hairlines, never rounded) ── */
+  --border:    0.5px solid var(--light);
+  --border-dk: 0.5px solid var(--light2);
+  --radius:    0;          /* the whole system is sharp-cornered */
+
+  /* ── Motion ── */
+  --dur-fast:   0.15s;     /* press / active */
+  --dur-base:   0.20s;     /* color, hover */
+  --dur-smooth: 0.30s;     /* nav, card hover */
+  --dur-border: 0.35s;     /* underline reveal */
+  --dur-reveal: 0.80s;     /* scroll fade-up */
+  --ease:       ease;
+}
+
+/* ============================================================
+   Semantic typography roles
+   ============================================================ */
+
+.t-display       { font-family: var(--font-display); font-size: 52px; font-weight: 900; line-height: 1; letter-spacing: -0.03em; color: var(--ink); }
+.t-display-em    { font-family: var(--font-display); font-size: 52px; font-weight: 700; font-style: italic; line-height: 1; letter-spacing: -0.02em; color: var(--accent); }
+.t-h1            { font-family: var(--font-display); font-size: 36px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); }
+.t-h2            { font-family: var(--font-display); font-size: 28px; font-weight: 700; line-height: 1.15; letter-spacing: -0.015em; color: var(--ink); }
+.t-h3            { font-family: var(--font-display); font-size: 22px; font-weight: 700; line-height: 1.2; color: var(--ink); }
+
+.t-syne-lg       { font-family: var(--font-label); font-size: 16px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; }
+.t-syne-sm       { font-family: var(--font-label); font-size: 10px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent); }
+.t-eyebrow       { font-family: var(--font-label); font-size: 9px;  font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent); }
+
+.t-body          { font-family: var(--font-body); font-size: 15px; font-weight: 300; line-height: 1.8; color: var(--mid); }
+.t-body-sm       { font-family: var(--font-body); font-size: 13px; font-weight: 300; line-height: 1.75; color: var(--mid); }
+.t-caption       { font-family: var(--font-body); font-size: 11px; letter-spacing: 0.06em; color: var(--mid); }
+
+/* ============================================================
+   Base
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.6;
+  font-weight: 300;
+}
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar-thumb { background: var(--light2); }

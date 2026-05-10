@@ -125,7 +125,7 @@ export default function ContactPage() {
         </div>
       </div>
 
-      <Footer tagline="Designing the physical world of your brand." />
+      <Footer />
     </>
   )
 }

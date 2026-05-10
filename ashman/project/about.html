@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>About — Ashman Studio</title>
+<link rel="stylesheet" href="css/colors_and_type.css"/>
+<link rel="stylesheet" href="css/site.css"/>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+.about-pull {
+  padding: 96px 0; border-bottom: var(--border);
+}
+.about-pull h2 {
+  font-family: var(--font-display); font-size: clamp(40px, 5vw, 76px);
+  font-weight: 400; line-height: 1.1; letter-spacing: -.02em;
+  max-width: 22ch;
+}
+.about-pull h2 em { font-style: italic; color: var(--accent); font-weight: 600; }
+
+.role-list {
+  border-top: var(--border);
+}
+.role-row {
+  display: grid; grid-template-columns: 1fr 1fr 200px 80px;
+  gap: 32px; padding: 28px 8px;
+  border-bottom: 0.5px solid var(--light);
+  align-items: baseline;
+  transition: padding var(--dur-base) var(--ease), background var(--dur-base) var(--ease);
+}
+.role-row:hover { background: var(--white); padding-left: 16px; padding-right: 16px; }
+.role-row .title { font-family: var(--font-display); font-size: 22px; font-weight: 600; letter-spacing: -.01em; }
+.role-row .title em { font-style: italic; color: var(--accent); }
+.role-row .meta { font-size: 13px; color: var(--mid); font-weight: 300; }
+.role-row .loc { font-family: var(--font-label); font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); }
+.role-row .arrow { text-align: right; color: var(--ink); font-family: var(--font-label); font-size: 10px; letter-spacing: .2em; font-weight: 700; }
+</style>
+</head>
+<body data-screen-label="About">
+<div id="root"></div>
+<script type="text/babel" src="js/shared.jsx"></script>
+<script type="text/babel">
+
+const PageHead = () => (
+  <section className="ash-wrap">
+    <div className="ash-pagehead">
+      <div>
+        <div className="ash-breadcrumb">
+          <a href="index.html">Ashman.Studio</a>
+          <span className="sep">/</span>
+          <span className="crumb-on">Studio</span>
+        </div>
+        <div className="ash-eyebrow"><span className="dash"></span>03 — Studio</div>
+        <h1>An <em>independent</em><br/>practice.</h1>
+      </div>
+      <p className="lede">
+        Founded 2024 in New Delhi by Akash Manna — an architect and wayfinding
+        specialist. A small team of architects, graphic designers and technical
+        designers across three studios. Independent on purpose: no holding company,
+        no second-guessing, no pitch-process theatre.
+      </p>
+    </div>
+  </section>
+);
+
+const Story = () => (
+  <section className="ash-section" id="story">
+    <div className="ash-wrap">
+      <div className="section-head">
+        <div className="left">
+          <div className="num">— 01 / Story</div>
+          <h2>Two <em>years</em>,<br/>three cities.</h2>
+        </div>
+        <div>
+          <div className="two-col">
+            <div>
+              <h3>How the studio came to be.</h3>
+            </div>
+            <div>
+              <p>
+                Ashman Studio was started in 2024 by <strong>Akash Manna</strong>, an
+                architect and wayfinding specialist working out of New Delhi. The studio
+                grew out of a single hospital wayfinding commission and a deliberate bet
+                that brand and architecture should be designed by the same hand.
+              </p>
+              <p>
+                The first eighteen months were spent on a small, careful set of engagements —
+                <em>Chopra Soda</em>, a heritage soft-drink brand from Faridkot; the
+                wayfinding for <em>Regency Hospital</em> in Lucknow; and an environmental
+                identity for <em>Artnest Studio</em>, a working atelier in Faridabad.
+              </p>
+              <p>
+                We opened a second studio in Chandigarh in 2025 to be closer to the
+                Punjab and Haryana work, and a third in Dubai in 2026 for engagements
+                across the Gulf. New Delhi remains the head office.
+              </p>
+              <p>
+                We've stayed deliberately small. Around a dozen people is roughly the
+                size where everyone in the studio knows what every project is, and where
+                the founder can still be in the room for the major design reviews. We don't
+                plan to grow much beyond it.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+const Pull = () => (
+  <section className="ash-wrap about-pull">
+    <div className="ash-eyebrow muted" style={{marginBottom: 32}}><span className="dash"></span>How we work</div>
+    <h2>
+      We design end-to-end. From the first audit walk through the last installed sign,
+      one studio takes the work — no handoff, no <em>delivery partner</em>, no surprise.
+    </h2>
+  </section>
+);
+
+const Beliefs = () => (
+  <section className="ash-section">
+    <div className="ash-wrap">
+      <div className="section-head">
+        <div className="left">
+          <div className="num">— 02 / Beliefs</div>
+          <h2>What the studio<br/><em>actually</em> believes.</h2>
+        </div>
+        <p className="lede">
+          We've been asked variations of "what's your design philosophy" enough times
+          to have written it down. Three things, in order.
+        </p>
+      </div>
+      <div className="bordered-grid cols-3">
+        <div className="bordered-cell">
+          <div className="num">— 01</div>
+          <h3>Space is not the <em>wrapping</em>.</h3>
+          <p>
+            The physical environment isn't a finishing layer applied at the end of a brand
+            project. It's where the brand actually lives — the threshold, the queue, the
+            ceiling height, the moment of arrival. We design from that premise outward.
+          </p>
+          <div className="meta"><span>Foundational</span></div>
+        </div>
+        <div className="bordered-cell">
+          <div className="num">— 02</div>
+          <h3>Wayfinding is <em>care</em>.</h3>
+          <p>
+            A signage system, done well, is one of the highest-trust gestures a building
+            can make to a stranger. Get it wrong and you have an exhausted, late, anxious
+            person. Get it right and you have someone who feels looked after. That's the
+            stake.
+          </p>
+          <div className="meta"><span>Operational</span></div>
+        </div>
+        <div className="bordered-cell">
+          <div className="num">— 03</div>
+          <h3>Material before <em>image</em>.</h3>
+          <p>
+            We start with the physical — what something is made of, how it's lit, how it
+            ages, how it sounds underfoot — before we get to graphics. The discipline runs
+            the studio: a sign that's wrong in mild steel won't be saved by a clever
+            typeface choice.
+          </p>
+          <div className="meta"><span>Material</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+const TEAM = [
+  { name: 'Akash Manna', role: 'Founder · Principal', bio: 'Architect and wayfinding specialist. Leads strategy across every engagement and is in the room for every major design review.', initial: 'A' },
+  { name: 'Anamika', role: 'Architect & Spatial Designer', bio: 'Leads spatial identity and architectural collaboration. Background in interiors and exhibition design.', initial: 'An' },
+  { name: 'Arsalan', role: 'Senior Graphic Designer', bio: 'NID graduate. Owns sign design, EGD and the typographic side of the studio. Leads the Chopra Soda and Delhigrapher work.', initial: 'Ar' },
+  { name: 'Vikram', role: 'Motion & Animation', bio: 'NID Ahmedabad — communication design. Designs digital wayfinding, animated signage and the studio\'s case-study films.', initial: 'V' },
+  { name: 'Maaz', role: 'Technical Designer', bio: 'Translates design intent into manufacturable spec. Owns fabrication drawings, mounting details and tendered material packages.', initial: 'M' }
+];
+
+const Team = () => (
+  <section className="ash-section" id="team">
+    <div className="ash-wrap">
+      <div className="section-head">
+        <div className="left">
+          <div className="num">— 03 / Team</div>
+          <h2>A small <em>team</em>,<br/>five named here.</h2>
+        </div>
+        <p className="lede">
+          The founder and four senior designers. The rest of the studio — assistants,
+          junior designers and a small fabrication partner — are not photographed here.
+          Headshots are placeholder; we'll switch them once the new portraits are back
+          from the shoot.
+        </p>
+      </div>
+      <div className="team-grid">
+        {TEAM.map(p => (
+          <div key={p.name} className="team-card">
+            <div className="photo">
+              <div className="placeholder">{p.initial}</div>
+            </div>
+            <div className="name">{p.name}</div>
+            <div className="role">{p.role}</div>
+            <div className="bio">{p.bio}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const TIMELINE = [
+  { year: '2024', what: 'Studio founded in New Delhi', where: 'Akash Manna opens the practice out of a single room in Hauz Khas Village. First commission: Chopra Soda, Faridkot.' },
+  { year: '2024', what: 'Chopra Soda — first retail engagement', where: 'A heritage soft-drink brand from Punjab; spatial identity, retail signage and a hand-painted dukan revival.' },
+  { year: '2025', what: 'Regency Hospital — first wayfinding commission', where: 'A multi-block hospital campus in Lucknow. Bilingual (English / Hindi) wayfinding, sign masterplan and pictogram set.' },
+  { year: '2025', what: 'Artnest Studio — Charmwood Village, Faridabad', where: 'Environmental identity for an artist\'s atelier. The studio\'s first dedicated EGD engagement.' },
+  { year: '2025', what: 'Chandigarh studio opens', where: 'A second studio in Sector 17 to be closer to the Punjab and Haryana work.' },
+  { year: '2026', what: 'Delhigrapher — gallery & wayfinding', where: 'Spatial identity and visitor wayfinding for a Delhi-based photography collective.' },
+  { year: '2026', what: 'Dubai studio opens', where: 'A third studio in Alserkal Avenue (Al Quoz) to handle Gulf engagements.' }
+];
+
+const Timeline = () => (
+  <section className="ash-section">
+    <div className="ash-wrap">
+      <div className="section-head">
+        <div className="left">
+          <div className="num">— 04 / Timeline</div>
+          <h2>Seven <em>moments</em>.</h2>
+        </div>
+        <p className="lede">
+          The shorthand version of how the studio got here. Other things happened in between,
+          but these are the ones that changed the shape of the practice.
+        </p>
+      </div>
+      <div className="timeline">
+        {TIMELINE.map(t => (
+          <div key={t.year} className="row">
+            <div className="year">{t.year}</div>
+            <div>
+              <div className="what">{t.what}</div>
+              <div className="where">{t.where}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const AWARDS = [
+  ['2026', <>Kyoorius Yellow — <em>Wayfinding</em></>, 'Regency Hospital, Lucknow', 'Wayfinding'],
+  ['2025', 'India Design Mark — Heritage Retail', 'Chopra Soda, Faridkot', 'Spatial Identity'],
+  ['2025', 'AGDA Merit — Identity', 'Chopra Soda, Faridkot', 'Sign Design'],
+  ['2025', <>WIN Awards — <em>shortlist</em></>, 'Regency Hospital, Lucknow', 'Healthcare'],
+  ['2024', 'Brand New — Noted', 'Studio launch identity', 'Brand']
+];
+
+const Awards = () => (
+  <section className="ash-section" id="awards">
+    <div className="ash-wrap">
+      <div className="section-head">
+        <div className="left">
+          <div className="num">— 05 / Awards</div>
+          <h2>Honours &<br/><em>recognition</em>.</h2>
+        </div>
+        <p className="lede">
+          Five honours and shortlists in two years — most for the wayfinding and heritage
+          retail work. We don't enter every competition; the ones below are the ones that
+          mattered to the team or the client.
+        </p>
+      </div>
+      <div className="awards-list">
+        {AWARDS.map((a, i) => (
+          <div key={i} className="award-row">
+            <div className="year">{a[0]}</div>
+            <div className="title">{a[1]}</div>
+            <div className="org">{a[2]}</div>
+            <div className="cat">{a[3]}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const ROLES = [
+  { title: <>Senior Wayfinding <em>Designer</em></>, type: 'Permanent · Full-time', loc: 'New Delhi', meta: '4+ years experience' },
+  { title: 'Junior Graphic Designer', type: 'Permanent · Full-time', loc: 'Chandigarh', meta: 'Recent NID / Srishti graduate' },
+  { title: 'Sign Production Coordinator', type: 'Permanent · Full-time', loc: 'New Delhi', meta: 'Fabrication background' },
+  { title: <>Studio <em>Internship</em> 2026</>, type: '6 months · Paid', loc: 'New Delhi / Chandigarh', meta: 'Applications open Jan' }
+];
+
+const Careers = () => (
+  <section className="ash-section" id="careers">
+    <div className="ash-wrap">
+      <div className="section-head">
+        <div className="left">
+          <div className="num">— 06 / Careers</div>
+          <h2>Currently <em>hiring</em>.</h2>
+        </div>
+        <p className="lede">
+          Four open roles across New Delhi and Chandigarh. We hire roughly two or three
+          people a year — most arrive through a portfolio cold-email or a personal recommendation.
+        </p>
+      </div>
+      <div className="role-list">
+        {ROLES.map((r, i) => (
+          <a key={i} href="mailto:careers@ashman.studio" className="role-row" style={{textDecoration:'none', color: 'inherit'}}>
+            <div className="title">{r.title}</div>
+            <div className="meta">{r.type} · {r.meta}</div>
+            <div className="loc">{r.loc}</div>
+            <div className="arrow">Apply →</div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const App = () => (
+  <>
+    <Nav current="studio"/>
+    <Ticker paper/>
+    <PageHead/>
+    <Story/>
+    <Pull/>
+    <Beliefs/>
+    <Team/>
+    <Timeline/>
+    <Awards/>
+    <Careers/>
+    <CtaStrip
+      title="Want to <em>work</em> with us?"
+      sub="Whether you're scoping a project, exploring a brief, or applying for a role — we'd love to hear from you."
+    />
+    <Footer/>
+  </>
+);
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

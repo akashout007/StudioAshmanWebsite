@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225" width="400" height="225">
+  <rect width="400" height="225" fill="#18130e"></rect>
+  <rect x="0" y="0" width="400" height="55" fill="#1f180f"></rect>
+  <rect x="0" y="160" width="400" height="65" fill="#18120d"></rect>
+  <rect x="20" y="18" width="130" height="2.5" fill="#c8502a" opacity="0.85"></rect>
+  <text x="18" y="120" font-family="serif" font-size="55" fill="#f2efe8" opacity="0.04" font-weight="bold">FORMA</text>
+  <rect x="20" y="172" width="3" height="25" fill="#c8502a" opacity="0.8"></rect>
+</svg>

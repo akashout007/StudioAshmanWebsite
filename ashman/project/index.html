@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Ashman Studio — Brand Environments & Wayfinding Design</title>
+<meta name="description" content="Ashman Studio is an independent practice designing the physical world of your brand — wayfinding, sign design, environmental graphics and spatial identity. Studios in London, New Delhi and Hong Kong."/>
+<link rel="stylesheet" href="css/colors_and_type.css"/>
+<link rel="stylesheet" href="css/site.css"/>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body data-screen-label="Home">
+<div id="root"></div>
+
+<script type="text/babel" src="js/shared.jsx"></script>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+const HomeHero = () => (
+  <section className="home-hero">
+    <div className="ash-wrap">
+      <div className="ash-eyebrow rise"><span className="dash"></span>Brand environments · Est. New Delhi 2024</div>
+      <h1 className="home-hero-headline rise d1">
+        Space is your<br/>most <em>powerful</em><br/>brand asset.
+      </h1>
+      <div className="home-hero-sub rise d2">
+        <p>
+          We are an independent practice of architects, graphic designers and signage specialists
+          who design the physical world of your brand — wayfinding systems, environmental
+          graphics, retail flagships and live activations across the UK, India and the Gulf.
+        </p>
+        <div className="home-hero-meta">
+          <span>✦ Selected for AGI 2025</span>
+          <span>↓ Scroll</span>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+const PRACTICES = [
+  {
+    cls: 'span2 ink',
+    num: '01 / Practice',
+    title: <>Wayfinding<br/>& <em>navigation</em>.</>,
+    body: 'Strategy, masterplan, sign family, specification and supervised install. Airport terminals, hospital campuses, civic interiors, transit interchanges.',
+    art: 'wayfinding',
+    href: 'services.html#wayfinding',
+    arrow: 'See projects'
+  },
+  {
+    cls: 'paper',
+    num: '02',
+    title: <>Sign <em>design</em>.</>,
+    body: 'Letterforms, pictogram libraries, dimensional sign families, typographic system audits.',
+    art: 'sign',
+    href: 'services.html#signage',
+    arrow: 'Open'
+  },
+  {
+    cls: 'paper2',
+    num: '03',
+    title: <>Environmental graphics.</>,
+    body: 'Surface design at architectural scale — facades, atria, supergraphics, floor narratives.',
+    art: 'facade',
+    href: 'services.html#egd',
+    arrow: 'Open'
+  },
+  {
+    cls: 'paper',
+    num: '04',
+    title: <>Brand <em>activation</em>.</>,
+    body: 'Pop-ups, flagship moments and live experiences that connect brands with people.',
+    art: 'activation',
+    href: 'services.html#activation',
+    arrow: 'Open'
+  },
+  {
+    cls: 'paper2',
+    num: '05',
+    title: <>Spatial<br/>identity.</>,
+    body: 'Translating brand language into three dimensions — retail flagships and concept stores.',
+    art: 'retail',
+    href: 'services.html#identity',
+    arrow: 'Open'
+  }
+];
+
+const PracticeArt = ({ kind }) => {
+  switch (kind) {
+    case 'wayfinding': return <DiagWayfinding/>;
+    case 'sign': return <DiagSign/>;
+    case 'facade': return <DiagFacade/>;
+    case 'activation': return <DiagActivation/>;
+    case 'retail': return <DiagRetail/>;
+    default: return null;
+  }
+};
+
+const PracticeMosaic = () => (
+  <section className="ash-section">
+    <div className="ash-wrap">
+      <div className="section-head">
+        <div className="left">
+          <div className="num">— 01 / What we do</div>
+          <h2>A practice<br/>in <em>five</em> parts.</h2>
+        </div>
+        <p className="lede">
+          Five overlapping disciplines, one studio. Most projects sit across two or three —
+          a wayfinding system that needs a flagship moment; a retail environment that lives
+          or dies on its sign family. We work end-to-end, from the first audit walk to
+          installation supervision.
+        </p>
+      </div>
+      <div className="home-mosaic">
+        {PRACTICES.map((p, i) => (
+          <a key={i} className={'mosaic-tile ' + p.cls} href={p.href}>
+            <div>
+              <div className="num">{p.num}</div>
+            </div>
+            <div className="ghost-art"><PracticeArt kind={p.art}/></div>
+            <div>
+              <h3>{p.title}</h3>
+              <p>{p.body}</p>
+            </div>
+            <div className="arrow">{p.arrow} <span>→</span></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const FEATURED = [
+  {
+    tag: 'Wayfinding · Healthcare',
+    title: <>Regency Hospital — bilingual <em>wayfinding</em> for a multi-block campus.</>,
+    loc: 'Lucknow, Uttar Pradesh · 2025',
+    year: '2025',
+    diag: 'wayfinding',
+    hero: true,
+    href: '#'
+  },
+  {
+    tag: 'Spatial Identity · Heritage',
+    title: 'Chopra Soda — retail revival of a Punjabi heritage soft drink',
+    loc: 'Faridkot, Punjab · 2024',
+    year: '24',
+    diag: 'retail'
+  },
+  {
+    tag: 'EGD · Studio',
+    title: 'Artnest Studio — environmental identity for an atelier',
+    loc: 'Charmwood Village, Faridabad · 2025',
+    year: '25',
+    diag: 'facade'
+  },
+  {
+    tag: 'Spatial Identity · Cultural',
+    title: 'Delhigrapher — wayfinding & gallery identity for a photography collective',
+    loc: 'New Delhi · 2026',
+    year: '26',
+    diag: 'floorplan'
+  },
+  {
+    tag: 'Wayfinding · Healthcare',
+    title: 'Regency Hospital — emergency & OPD route signage',
+    loc: 'Lucknow · 2025 — phase 2',
+    year: '25',
+    diag: 'section'
+  },
+  {
+    tag: 'Sign Design · Retail',
+    title: 'Chopra Soda — hand-painted dukan & cart sign system',
+    loc: 'Faridkot · 2025',
+    year: '25',
+    diag: 'sign'
+  },
+  {
+    tag: 'EGD · Studio',
+    title: 'Artnest Studio — threshold & supergraphic series',
+    loc: 'Faridabad · 2026',
+    year: '26',
+    diag: 'activation'
+  }
+];
+
+const ProjectArt = ({ kind, label }) => {
+  const map = { wayfinding: DiagWayfinding, floorplan: DiagFloorplan, transit: DiagTransit, facade: DiagFacade, section: DiagSection, activation: DiagActivation, sign: DiagSign, retail: DiagRetail };
+  const Comp = map[kind] || DiagWayfinding;
+  return <Comp label={label}/>;
+};
+
+const FeaturedProjects = () => {
+  return (
+    <section className="ash-section" id="work">
+      <div className="ash-wrap">
+        <div className="section-head">
+          <div className="left">
+            <div className="num">— 02 / Selected work</div>
+            <h2>Recent <em>projects</em>.</h2>
+          </div>
+          <p className="lede">
+            A young studio with a small, deliberate output. Four named engagements since
+            we opened in 2024 — healthcare wayfinding, heritage retail, an artist's atelier
+            and a photography collective — most still in active phases.
+          </p>
+        </div>
+        <div className="project-grid">
+          {FEATURED.map((p, i) => (
+            <a key={i} className={'project-card ' + (p.hero ? 'hero' : '')} href="#">
+              <div className="pc-img"><ProjectArt kind={p.diag} label={p.loc}/></div>
+              <div className="pc-meta">
+                <span className="pc-tag">{p.tag}</span>
+                <span className="pc-year">— {p.year}</span>
+              </div>
+              <h3>{p.title}</h3>
+              <div className="pc-loc">{p.loc}</div>
+            </a>
+          ))}
+        </div>
+        <div style={{display:'flex', justifyContent:'center', marginTop: 56}}>
+          <a className="btn-outline" href="case-studies.html">View all projects <span>→</span></a>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const StatementBlock = () => (
+  <section className="ash-statement">
+    <div className="ash-statement-bg">ASHMAN</div>
+    <div className="ash-statement-inner">
+      <div className="ash-eyebrow on-dark"><span className="dash"></span>Our belief</div>
+      <h2>The best brands don't just look good — they feel like <em>somewhere</em>.</h2>
+      <p>
+        Two years ago Akash Manna set out to do one thing well — design the physical
+        environments that carry a brand once a visitor arrives. Sometimes that's a sign.
+        Sometimes it's a hospital. Sometimes it's the difference between getting lost and
+        feeling looked after. We work with brands and institutions that understand space
+        is not the wrapping; it's the experience.
+      </p>
+      <div className="ash-stats">
+        <div><div className="ash-stat-num">2024</div><div className="ash-stat-label">Year founded</div></div>
+        <div><div className="ash-stat-num">12</div><div className="ash-stat-label">People in studio</div></div>
+        <div><div className="ash-stat-num">3</div><div className="ash-stat-label">Cities · NDL · CHD · DXB</div></div>
+        <div><div className="ash-stat-num">100%</div><div className="ash-stat-label">Independent</div></div>
+      </div>
+    </div>
+  </section>
+);
+
+const Studios = () => (
+  <section className="ash-section">
+    <div className="ash-wrap">
+      <div className="section-head">
+        <div className="left">
+          <div className="num">— 03 / Studios</div>
+          <h2>Three <em>cities</em>,<br/>one practice.</h2>
+        </div>
+        <p className="lede">
+          Three studios across two countries. <em>New Delhi</em> is the head office — strategy,
+          wayfinding and most of the design work. Chandigarh leads the Punjab and Haryana
+          engagements; Dubai handles Gulf clients.
+        </p>
+      </div>
+      <div className="office-grid">
+        <a className="office-card" href="contact.html#delhi">
+          <div>
+            <div className="role">Headquarters · Strategy · Wayfinding</div>
+            <div className="city"><em>New Delhi</em></div>
+            <div className="addr">Block 4, Hauz Khas Village<br/>South Delhi 110016<br/>India</div>
+          </div>
+          <div className="meta-row">
+            <span className="clock">20:02 IST</span>
+            <span className="tz">+91 11 4612 0042 ↗</span>
+          </div>
+        </a>
+        <a className="office-card" href="contact.html#chandigarh">
+          <div>
+            <div className="role">Sign Design · Heritage Retail</div>
+            <div className="city">Chandigarh</div>
+            <div className="addr">SCO 142, Sector 17-C<br/>Chandigarh 160017<br/>India</div>
+          </div>
+          <div className="meta-row">
+            <span className="clock">20:02 IST</span>
+            <span className="tz">+91 172 4012 008 ↗</span>
+          </div>
+        </a>
+        <a className="office-card" href="contact.html#dubai">
+          <div>
+            <div className="role">Activation · Retail · Gulf</div>
+            <div className="city">Dubai</div>
+            <div className="addr">Unit 17, Alserkal Avenue<br/>Al Quoz 1, Dubai<br/>United Arab Emirates</div>
+          </div>
+          <div className="meta-row">
+            <span className="clock">18:32 GST</span>
+            <span className="tz">+971 4 380 6620 ↗</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+);
+
+const App = () => (
+  <>
+    <Nav current="home"/>
+    <Ticker/>
+    <HomeHero/>
+    <PracticeMosaic/>
+    <FeaturedProjects/>
+    <StatementBlock/>
+    <Studios/>
+    <CtaStrip/>
+    <Footer/>
+  </>
+);
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

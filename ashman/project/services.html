@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Services — Ashman Studio</title>
+<link rel="stylesheet" href="css/colors_and_type.css"/>
+<link rel="stylesheet" href="css/site.css"/>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body data-screen-label="Services">
+<div id="root"></div>
+<script type="text/babel" src="js/shared.jsx"></script>
+<script type="text/babel">
+
+const PageHead = () => (
+  <section className="ash-wrap">
+    <div className="ash-pagehead">
+      <div>
+        <div className="ash-breadcrumb">
+          <a href="index.html">Ashman.Studio</a>
+          <span className="sep">/</span>
+          <span className="crumb-on">What we do</span>
+        </div>
+        <div className="ash-eyebrow"><span className="dash"></span>02 — Services</div>
+        <h1>Six disciplines.<br/>One <em>studio</em>.</h1>
+      </div>
+      <p className="lede">
+        We design the physical world of your brand from the strategic audit to the last
+        installed sign. Most projects sit across two or three of the disciplines below —
+        we scope and price them as a single engagement, not a stack of line items.
+      </p>
+    </div>
+  </section>
+);
+
+const SUMMARY = [
+  { num: '01', name: 'Wayfinding', sub: 'Strategy → install', anchor: 'wayfinding' },
+  { num: '02', name: 'Sign Design', sub: 'Sign families & spec', anchor: 'signage' },
+  { num: '03', name: 'Environmental Graphics', sub: 'Surface at scale', anchor: 'egd' },
+  { num: '04', name: 'Brand Activation', sub: 'Pop-ups & live', anchor: 'activation' },
+  { num: '05', name: 'Retail Environments', sub: 'Flagship & concept', anchor: 'retail' },
+  { num: '06', name: 'Spatial Identity', sub: 'Brand in 3D', anchor: 'identity' }
+];
+
+const SummaryStrip = () => (
+  <section className="ash-section tight">
+    <div className="ash-wrap">
+      <div className="bordered-grid cols-3">
+        {SUMMARY.map(s => (
+          <a key={s.num} href={'#' + s.anchor} className="bordered-cell" style={{textDecoration:'none', color:'inherit'}}>
+            <div className="num">{s.num}</div>
+            <h3>{s.name}</h3>
+            <p style={{marginBottom:0}}>{s.sub}</p>
+            <div style={{marginTop: 28, fontFamily:'var(--font-label)', fontSize: 9, fontWeight: 700, letterSpacing:'.22em', textTransform:'uppercase', color:'var(--ink)'}}>Read more →</div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const ServiceRow = ({ num, anchor, eyebrow, title, lede, list, deliverables, alt, diag, projTag, projName }) => {
+  const map = { wayfinding: DiagWayfinding, sign: DiagSign, facade: DiagFacade, activation: DiagActivation, retail: DiagRetail, floorplan: DiagFloorplan, transit: DiagTransit, section: DiagSection };
+  const Comp = map[diag] || DiagWayfinding;
+  return (
+    <section id={anchor} className="ash-wrap">
+      <div className={'service-row ' + (alt ? 'alt' : '')}>
+        <div>
+          <div className="num">{num}</div>
+          <div className="ash-eyebrow muted" style={{marginBottom: 22}}><span className="dash"></span>{eyebrow}</div>
+          <h2 dangerouslySetInnerHTML={{__html: title}}/>
+          <p className="lede">{lede}</p>
+          <ul className="deliverables">
+            {deliverables.map(d => (
+              <li key={d.name}>
+                <span>{d.name}</span>
+                <span className="meta">{d.meta}</span>
+              </li>
+            ))}
+          </ul>
+          <a className="btn-ghost" href="case-studies.html">{list.cta} <span>→</span></a>
+        </div>
+        <div className="visual">
+          <Comp/>
+          <div className="ovl">
+            <div className="tag">{projTag}</div>
+            <div className="name">{projName}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const App = () => (
+  <>
+    <Nav current="services"/>
+    <Ticker paper/>
+    <PageHead/>
+    <SummaryStrip/>
+
+    <ServiceRow
+      num="01" anchor="wayfinding" eyebrow="Spatial · 24 projects to date" diag="wayfinding"
+      title="Wayfinding<br/>& <em>navigation</em>."
+      lede="From a five-day audit walk to the last installed totem. We design wayfinding for environments where finding the right place at the right time is critical — airport terminals, hospital campuses, civic interiors and transit interchanges. Our process is route-led, drawn in plan and section before a single sign type is specified."
+      deliverables={[
+        { name: 'Wayfinding strategy & audit', meta: 'Phase 1' },
+        { name: 'Information architecture', meta: 'Phase 1' },
+        { name: 'Sign type schedule & masterplan', meta: 'Phase 2' },
+        { name: 'Pictogram libraries', meta: 'Phase 2' },
+        { name: 'Specification & supply', meta: 'Phase 3' },
+        { name: 'Install supervision', meta: 'Phase 4' }
+      ]}
+      list={{ cta: 'View 24 wayfinding projects' }}
+      projTag="Featured · Healthcare"
+      projName="Regency Hospital — Lucknow · 2025"
+    />
+
+    <ServiceRow
+      num="02" anchor="signage" eyebrow="Spatial · 18 projects to date" diag="sign" alt
+      title="Sign <em>design</em>."
+      lede="The sign family is where every wayfinding system lives or dies. We design dimensional sign families — typeface decisions, mounting geometry, sightlines, illumination, materials, fabrication tolerances — and follow them all the way to the foundry. Our specs are produced for production engineers, not just clients."
+      deliverables={[
+        { name: 'Sign family design', meta: '8–24 types' },
+        { name: 'Custom letterforms', meta: 'On request' },
+        { name: 'Pictogram set', meta: 'ISO 7001 base' },
+        { name: 'Material & fabrication spec', meta: 'For tender' },
+        { name: 'Bilingual / trilingual systems', meta: 'EN · HI · AR' }
+      ]}
+      list={{ cta: 'View 18 signage projects' }}
+      projTag="Featured · Heritage Retail"
+      projName="Chopra Soda — Faridkot, Punjab"
+    />
+
+    <ServiceRow
+      num="03" anchor="egd" eyebrow="Spatial · 15 projects to date" diag="facade"
+      title="Environmental<br/><em>graphics</em>."
+      lede="Surface design at architectural scale. Facades, atria, supergraphics, floor narratives, donor walls, exhibition panels. Where wayfinding tells you where to go, environmental graphics tell you where you are — they give a building its voice. We work alongside architects from concept stage."
+      deliverables={[
+        { name: 'Supergraphic & facade design', meta: 'Up to 60m' },
+        { name: 'Atrium & lobby installations', meta: 'Bespoke' },
+        { name: 'Donor / heritage walls', meta: 'Cultural' },
+        { name: 'Exhibition panel systems', meta: 'Modular' },
+        { name: 'Vinyl, cut metal, applied print', meta: 'Per surface' }
+      ]}
+      list={{ cta: 'View 15 EGD projects' }}
+      projTag="Featured · Studio"
+      projName="Artnest Studio — Faridabad · 2025"
+    />
+
+    <ServiceRow
+      num="04" anchor="activation" eyebrow="Brand · 12 projects to date" diag="activation" alt
+      title="Brand <em>activation</em>."
+      lede="Pop-ups, flagship moments and live experiences that connect a brand with its audience for a few hours, days or weeks. We design the footprint, the moment of approach, the surface, the queue, the photograph. Designed for one place, one time — and to stop people in the street."
+      deliverables={[
+        { name: 'Activation concept', meta: 'Strategic' },
+        { name: 'Footprint & flow', meta: 'Plan-led' },
+        { name: 'Built environment design', meta: 'Construction' },
+        { name: 'Surface & graphic system', meta: 'Site-specific' },
+        { name: 'Production & install', meta: 'Turnkey' }
+      ]}
+      list={{ cta: 'View 12 activation projects' }}
+      projTag="Featured · Cultural"
+      projName="Delhigrapher — New Delhi"
+    />
+
+    <ServiceRow
+      num="05" anchor="retail" eyebrow="Brand · 14 projects to date" diag="retail"
+      title="Retail <em>environments</em>."
+      lede="Flagship and concept stores designed to feel like the brand from the moment someone crosses the threshold. We work with the architect on plan and section, then own everything you can see and touch — surface, signage, fixturing language, packaging on shelf. Less interior design, more brand environment."
+      deliverables={[
+        { name: 'Concept & customer journey', meta: 'Strategic' },
+        { name: 'Architectural collaboration', meta: 'With architect' },
+        { name: 'Fixture & display design', meta: 'Manufacturing' },
+        { name: 'Wayfinding & sign system', meta: 'In-store' },
+        { name: 'Rollout playbook', meta: 'Multi-store' }
+      ]}
+      list={{ cta: 'View 14 retail projects' }}
+      projTag="Featured · Heritage F&B"
+      projName="Chopra Soda — dukan rollout"
+    />
+
+    <ServiceRow
+      num="06" anchor="identity" eyebrow="Brand · 9 projects to date" diag="floorplan" alt
+      title="Spatial<br/><em>identity</em>."
+      lede="The architecture-led end of the practice. We translate brand language into three dimensions — an environmental tone of voice, a material palette, a sign family — and document it as a system the client's other consultants can build with. Used by clients with multi-site estates that need to feel coherent."
+      deliverables={[
+        { name: 'Spatial brand audit', meta: 'Phase 1' },
+        { name: 'Material & finish library', meta: 'Spec sheet' },
+        { name: 'Wayfinding sign family', meta: 'For estate' },
+        { name: 'Environmental tone of voice', meta: 'Editorial' },
+        { name: 'Rollout & governance manual', meta: 'Living doc' }
+      ]}
+      list={{ cta: 'View 9 spatial identity projects' }}
+      projTag="Featured · Cultural"
+      projName="Delhigrapher — collective gallery"
+    />
+
+    <CtaStrip
+      title="Have a <em>space</em> in mind?"
+      sub="Most engagements start with a 60-minute call and an audit walk-through. Tell us what you're working on and we'll let you know how we can help."
+      label="Brief us"
+    />
+    <Footer/>
+  </>
+);
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
