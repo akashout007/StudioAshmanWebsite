@@ -55,6 +55,7 @@ const SERVICES = [
     projTag: 'Featured · Heritage Retail',
     projName: 'Chopra Soda — Faridkot, Punjab',
     Diag: DiagSign,
+    imgSrc: '/chopra-soda.png',
   },
   {
     num: '03', alt: false,
@@ -106,6 +107,7 @@ const SERVICES = [
     projTag: 'Featured · Heritage F&B',
     projName: 'Chopra Soda — dukan rollout',
     Diag: DiagRetail,
+    imgSrc: '/chopra-soda.png',
   },
   {
     num: '06', alt: true,
@@ -271,7 +273,11 @@ export default function ServicesPage() {
                 </button>
               </div>
               <div className="svc-visual">
-                <Art />
+                {s.imgSrc ? (
+                  <img src={s.imgSrc} alt={s.projName} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                ) : (
+                  <Art />
+                )}
                 <div className="svc-ovl">
                   <div className="ovl-tag">{s.projTag}</div>
                   <div className="ovl-name">{s.projName}</div>

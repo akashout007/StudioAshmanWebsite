@@ -81,7 +81,7 @@ const FEATURED = [
   {
     tag: 'Spatial Identity · Heritage', year: '24',
     title: 'Chopra Soda — retail revival of a Punjabi heritage soft drink',
-    loc: 'Faridkot, Punjab · 2024', diag: 'retail',
+    loc: 'Faridkot, Punjab · 2024', diag: 'retail', imgSrc: '/chopra-soda.png',
   },
   {
     tag: 'EGD · Studio', year: '25',
@@ -101,7 +101,7 @@ const FEATURED = [
   {
     tag: 'Sign Design · Retail', year: '25',
     title: 'Chopra Soda — hand-painted dukan & cart sign system',
-    loc: 'Faridkot · 2025', diag: 'sign',
+    loc: 'Faridkot · 2025', diag: 'sign', imgSrc: '/chopra-soda.png',
   },
 ]
 
@@ -392,7 +392,13 @@ export default function HomePage() {
                   onClick={() => navigateTo('work')}
                   style={{ border: 'none', background: 'none', padding: 0, textAlign: 'left', cursor: 'pointer' }}
                 >
-                  <div className="pc-img"><Art /></div>
+                  <div className="pc-img">
+                    {p.imgSrc ? (
+                      <img src={p.imgSrc} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                    ) : (
+                      <Art />
+                    )}
+                  </div>
                   <div className="pc-meta">
                     <span className="pc-tag">{p.tag}</span>
                     <span className="pc-year">— {p.year}</span>

@@ -19,6 +19,7 @@ interface Project {
   title: string
   sub: string
   Diag: ComponentType
+  imgSrc?: string
 }
 
 const PROJECTS: Project[] = [
@@ -33,6 +34,7 @@ const PROJECTS: Project[] = [
     title: 'Chopra Soda — retail revival of a Punjabi heritage soft drink',
     sub: 'Faridkot, Punjab · 2024',
     Diag: DiagRetail,
+    imgSrc: '/chopra-soda.png',
   },
   {
     id: 3, cat: 'egd', catLabel: 'EGD · Studio',
@@ -57,6 +59,7 @@ const PROJECTS: Project[] = [
     title: 'Chopra Soda — hand-painted dukan & cart sign system',
     sub: 'Faridkot · 2025',
     Diag: DiagSign,
+    imgSrc: '/chopra-soda.png',
   },
   {
     id: 7, cat: 'egd', catLabel: 'EGD · Studio',
@@ -75,6 +78,7 @@ const PROJECTS: Project[] = [
     title: 'Chopra Soda — dukan rollout spatial system',
     sub: 'Punjab · 2025–26',
     Diag: DiagRetail,
+    imgSrc: '/chopra-soda.png',
   },
 ]
 
@@ -195,7 +199,11 @@ export default function WorkPage() {
             <div key={p.id} className="proj-card">
               <div className="proj-img">
                 <div className="proj-img-inner" style={{ aspectRatio: '4/3.2' }}>
-                  <Art />
+                  {p.imgSrc ? (
+                    <img src={p.imgSrc} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  ) : (
+                    <Art />
+                  )}
                 </div>
               </div>
               <div className="proj-info">
