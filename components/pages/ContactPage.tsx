@@ -74,12 +74,12 @@ export default function ContactPage() {
               <div className="contact-info-val"><a href="mailto:hello@ashman.studio">hello@ashman.studio</a></div>
             </div>
             <div>
-              <div className="contact-info-label">London studio</div>
-              <div className="contact-info-val">Studio 12, Clerkenwell Works<br />Clerkenwell, London EC1R</div>
+              <div className="contact-info-label">New Delhi · Headquarters</div>
+              <div className="contact-info-val">E-Block, Greater Kailash-2<br />South Delhi, Delhi 110048<br />India</div>
             </div>
             <div>
               <div className="contact-info-label">New business</div>
-              <div className="contact-info-val"><a href="tel:+442070000000">+44 (0)20 7000 0000</a></div>
+              <div className="contact-info-val"><a href="tel:+918383027996">+91 83830 27996</a></div>
             </div>
           </div>
         </div>
