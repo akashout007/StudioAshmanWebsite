@@ -95,6 +95,7 @@ export default function Nav() {
   const navRef = useRef<HTMLElement>(null)
   const megaRef = useRef<HTMLDivElement>(null)
   const [openMega, setOpenMega] = useState<MegaKey>(null)
+  const [mobileOpen, setMobileOpen] = useState(false)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
@@ -141,6 +142,7 @@ export default function Nav() {
 
   const go = useCallback((page: PageName) => {
     setOpenMega(null)
+    setMobileOpen(false)
     navigateTo(page)
   }, [navigateTo])
 
@@ -157,6 +159,30 @@ export default function Nav() {
       <button className="nav-logo" onClick={() => go('home')}>
         Ashman<span>.</span>Studio
       </button>
+
+      {/* Mobile hamburger */}
+      <button
+        className="nav-hamburger"
+        onClick={() => setMobileOpen(true)}
+        aria-label="Open menu"
+      >
+        <span /><span /><span />
+      </button>
+
+      {/* Mobile nav overlay */}
+      {mobileOpen && (
+        <div className="mobile-nav">
+          <button className="mobile-nav-close" onClick={() => setMobileOpen(false)}>
+            Close ✕
+          </button>
+          <button onClick={() => go('home')}>Home</button>
+          <button onClick={() => go('work')}>Work</button>
+          <button onClick={() => go('services')}>What we do</button>
+          <button onClick={() => go('studio')}>Studio</button>
+          <button onClick={() => go('contact')}>Contact</button>
+          <div className="mobile-nav-footer">Ashman<span style={{ color: 'var(--accent)' }}>.</span>Studio · Est. New Delhi 2024</div>
+        </div>
+      )}
 
       <ul className="nav-links">
         {NAV_ITEMS.map(({ label, key, page }) => (
