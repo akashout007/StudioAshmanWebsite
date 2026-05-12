@@ -469,7 +469,7 @@ export default function HomePage() {
               </div>
               <div className="city-meta">
                 <span className="city-clock">IST +5:30</span>
-                <span className="city-tz">+91 11 4612 0042 ↗</span>
+                <span className="city-tz">+91 83830 27996 ↗</span>
               </div>
             </button>
 
