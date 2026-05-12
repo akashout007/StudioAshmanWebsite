@@ -168,9 +168,9 @@ nav.scrolled {
   pointer-events: none;
 }
 .mega-menu {
-  position: absolute; left: 0; right: 0; top: 0;
+  position: absolute; left: 0; right: 0; top: 100%;
   background: var(--paper); border-bottom: var(--border);
-  padding: 120px 48px 64px;
+  padding: 48px 48px 64px;
   display: grid; grid-template-columns: 1fr 1fr 1.2fr;
   gap: 64px; pointer-events: all;
   animation: megaFade .22s ease both;
