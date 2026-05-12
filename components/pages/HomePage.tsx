@@ -117,7 +117,7 @@ const ProjArtMap: Record<string, ComponentType> = {
 
 const STATS = [
   { label: 'Year founded', val: '2024' },
-  { label: 'People in studio', val: '12' },
+  { label: 'People in studio', val: '11' },
   { label: 'Cities · NDL · CHD · DXB', val: '3' },
   { label: 'Independent', val: '100%' },
 ]
@@ -239,7 +239,7 @@ export default function HomePage() {
         /* stat counter animation */
         const counterTargets = [
           { el: statNums.current[0], val: '2024' },
-          { el: statNums.current[1], val: '12' },
+          { el: statNums.current[1], val: '11' },
           { el: statNums.current[2], val: '3' },
           { el: statNums.current[3], val: '100%' },
         ]

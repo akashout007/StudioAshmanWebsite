@@ -69,7 +69,7 @@ const MEGA: Record<string, MegaData> = {
       title: 'About us',
       items: [
         { name: 'Our story', meta: 'Since 2024', page: 'studio' },
-        { name: 'Team', meta: '12 people', page: 'studio' },
+        { name: 'Team', meta: '11 people', page: 'studio' },
         { name: 'Awards & press', meta: '5 honours', page: 'studio' },
       ],
     },

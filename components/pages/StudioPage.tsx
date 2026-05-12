@@ -24,11 +24,6 @@ const TEAM = [
     bio: 'NID graduate. Owns sign design, EGD and the typographic side of the studio. Leads the Chopra Soda and Delhigrapher work.',
   },
   {
-    name: 'Vikram', initial: 'V',
-    role: 'Motion & Animation',
-    bio: 'NID Ahmedabad — communication design. Designs digital wayfinding, animated signage and the studio\'s case-study films.',
-  },
-  {
     name: 'Maaz', initial: 'M',
     role: 'Technical Designer',
     bio: 'Translates design intent into manufacturable spec. Owns fabrication drawings, mounting details and tendered material packages.',
@@ -357,7 +352,7 @@ export default function StudioPage() {
           <div className="section-head">
             <div className="left">
               <div className="num">— 03 / Team</div>
-              <h2>A small <em>team</em>,<br />five named here.</h2>
+              <h2>A small <em>team</em>,<br />four named here.</h2>
             </div>
             <p className="lede">
               The founder and four senior designers. The rest of the studio — assistants,
