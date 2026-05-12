@@ -91,7 +91,7 @@ const FEATURED = [
   {
     tag: 'Spatial Identity · Cultural', year: '26',
     title: 'Delhigrapher — wayfinding & gallery identity for a photography collective',
-    loc: 'New Delhi · 2026', diag: 'floorplan',
+    loc: 'New Delhi · 2026', diag: 'floorplan', imgSrc: '/delhigrapher/Delhigrapher-02_page-0010.jpg',
   },
   {
     tag: 'Wayfinding · Healthcare', year: '25',

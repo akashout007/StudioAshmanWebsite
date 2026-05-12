@@ -90,6 +90,7 @@ const SERVICES = [
     projTag: 'Featured · Cultural',
     projName: 'Delhigrapher — New Delhi',
     Diag: DiagActivation,
+    imgSrc: '/delhigrapher/Delhigrapher-02_page-0010.jpg',
   },
   {
     num: '05', alt: false,
@@ -125,6 +126,7 @@ const SERVICES = [
     projTag: 'Featured · Cultural',
     projName: 'Delhigrapher — collective gallery',
     Diag: DiagFloorplan,
+    imgSrc: '/delhigrapher/Delhigrapher-02_page-0010.jpg',
   },
 ]
 

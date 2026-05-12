@@ -47,6 +47,7 @@ const PROJECTS: Project[] = [
     title: 'Delhigrapher — wayfinding & gallery identity for a photography collective',
     sub: 'New Delhi · 2026',
     Diag: DiagFloorplan,
+    imgSrc: '/delhigrapher/Delhigrapher-02_page-0010.jpg',
   },
   {
     id: 5, cat: 'wayfinding', catLabel: 'Wayfinding · Healthcare',
