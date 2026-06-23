@@ -71,7 +71,7 @@ export default function ContactPage() {
           <div className="contact-info">
             <div>
               <div className="contact-info-label">Email</div>
-              <div className="contact-info-val"><a href="mailto:hello@ashman.studio">hello@ashman.studio</a></div>
+              <div className="contact-info-val"><a href="mailto:us@ashmanstudios.com">us@ashmanstudios.com</a></div>
             </div>
             <div>
               <div className="contact-info-label">New Delhi · Headquarters</div>

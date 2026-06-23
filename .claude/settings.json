@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/akashout/**)",
+      "Read(//Users/akashout/Desktop/**)",
+      "Read(//Users/akashout/Downloads/**)"
+    ]
+  }
+}
