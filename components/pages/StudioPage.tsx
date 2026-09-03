@@ -35,7 +35,7 @@ const TIMELINE = [
   { year: '2024', what: 'Chopra Soda — first retail engagement', where: 'A heritage soft-drink brand from Punjab; spatial identity, retail signage and a hand-painted dukan revival.' },
   { year: '2025', what: 'Regency Hospital — first wayfinding commission', where: 'A multi-block hospital campus in Lucknow. Bilingual (English / Hindi) wayfinding, sign masterplan and pictogram set.' },
   { year: '2025', what: 'Artnest Studio — Charmwood Village, Faridabad', where: 'Environmental identity for an artist\'s atelier. The studio\'s first dedicated EGD engagement.' },
-  { year: '2025', what: 'Chandigarh studio opens', where: 'A second studio in Sector 17 to be closer to the Punjab and Haryana work.' },
+  { year: '2025', what: 'Dubai studio opens', where: 'A second studio in Alserkal Avenue for engagements across the Gulf.' },
   { year: '2026', what: 'Delhigrapher — gallery & wayfinding', where: 'Spatial identity and visitor wayfinding for a Delhi-based photography collective.' },
   { year: '2026', what: 'Dubai studio opens', where: 'A third studio in Alserkal Avenue (Al Quoz) to handle Gulf engagements.' },
 ]
@@ -50,9 +50,9 @@ const AWARDS = [
 
 const ROLES = [
   { title: (<>Senior Wayfinding <em>Designer</em></>), type: 'Permanent · Full-time', loc: 'New Delhi', meta: '4+ years experience' },
-  { title: 'Junior Graphic Designer', type: 'Permanent · Full-time', loc: 'Chandigarh', meta: 'Recent NID / Srishti graduate' },
+  { title: 'Junior Graphic Designer', type: 'Permanent · Full-time', loc: 'New Delhi', meta: 'Recent NID / Srishti graduate' },
   { title: 'Sign Production Coordinator', type: 'Permanent · Full-time', loc: 'New Delhi', meta: 'Fabrication background' },
-  { title: (<>Studio <em>Internship</em> 2026</>), type: '6 months · Paid', loc: 'New Delhi / Chandigarh', meta: 'Applications open Jan' },
+  { title: (<>Studio <em>Internship</em> 2026</>), type: '6 months · Paid', loc: 'New Delhi', meta: 'Applications open Jan' },
 ]
 
 const BELIEFS = [
@@ -289,8 +289,7 @@ export default function StudioPage() {
                 <em>Artnest Studio</em>, a working atelier in Faridabad.
               </p>
               <p>
-                We opened a second studio in Chandigarh in 2025 to be closer to the Punjab and
-                Haryana work, and a third in Dubai in 2026 for engagements across the Gulf.
+                We opened a second studio in Dubai in 2026 for engagements across the Gulf.
                 New Delhi remains the head office.
               </p>
               <p>
@@ -437,7 +436,7 @@ export default function StudioPage() {
               <h2>Currently <em>hiring</em>.</h2>
             </div>
             <p className="lede">
-              Four open roles across New Delhi and Chandigarh. We hire roughly two or three
+              Four open roles in New Delhi. We hire roughly two or three
               people a year — most arrive through a portfolio cold-email or a personal recommendation.
             </p>
           </div>

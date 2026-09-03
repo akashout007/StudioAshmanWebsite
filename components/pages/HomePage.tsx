@@ -118,7 +118,7 @@ const ProjArtMap: Record<string, ComponentType> = {
 const STATS = [
   { label: 'Year founded', val: '2024' },
   { label: 'People in studio', val: '11' },
-  { label: 'Cities · NDL · CHD · DXB', val: '3' },
+  { label: 'Cities · NDL · DXB', val: '2' },
   { label: 'Independent', val: '100%' },
 ]
 
@@ -456,12 +456,11 @@ export default function HomePage() {
           <div className="section-head">
             <div className="left">
               <div className="num">— 03 / Studios</div>
-              <h2>Three <em>cities</em>,<br />one practice.</h2>
+              <h2>Two <em>cities</em>,<br />one practice.</h2>
             </div>
             <p className="lede">
-              Three studios across two countries. <em>New Delhi</em> is the head office — strategy,
-              wayfinding and most of the design work. Chandigarh leads the Punjab and Haryana
-              engagements; Dubai handles Gulf clients.
+              Two studios across two countries. <em>New Delhi</em> is the head office — strategy,
+              wayfinding and most of the design work. Dubai handles Gulf clients.
             </p>
           </div>
           <div ref={studiosRef} className="office-grid">
@@ -476,20 +475,6 @@ export default function HomePage() {
               <div className="city-meta">
                 <span className="city-clock">IST +5:30</span>
                 <span className="city-tz">+91 83830 27996 ↗</span>
-              </div>
-            </button>
-
-            <button className="office-card" onClick={() => navigateTo('contact')} style={{ border: 'none', textAlign: 'left' }}>
-              <div>
-                <div className="city-role">Sign Design · Heritage Retail</div>
-                <div className="city">Chandigarh</div>
-                <div className="city-addr">
-                  SCO 142, Sector 17-C<br />Chandigarh 160017<br />India
-                </div>
-              </div>
-              <div className="city-meta">
-                <span className="city-clock">IST +5:30</span>
-                <span className="city-tz">+91 172 4012 008 ↗</span>
               </div>
             </button>
 

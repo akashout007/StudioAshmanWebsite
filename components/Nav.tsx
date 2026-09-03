@@ -77,7 +77,7 @@ const MEGA: Record<string, MegaData> = {
       title: 'Connect',
       items: [
         { name: 'Get in touch', meta: 'New projects', page: 'contact' },
-        { name: 'Studios', meta: 'NDL · CHD · DXB', page: 'contact' },
+        { name: 'Studios', meta: 'NDL · DXB', page: 'contact' },
         { name: 'Careers', meta: 'Currently hiring', page: 'studio' },
       ],
     },

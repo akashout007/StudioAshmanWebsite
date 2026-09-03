@@ -426,7 +426,7 @@ nav.scrolled {
 
 /* ── OFFICE / STUDIOS ── */
 .office-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
+  display: grid; grid-template-columns: repeat(2, 1fr);
   gap: 4px; background: var(--light);
 }
 .office-card {
@@ -875,7 +875,7 @@ footer {
   .mosaic-tile.span2 h3 { font-size: 40px; }
   .team-grid { grid-template-columns: repeat(3, 1fr); }
   .bordered-grid { grid-template-columns: repeat(2, 1fr); }
-  .office-grid { grid-template-columns: repeat(2, 1fr); }
+  .office-grid { grid-template-columns: 1fr; }
   .footer-inner { padding: 0 28px; }
   .footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
   .footer-bottom { padding: 28px 28px 0; }
