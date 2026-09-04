@@ -444,7 +444,7 @@ export default function StudioPage() {
             {ROLES.map((r, i) => (
               <a
                 key={i}
-                href="mailto:careers@ashman.studio"
+                href="mailto:careers@ashmanstudios.com"
                 className="role-row"
                 style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 200px 80px', gap: 32 }}
               >

@@ -53,9 +53,9 @@ export default function Footer() {
           <div>
             <div className="footer-col-title">Get in touch</div>
             <ul className="footer-links">
-              <li><a href="mailto:hello@ashman.studio">hello@ashman.studio</a></li>
-              <li><a href="mailto:press@ashman.studio">press@ashman.studio</a></li>
-              <li><a href="mailto:careers@ashman.studio">careers@ashman.studio</a></li>
+              <li><a href="mailto:work@ashmanstudios.com">work@ashmanstudios.com</a></li>
+              <li><a href="mailto:press@ashmanstudios.com">press@ashmanstudios.com</a></li>
+              <li><a href="mailto:careers@ashmanstudios.com">careers@ashmanstudios.com</a></li>
               <li><a href="#" onClick={(e) => e.preventDefault()}>Instagram ↗</a></li>
               <li><a href="#" onClick={(e) => e.preventDefault()}>LinkedIn ↗</a></li>
             </ul>
