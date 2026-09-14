@@ -488,7 +488,7 @@ export default function HomePage() {
               </div>
               <div className="city-meta">
                 <span className="city-clock">GST +4:00</span>
-                <span className="city-tz">+971 4 380 6620 ↗</span>
+                <span className="city-tz">+971 56 655 2845 ↗</span>
               </div>
             </button>
           </div>
