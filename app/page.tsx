@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import gsap from 'gsap'
 import { PageContext, PageName } from '@/context/PageContext'
 import Cursor from '@/components/Cursor'
@@ -12,6 +12,14 @@ import ContactPage from '@/components/pages/ContactPage'
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageName>('home')
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const section = params.get('section') as PageName | null
+    const valid: PageName[] = ['work', 'services', 'studio', 'contact']
+    if (section && valid.includes(section)) setCurrentPage(section)
+  }, [])
+
   const isTransitioning = useRef(false)
   const wrapRef = useRef<HTMLDivElement>(null)
 

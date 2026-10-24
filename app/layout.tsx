@@ -25,6 +25,10 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+  ),
   title: 'Ashman Studio — Brand Environments & Spatial Design',
   description:
     'We design the physical world of your brand — activations that stop people, wayfinding that guides them, and environments that make them feel something.',

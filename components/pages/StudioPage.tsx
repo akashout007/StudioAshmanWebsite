@@ -18,16 +18,6 @@ const TEAM = [
     role: 'Architect & Spatial Designer',
     bio: 'Leads spatial identity and architectural collaboration. Background in interiors and exhibition design.',
   },
-  {
-    name: 'Arsalan', initial: 'Ar',
-    role: 'Senior Graphic Designer',
-    bio: 'NID graduate. Owns sign design, EGD and the typographic side of the studio. Leads the Chopra Soda and Delhigrapher work.',
-  },
-  {
-    name: 'Maaz', initial: 'M',
-    role: 'Technical Designer',
-    bio: 'Translates design intent into manufacturable spec. Owns fabrication drawings, mounting details and tendered material packages.',
-  },
 ]
 
 const TIMELINE = [
@@ -293,9 +283,8 @@ export default function StudioPage() {
                 New Delhi remains the head office.
               </p>
               <p>
-                We&apos;ve stayed deliberately small. Around a dozen people is roughly the size
-                where everyone in the studio knows what every project is, and where the founder
-                can still be in the room for the major design reviews.
+                We&apos;ve stayed deliberately small. Two people means everyone knows what
+                every project is, and the founder is in the room for every design decision.
               </p>
             </div>
           </div>

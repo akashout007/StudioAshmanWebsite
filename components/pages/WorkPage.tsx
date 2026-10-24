@@ -1,121 +1,78 @@
 'use client'
-import { useEffect, useRef, useState, type ComponentType } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Footer from '@/components/Footer'
+import ProjectCard from '@/components/ProjectCard'
+import { PROJECTS } from '@/data/projects'
+import type { ProjectCategory } from '@/data/projects'
+import { EDITORIAL_COVERS } from '@/components/project/EditorialCover'
 import {
   DiagWayfinding, DiagSign, DiagActivation, DiagFacade,
-  DiagFloorplan, DiagRetail, DiagSection, DiagTransit
+  DiagFloorplan, DiagRetail, DiagSection, DiagTransit,
 } from '@/components/svg/Diagrams'
 
 gsap.registerPlugin(ScrollTrigger)
 
-type Category = 'all' | 'wayfinding' | 'sign' | 'egd' | 'activation' | 'retail' | 'identity'
-
-interface Project {
-  id: number
-  cat: Category
-  catLabel: string
-  title: string
-  sub: string
-  Diag: ComponentType
-  imgSrc?: string
+// Fallback SVG diagrams for projects that have real photos (Chopra Soda, Delhigrapher)
+// and as a backup for any project not in EDITORIAL_COVERS
+const DIAG_FALLBACK: Record<string, React.ComponentType> = {
+  'chopra-soda':  DiagRetail,
+  'delhigrapher': DiagFloorplan,
 }
 
-const PROJECTS: Project[] = [
-  {
-    id: 1, cat: 'wayfinding', catLabel: 'Wayfinding · Healthcare',
-    title: 'Regency Hospital — bilingual wayfinding for a multi-block campus',
-    sub: 'Lucknow, Uttar Pradesh · 2025',
-    Diag: DiagWayfinding,
-  },
-  {
-    id: 2, cat: 'retail', catLabel: 'Spatial Identity · Heritage',
-    title: 'Chopra Soda — retail revival of a Punjabi heritage soft drink',
-    sub: 'Faridkot, Punjab · 2024',
-    Diag: DiagRetail,
-    imgSrc: '/chopra-soda.png',
-  },
-  {
-    id: 3, cat: 'egd', catLabel: 'EGD · Studio',
-    title: 'Artnest Studio — environmental identity for an atelier',
-    sub: 'Charmwood Village, Faridabad · 2025',
-    Diag: DiagFacade,
-  },
-  {
-    id: 4, cat: 'identity', catLabel: 'Spatial Identity · Cultural',
-    title: 'Delhigrapher — wayfinding & gallery identity for a photography collective',
-    sub: 'New Delhi · 2026',
-    Diag: DiagFloorplan,
-    imgSrc: '/delhigrapher/Delhigrapher-02_page-0010.jpg',
-  },
-  {
-    id: 5, cat: 'wayfinding', catLabel: 'Wayfinding · Healthcare',
-    title: 'Regency Hospital — emergency & OPD route signage',
-    sub: 'Lucknow · 2025 — phase 2',
-    Diag: DiagSection,
-  },
-  {
-    id: 6, cat: 'sign', catLabel: 'Sign Design · Retail',
-    title: 'Chopra Soda — hand-painted dukan & cart sign system',
-    sub: 'Faridkot · 2025',
-    Diag: DiagSign,
-    imgSrc: '/chopra-soda.png',
-  },
-  {
-    id: 7, cat: 'egd', catLabel: 'EGD · Studio',
-    title: 'Artnest Studio — threshold & supergraphic series',
-    sub: 'Faridabad · 2026',
-    Diag: DiagActivation,
-  },
-  {
-    id: 8, cat: 'wayfinding', catLabel: 'Wayfinding · Transit',
-    title: 'Naviga International — Terminal 4 wayfinding masterplan',
-    sub: 'Mumbai · 2024',
-    Diag: DiagTransit,
-  },
-  {
-    id: 9, cat: 'retail', catLabel: 'Retail Environments · F&B',
-    title: 'Chopra Soda — dukan rollout spatial system',
-    sub: 'Punjab · 2025–26',
-    Diag: DiagRetail,
-    imgSrc: '/chopra-soda.png',
-  },
+function getCover(slug: string): React.ComponentType | undefined {
+  return EDITORIAL_COVERS[slug] ?? DIAG_FALLBACK[slug]
+}
+
+type FilterValue = 'all' | ProjectCategory
+
+const FILTERS: { label: string; value: FilterValue }[] = [
+  { label: 'All work',                value: 'all' },
+  { label: 'Wayfinding',              value: 'wayfinding' },
+  { label: 'Spatial Identity',        value: 'spatial-identity' },
+  { label: 'Environmental Graphics',  value: 'environmental-graphics' },
+  { label: 'Brand Identity',          value: 'brand-identity' },
 ]
 
-const FILTERS: { label: string; value: Category }[] = [
-  { label: 'All work', value: 'all' },
-  { label: 'Wayfinding', value: 'wayfinding' },
-  { label: 'Sign Design', value: 'sign' },
-  { label: 'Environmental Graphics', value: 'egd' },
-  { label: 'Brand Activation', value: 'activation' },
-  { label: 'Retail & Identity', value: 'retail' },
-]
+// Featured slugs — appear in the editorial 7fr/5fr diagonal grid
+const FEATURED_SLUGS = ['mall-of-expressway', 'artnest-studio', 'regency-hospital', 'chopra-soda']
+
+// Aspect ratios for featured grid positions: wide, tall, tall, wide (diagonal swap)
+const FEATURED_RATIOS = ['16/10', '3/4', '3/4', '16/10']
 
 export default function WorkPage() {
-  const [activeFilter, setActiveFilter] = useState<Category>('all')
+  const [activeFilter, setActiveFilter] = useState<FilterValue>('all')
   const heroRef = useRef<HTMLDivElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
 
-  const filtered = activeFilter === 'all'
-    ? PROJECTS
-    : PROJECTS.filter((p) => p.cat === activeFilter)
+  const allFiltered =
+    activeFilter === 'all'
+      ? PROJECTS
+      : PROJECTS.filter((p) => p.categories.includes(activeFilter as ProjectCategory))
 
+  const featuredFiltered = allFiltered
+    .filter((p) => FEATURED_SLUGS.includes(p.slug))
+    .sort((a, b) => FEATURED_SLUGS.indexOf(a.slug) - FEATURED_SLUGS.indexOf(b.slug))
+
+  const selectedFiltered = allFiltered.filter((p) => !FEATURED_SLUGS.includes(p.slug))
+
+  // Hero entrance
   useEffect(() => {
     const ctx = gsap.context(() => {
-      if (heroRef.current) {
-        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
-        tl.fromTo(heroRef.current.querySelector('.ash-eyebrow'),
-            { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .6 }, 0)
-          .fromTo(heroRef.current.querySelector('h1'),
-            { opacity: 0, y: 32 }, { opacity: 1, y: 0, duration: .85 }, .12)
-          .fromTo(heroRef.current.querySelector('.lede'),
-            { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .7 }, .28)
-      }
+      if (!heroRef.current) return
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+      tl.fromTo(heroRef.current.querySelector('.ash-eyebrow'),
+          { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .6 }, 0)
+        .fromTo(heroRef.current.querySelector('h1'),
+          { opacity: 0, y: 32 }, { opacity: 1, y: 0, duration: .85 }, .12)
+        .fromTo(heroRef.current.querySelector('.lede'),
+          { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .7 }, .28)
     })
     return () => ctx.revert()
   }, [])
 
+  // Card stagger on filter change
   useEffect(() => {
     requestAnimationFrame(() => {
       const cards = gridRef.current?.querySelectorAll('.proj-card')
@@ -127,12 +84,13 @@ export default function WorkPage() {
     })
   }, [activeFilter])
 
-  const handleFilter = (cat: Category) => {
+  const handleFilter = (cat: FilterValue) => {
     if (cat === activeFilter) return
     const cards = gridRef.current?.querySelectorAll('.proj-card')
     if (cards?.length) {
       gsap.to(cards, {
-        opacity: 0, y: -12, scale: .98, duration: .22, stagger: .03, ease: 'power2.in',
+        opacity: 0, y: -12, scale: .98, duration: .22,
+        stagger: .03, ease: 'power2.in',
         onComplete: () => setActiveFilter(cat),
       })
     } else {
@@ -140,8 +98,11 @@ export default function WorkPage() {
     }
   }
 
+  const isFiltered = activeFilter !== 'all'
+
   return (
     <>
+      {/* PAGE HERO */}
       <div className="page-hero-wrap">
         <div ref={heroRef} className="page-hero">
           <div>
@@ -158,9 +119,9 @@ export default function WorkPage() {
             </h1>
           </div>
           <p className="lede" style={{ opacity: 0 }}>
-            A young studio with a small, deliberate output. Four named engagements
-            since we opened in 2024 — healthcare wayfinding, heritage retail, an
-            artist&apos;s atelier and a photography collective — most still in active phases.
+            A young studio with a small, deliberate output. Named engagements across
+            healthcare wayfinding, heritage retail, artist ateliers and photography —
+            most still in active phases.
           </p>
         </div>
       </div>
@@ -168,8 +129,11 @@ export default function WorkPage() {
       {/* TICKER */}
       <div className="ticker paper">
         <div className="ticker-track">
-          {['Wayfinding', 'Sign Design', 'Environmental Graphics', 'Brand Activation', 'Spatial Identity', 'Retail Environments',
-            'Wayfinding', 'Sign Design', 'Environmental Graphics', 'Brand Activation', 'Spatial Identity', 'Retail Environments',
+          {[
+            'Wayfinding', 'Sign Design', 'Environmental Graphics',
+            'Brand Activation', 'Spatial Identity', 'Retail Environments',
+            'Wayfinding', 'Sign Design', 'Environmental Graphics',
+            'Brand Activation', 'Spatial Identity', 'Retail Environments',
           ].map((item, i) => (
             <span key={i}>
               <span className="ticker-item">{item}</span>
@@ -180,41 +144,66 @@ export default function WorkPage() {
       </div>
 
       {/* FILTER BAR */}
-      <div className="filter-bar">
+      <div className="filter-bar" role="group" aria-label="Filter projects">
         {FILTERS.map(({ label, value }) => (
           <button
             key={value}
             className={`filter-btn${activeFilter === value ? ' active' : ''}`}
             onClick={() => handleFilter(value)}
+            aria-pressed={activeFilter === value}
           >
             {label}
           </button>
         ))}
       </div>
 
-      {/* PROJECTS GRID */}
-      <div ref={gridRef} className="projects-grid">
-        {filtered.map((p) => {
-          const Art = p.Diag
-          return (
-            <div key={p.id} className="proj-card">
-              <div className="proj-img">
-                <div className="proj-img-inner" style={{ aspectRatio: '4/3.2' }}>
-                  {p.imgSrc ? (
-                    <img src={p.imgSrc} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                  ) : (
-                    <Art />
-                  )}
-                </div>
-              </div>
-              <div className="proj-info">
-                <div className="proj-cat">{p.catLabel}</div>
-                <div className="proj-title">{p.title}</div>
-                <div className="proj-sub">{p.sub}</div>
+      {/* PROJECT GRID */}
+      <div ref={gridRef}>
+        {featuredFiltered.length > 0 && (
+          <div className="work-section">
+            <div className="work-section-head ash-wrap">
+              <div className="ash-eyebrow muted">
+                <span className="dash" />Featured work
               </div>
             </div>
-          )
-        })}
+            <div className={isFiltered ? 'selected-grid' : 'featured-editorial'}>
+              {featuredFiltered.map((p, i) => (
+                <ProjectCard
+                  key={p.slug}
+                  project={p}
+                  Cover={getCover(p.slug)}
+                  aspectRatio={isFiltered ? '4/3' : FEATURED_RATIOS[i]}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {selectedFiltered.length > 0 && (
+          <div className="work-section">
+            <div className="work-section-head ash-wrap">
+              <div className="ash-eyebrow muted">
+                <span className="dash" />Selected work
+              </div>
+            </div>
+            <div className="selected-grid">
+              {selectedFiltered.map((p) => (
+                <ProjectCard
+                  key={p.slug}
+                  project={p}
+                  Cover={getCover(p.slug)}
+                  aspectRatio="4/3"
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {allFiltered.length === 0 && (
+          <div className="ash-wrap work-empty">
+            No projects in this category yet.
+          </div>
+        )}
       </div>
 
       <Footer />
