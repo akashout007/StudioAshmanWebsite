@@ -23,7 +23,7 @@ const SLIDES = [
   {
     slug: 'mall-of-expressway', what: 'wayfinding', who: 'malls',
     line: 'One brass-and-grey sign system for a retail mall and studio apartments in Greater Noida.',
-    src: '/projects/mall-of-expressway/mall-hero.jpg', position: '50% 35%',
+    src: '/projects/mall-of-expressway/mall-render.jpg', position: '50% 56%',
   },
   {
     slug: 'artnest-studio', what: 'identities', who: 'art studios',

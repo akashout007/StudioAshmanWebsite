@@ -95,7 +95,7 @@ const FEATURED = [
   {
     tag: 'Wayfinding · Mixed-use', year: '26',
     title: 'Mall of Expressway — one sign system for a mall and studio apartments',
-    loc: 'Greater Noida · 2026', diag: 'section', imgSrc: '/projects/mall-of-expressway/mall-hero.jpg', imgPos: '50% 35%',
+    loc: 'Greater Noida · 2026', diag: 'section', imgSrc: '/projects/mall-of-expressway/mall-render.jpg', imgPos: '50% 56%',
   },
   {
     tag: 'Spatial Identity · Heritage', year: '24',
