@@ -94,6 +94,11 @@ const FEATURED = [
     loc: 'New Delhi · 2026', diag: 'floorplan', imgSrc: '/delhigrapher/delhigrapher-cover.jpg',
   },
   {
+    tag: 'Brand Identity · Signage', year: '',
+    title: 'Bollywood Kabab — cinema-inspired identity and facade signage for a kebab restaurant',
+    loc: 'Greater Noida', diag: 'sign', imgSrc: '/projects/bollywood-kabab/bollywood-kabab-cover.jpg',
+  },
+  {
     tag: 'Wayfinding · Healthcare', year: '25',
     title: 'Regency Hospital — emergency & OPD route signage',
     loc: 'Lucknow · 2025 — phase 2', diag: 'section',
