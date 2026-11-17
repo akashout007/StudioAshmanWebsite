@@ -167,8 +167,8 @@ export const PROJECTS: Project[] = [
     status: 'built',
     hasCaseStudy: true,
     hero: {
-      src: '/delhigrapher/Delhigrapher-02_page-0010.jpg',
-      alt: 'Delhigrapher — brand identity for a Delhi-based wedding photography practice',
+      src: '/delhigrapher/delhigrapher-cover.jpg',
+      alt: 'Delhigrapher brand overview — black and white wedding photograph beside the handwritten Delhigrapher wordmark',
       type: 'hero',
     },
     images: [

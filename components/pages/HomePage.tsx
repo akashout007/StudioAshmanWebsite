@@ -89,9 +89,9 @@ const FEATURED = [
     loc: 'Charmwood Village, Faridabad · 2025', diag: 'facade',
   },
   {
-    tag: 'Spatial Identity · Cultural', year: '26',
-    title: 'Delhigrapher — wayfinding & gallery identity for a photography collective',
-    loc: 'New Delhi · 2026', diag: 'floorplan', imgSrc: '/delhigrapher/Delhigrapher-02_page-0010.jpg',
+    tag: 'Brand Identity', year: '26',
+    title: 'Delhigrapher — brand identity for a wedding photography practice',
+    loc: 'New Delhi · 2026', diag: 'floorplan', imgSrc: '/delhigrapher/delhigrapher-cover.jpg',
   },
   {
     tag: 'Wayfinding · Healthcare', year: '25',
