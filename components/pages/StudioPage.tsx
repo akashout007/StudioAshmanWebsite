@@ -236,8 +236,7 @@ export default function StudioPage() {
           </div>
           <p className="lede" style={{ opacity: 0 }}>
             Founded in New Delhi by Akash Manna — an architect and wayfinding
-            specialist. A small team of architects, graphic designers and technical
-            designers across three studios. Independent on purpose: no holding company,
+            specialist. Just a small team. Independent on purpose: no holding company,
             no second-guessing, no pitch-process theatre.
           </p>
         </div>
@@ -263,15 +262,17 @@ export default function StudioPage() {
             <div>
               <p>
                 Ashman Studio was started by <strong>Akash Manna</strong>, an architect
-                and wayfinding specialist working out of New Delhi. The studio grew out of a single
-                hospital wayfinding commission and a deliberate bet that brand and architecture
-                should be designed by the same hand.
+                and wayfinding specialist working out of New Delhi. The studio grew out of a simple
+                need: too many hospitals, malls and campuses leave people lost, because wayfinding
+                is treated as an afterthought. We design it in from the start, alongside the brand
+                and the architecture, so a building is as easy to find your way through as it is
+                to look at.
               </p>
               <p>
-                The first eighteen months were spent on a small, careful set of engagements —
+                The early work has been a small, careful set of engagements —
                 <em>Chopra Soda</em>, a heritage soft-drink brand from Faridkot; a wayfinding
-                concept for <em>Regency Kanpur Hospital</em>; and an environmental identity for{' '}
-                <em>Artnest Studio</em>, a working atelier in Faridabad.
+                concept for <em>Regency Kanpur Hospital</em>; and a brand identity for{' '}
+                <em>ArtNest Studio</em>, a community art studio in Faridabad.
               </p>
               <p>
                 A second studio in Dubai handles engagements across the Gulf.

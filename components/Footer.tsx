@@ -64,7 +64,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <span>© 2024–2026 Ashman Studio · Founded by Akash Manna</span>
+        <span>© 2026 Ashman Studio · Founded by Akash Manna</span>
         <span className="center">✦ Designing the physical world of your brand</span>
         <span className="right">
           <a href="#" onClick={(e) => e.preventDefault()}>Privacy</a>
