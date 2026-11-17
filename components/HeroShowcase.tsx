@@ -16,9 +16,14 @@ const SLIDES = [
     src: '/projects/central-square/central-square-hero.jpg', position: '60% 55%',
   },
   {
-    slug: 'sikka-kaamya-greens', what: 'wayfinding', who: 'residences',
+    slug: 'kaamya-greens', what: 'wayfinding', who: 'residences',
     line: 'A brass-and-grey signage system for a residential development in Greater Noida.',
-    src: '/projects/sikka-kaamya/kaamya-hero.jpg', position: '50% 50%',
+    src: '/projects/kaamya-greens/kaamya-hero.jpg', position: '50% 50%',
+  },
+  {
+    slug: 'mall-of-expressway', what: 'wayfinding', who: 'malls',
+    line: 'One brass-and-grey sign system for a retail mall and studio apartments in Greater Noida.',
+    src: '/projects/mall-of-expressway/mall-hero.jpg', position: '50% 35%',
   },
   {
     slug: 'artnest-studio', what: 'identities', who: 'art studios',

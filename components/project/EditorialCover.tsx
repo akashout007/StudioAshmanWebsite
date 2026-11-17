@@ -231,9 +231,9 @@ export function CoverMallExpressway() {
   )
 }
 
-// ─── Cover 04 — Sikka Kaamya Greens ─────────────────────────────────────────
+// ─── Cover 04 — Kaamya Greens ───────────────────────────────────────────────
 // Residential site plan: tower blocks, green spaces, internal roads
-export function CoverSikkaKaamya() {
+export function CoverKaamya() {
   // 3×3 grid of blocks
   const blocks = [
     [140, 140], [340, 140], [540, 140],
@@ -432,7 +432,7 @@ export const EDITORIAL_COVERS: Record<string, ComponentType> = {
   'regency-hospital':    CoverRegency,
   'artnest-studio':      CoverArtNest,
   'mall-of-expressway':  CoverMallExpressway,
-  'sikka-kaamya-greens': CoverSikkaKaamya,
+  'kaamya-greens': CoverKaamya,
   'bollywood-kabab':     CoverBollywoodKabab,
   'swetafilms':          CoverSwetafilms,
 }

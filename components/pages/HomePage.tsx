@@ -89,8 +89,13 @@ const FEATURED = [
   },
   {
     tag: 'Wayfinding · Residential', year: '26',
-    title: 'Sikka Kaamya Greens — brass-and-grey signage for a residential development',
-    loc: 'Greater Noida · 2026', diag: 'section', imgSrc: '/projects/sikka-kaamya/kaamya-hero.jpg',
+    title: 'Kaamya Greens — brass-and-grey signage for a residential development',
+    loc: 'Greater Noida · 2026', diag: 'section', imgSrc: '/projects/kaamya-greens/kaamya-hero.jpg',
+  },
+  {
+    tag: 'Wayfinding · Mixed-use', year: '26',
+    title: 'Mall of Expressway — one sign system for a mall and studio apartments',
+    loc: 'Greater Noida · 2026', diag: 'section', imgSrc: '/projects/mall-of-expressway/mall-hero.jpg', imgPos: '50% 35%',
   },
   {
     tag: 'Spatial Identity · Heritage', year: '24',
