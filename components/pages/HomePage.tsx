@@ -110,11 +110,6 @@ const FEATURED = [
     title: 'Regency Kanpur Hospital — gate, drop-off and corridor sign family',
     loc: 'Kanpur · 2026 · Concept', diag: 'section', imgSrc: '/projects/regency/regency-dr01.jpg',
   },
-  {
-    tag: 'Sign Design · Retail', year: '25',
-    title: 'Chopra Soda — hand-painted dukan & cart sign system',
-    loc: 'Faridkot · 2025', diag: 'sign', imgSrc: '/chopra-soda.png',
-  },
 ]
 
 const ProjArtMap: Record<string, ComponentType> = {
