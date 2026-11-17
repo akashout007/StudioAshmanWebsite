@@ -120,10 +120,10 @@ export const PROJECTS: Project[] = [
     status: 'built',
     hasCaseStudy: true,
     hero: {
-      src: '/projects/mall-of-expressway/mall-render.jpg',
-      alt: 'Render of the Mall of Expressway building with domed towers, Greater Noida',
+      src: '/projects/mall-of-expressway/mall-banner.jpg',
+      alt: 'Render of the Mall of Expressway building with domed towers and street frontage, Greater Noida',
       type: 'hero',
-      position: '50% 56%',
+      position: '50% 50%',
     },
     images: [
       { src: '/projects/mall-of-expressway/mall-cover.jpg', alt: 'Mall of Expressway signage and wayfinding — brass 02 floor graphic in a stairwell', type: 'process' },
