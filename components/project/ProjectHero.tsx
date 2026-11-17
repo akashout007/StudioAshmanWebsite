@@ -20,7 +20,7 @@ export default function ProjectHero({ image }: Props) {
         fill
         priority
         sizes="100vw"
-        style={{ objectFit: isDocument ? 'contain' : 'cover' }}
+        style={{ objectFit: isDocument ? 'contain' : 'cover', objectPosition: image.position }}
       />
     </div>
   )

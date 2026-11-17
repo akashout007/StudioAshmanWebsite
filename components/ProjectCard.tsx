@@ -22,7 +22,7 @@ export default function ProjectCard({ project, Cover, aspectRatio = '4/3' }: Pro
               alt={project.hero.alt}
               fill
               sizes={sizes}
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'cover', objectPosition: project.hero.position }}
             />
           ) : Cover ? (
             <Cover />

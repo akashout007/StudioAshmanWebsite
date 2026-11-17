@@ -74,9 +74,10 @@ const ArtMap: Record<string, ComponentType> = {
 
 const FEATURED = [
   {
-    tag: 'Wayfinding · Healthcare', year: '2025', hero: true,
-    title: (<>Regency Hospital — bilingual <em>wayfinding</em> for a multi-block campus.</>),
-    loc: 'Lucknow, Uttar Pradesh · 2025', diag: 'wayfinding',
+    tag: 'Wayfinding · Healthcare', year: '2026', hero: true,
+    title: (<>Regency Kanpur Hospital — bilingual <em>wayfinding</em> concept for a hospital campus.</>),
+    loc: 'Kanpur, Uttar Pradesh · 2026 · Concept', diag: 'wayfinding',
+    imgSrc: '/projects/regency/regency-cover.jpg', imgPos: '72% 50%',
   },
   {
     tag: 'Spatial Identity · Heritage', year: '24',
@@ -99,9 +100,9 @@ const FEATURED = [
     loc: 'Greater Noida', diag: 'sign', imgSrc: '/projects/bollywood-kabab/bollywood-kabab-hero.jpg',
   },
   {
-    tag: 'Wayfinding · Healthcare', year: '25',
-    title: 'Regency Hospital — emergency & OPD route signage',
-    loc: 'Lucknow · 2025 — phase 2', diag: 'section',
+    tag: 'Wayfinding · Healthcare', year: '26',
+    title: 'Regency Kanpur Hospital — gate, drop-off and corridor sign family',
+    loc: 'Kanpur · 2026 · Concept', diag: 'section', imgSrc: '/projects/regency/regency-dr01.jpg',
   },
   {
     tag: 'Sign Design · Retail', year: '25',
@@ -399,7 +400,7 @@ export default function HomePage() {
                 >
                   <div className="pc-img">
                     {p.imgSrc ? (
-                      <img src={p.imgSrc} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                      <img src={p.imgSrc} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: p.imgPos, display: 'block' }} />
                     ) : (
                       <Art />
                     )}

@@ -23,10 +23,10 @@ const TEAM = [
 const TIMELINE = [
   { year: '2024', what: 'Studio founded in New Delhi', where: 'Akash Manna opens the practice out of a single room in Hauz Khas Village. First commission: Chopra Soda, Faridkot.' },
   { year: '2024', what: 'Chopra Soda — first retail engagement', where: 'A heritage soft-drink brand from Punjab; spatial identity, retail signage and a hand-painted dukan revival.' },
-  { year: '2025', what: 'Regency Hospital — first wayfinding commission', where: 'A multi-block hospital campus in Lucknow. Bilingual (English / Hindi) wayfinding, sign masterplan and pictogram set.' },
   { year: '2025', what: 'Artnest Studio — Charmwood Village, Faridabad', where: 'Environmental identity for an artist\'s atelier. The studio\'s first dedicated EGD engagement.' },
   { year: '2025', what: 'Dubai studio opens', where: 'A second studio in Alserkal Avenue for engagements across the Gulf.' },
-  { year: '2026', what: 'Delhigrapher — gallery & wayfinding', where: 'Spatial identity and visitor wayfinding for a Delhi-based photography collective.' },
+  { year: '2026', what: 'Regency Kanpur Hospital — wayfinding concept', where: 'Concept pitch for a hospital campus in Kanpur. Bilingual (English / Hindi) wayfinding, colour-coded cores and a sign family from gate pylons to corridor signs.' },
+  { year: '2026', what: 'Delhigrapher — brand identity', where: 'Brand identity for a Delhi-based wedding photography practice.' },
   { year: '2026', what: 'Dubai studio opens', where: 'A third studio in Alserkal Avenue (Al Quoz) to handle Gulf engagements.' },
 ]
 
@@ -274,8 +274,8 @@ export default function StudioPage() {
               </p>
               <p>
                 The first eighteen months were spent on a small, careful set of engagements —
-                <em>Chopra Soda</em>, a heritage soft-drink brand from Faridkot; the wayfinding
-                for <em>Regency Hospital</em> in Lucknow; and an environmental identity for{' '}
+                <em>Chopra Soda</em>, a heritage soft-drink brand from Faridkot; a wayfinding
+                concept for <em>Regency Kanpur Hospital</em>; and an environmental identity for{' '}
                 <em>Artnest Studio</em>, a working atelier in Faridabad.
               </p>
               <p>

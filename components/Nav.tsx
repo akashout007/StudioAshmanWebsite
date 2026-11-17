@@ -35,8 +35,8 @@ const MEGA: Record<string, MegaData> = {
     },
     feature: {
       eyebrow: 'Featured case study',
-      title: <><em>Regency Hospital</em> — bilingual wayfinding for a multi-block campus.</>,
-      meta: ['Healthcare · Lucknow', '2025'],
+      title: <><em>Regency Kanpur Hospital</em> — bilingual wayfinding concept for a hospital campus.</>,
+      meta: ['Healthcare · Kanpur', '2026'],
       page: 'work',
     },
   },

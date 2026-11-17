@@ -36,7 +36,7 @@ const SERVICES = [
     ],
     cta: 'View 24 wayfinding projects',
     projTag: 'Featured · Healthcare',
-    projName: 'Regency Hospital — Lucknow · 2025',
+    projName: 'Regency Kanpur Hospital — Kanpur · 2026 · Concept',
     Diag: DiagWayfinding,
   },
   {

@@ -3,6 +3,7 @@ export interface ProjectImage {
   alt: string
   caption?: string
   type?: 'hero' | 'gallery' | 'detail' | 'diagram' | 'process'
+  position?: string
 }
 
 export interface ProjectSection {
@@ -47,20 +48,33 @@ export const PROJECTS: Project[] = [
   {
     slug: 'regency-hospital',
     number: '01',
-    title: 'Regency Hospital',
+    title: 'Regency Kanpur Hospital',
     category: 'Wayfinding · Signage',
-    discipline: 'Healthcare wayfinding system',
+    discipline: 'Bilingual signage and wayfinding concept for a hospital campus',
     categories: ['wayfinding'],
     location: 'Kanpur',
     year: '2026',
-    status: 'built',
+    status: 'proposal',
     hasCaseStudy: true,
     hero: {
-      src: '',
-      alt: 'Regency Hospital — wayfinding and signage system for a multi-block healthcare campus, Kanpur',
+      src: '/projects/regency/regency-cover.jpg',
+      alt: 'Regency Kanpur Hospital signage and wayfinding concept: night elevation with the REGENCY KANPUR T3 crown, red R+ symbol and EMERGENCY sign',
       type: 'hero',
+      position: '72% 50%',
     },
-    images: [],
+    images: [
+      { src: '/projects/regency/regency-objective.jpg', alt: 'Design objective — guide people from the city, through the campus and back, for every kind of visitor', type: 'process' },
+      { src: '/projects/regency/regency-typography.jpg', alt: 'Typography — Open Sans for English and Mukta for Hindi', type: 'process' },
+      { src: '/projects/regency/regency-visual-strategy.jpg', alt: 'Visual strategy — Kanpur culture in black and white photographs on red and brown', type: 'process' },
+      { src: '/projects/regency/regency-inspiration.jpg', alt: 'Design inspiration — the Ganga ghats, Kanpur\'s festivals and performance arts, and the Leather City\'s craft', type: 'process' },
+      { src: '/projects/regency/regency-colour.jpg', alt: 'Colour identity — a colour pair for each core: OPD, IPD, Emergency and Diagnosis', type: 'process' },
+      { src: '/projects/regency/regency-external-strategy.jpg', alt: 'External strategy — facade range map showing visibility radius and view cones around the hospital', type: 'process' },
+      { src: '/projects/regency/regency-facade.jpg', alt: 'Facade signage — hospital, brand and arrival elements on the day elevation', type: 'process' },
+      { src: '/projects/regency/regency-dr01.jpg', alt: 'EXT-DR01 vehicular directional sign — gate number and 24 x 7 Emergency pylon with exploded view', type: 'process' },
+      { src: '/projects/regency/regency-dr02.jpg', alt: 'EXT-DR02 drop-off sign — bilingual OPD drop-off pylon with a parking panel', type: 'process' },
+      { src: '/projects/regency/regency-hanging.jpg', alt: 'INT-DR01 and INT-DR02 hanging signs — Reception and OPD Register panels with dimensions and in-situ views', type: 'process' },
+      { src: '/projects/regency/regency-corridor.jpg', alt: 'INT-DR03 corridor directional sign — bilingual directions ending with the floor number', type: 'process' },
+    ],
     featured: true,
   },
   {
