@@ -4,6 +4,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { usePage } from '@/context/PageContext'
 import NextProjectArt from '@/components/NextProjectArt'
+import HeroShowcase from '@/components/HeroShowcase'
 import Footer from '@/components/Footer'
 import {
   DiagWayfinding, DiagSign, DiagActivation, DiagFacade,
@@ -137,12 +138,6 @@ const STATS = [
 export default function HomePage() {
   const { navigateTo } = usePage()
 
-  const heroEyeRef   = useRef<HTMLDivElement>(null)
-  const heroHeadRef  = useRef<HTMLHeadingElement>(null)
-  const heroSubRef   = useRef<HTMLParagraphElement>(null)
-  const heroMetaRef  = useRef<HTMLDivElement>(null)
-  const heroCtaRef   = useRef<HTMLDivElement>(null)
-  const heroRightRef = useRef<HTMLDivElement>(null)
   const mosaicRef    = useRef<HTMLDivElement>(null)
   const featuredRef  = useRef<HTMLDivElement>(null)
   const statementRef = useRef<HTMLElement>(null)
@@ -153,32 +148,6 @@ export default function HomePage() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-
-      /* ─── Hero entrance ─── */
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
-      tl.fromTo(heroRightRef.current,
-          { clipPath: 'inset(0 100% 0 0)' },
-          { clipPath: 'inset(0 0% 0 0)', duration: 1.2, ease: 'power4.inOut' }, 0)
-        .fromTo(heroEyeRef.current,  { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .7 }, .3)
-        .fromTo(heroHeadRef.current, { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: .9 }, .45)
-        .fromTo(heroSubRef.current,  { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: .75 }, .62)
-        .fromTo(heroMetaRef.current, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .6 }, .74)
-        .fromTo(heroCtaRef.current,  { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .6 }, .84)
-
-      /* ─── Subtle hero right parallax on scroll ─── */
-      ScrollTrigger.create({
-        trigger: '.hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: .8,
-        onUpdate: (self) => {
-          if (heroRightRef.current) {
-            gsap.set(heroRightRef.current.querySelector('svg'), {
-              y: self.progress * 60,
-            })
-          }
-        },
-      })
 
       /* ─── Section head num labels slide ─── */
       gsap.utils.toArray<HTMLElement>('.section-head .num').forEach((el) => {
@@ -298,31 +267,7 @@ export default function HomePage() {
 
   return (
     <>
-      {/* HERO */}
-      <section className="hero">
-        <div className="hero-left">
-          <div ref={heroEyeRef} className="hero-eyebrow" style={{ opacity: 0 }}>
-            Brand environments · New Delhi · Dubai
-          </div>
-          <h1 ref={heroHeadRef} className="hero-headline" style={{ opacity: 0 }}>
-            Space is your<br />most <em>powerful</em><br />brand asset.
-          </h1>
-          <div ref={heroMetaRef} className="hero-meta" style={{ opacity: 0 }}>
-            <span>✦ Selected for AGI 2025</span>
-            <span>↓ Scroll</span>
-          </div>
-          <p ref={heroSubRef} className="hero-sub" style={{ opacity: 0 }}>
-            We are an independent practice of architects, graphic designers and signage specialists who design the physical world of your brand — wayfinding systems, environmental graphics, retail flagships and live activations.
-          </p>
-          <div ref={heroCtaRef} className="hero-cta" style={{ opacity: 0, marginTop: '2rem' }}>
-            <button className="btn-primary" onClick={() => navigateTo('work')}>See our work</button>
-            <button className="btn-ghost" onClick={() => navigateTo('services')}>What we do →</button>
-          </div>
-        </div>
-        <div ref={heroRightRef} className="hero-right" style={{ clipPath: 'inset(0 100% 0 0)' }}>
-          <DiagWayfinding />
-        </div>
-      </section>
+      <HeroShowcase />
 
       {/* TICKER */}
       <div className="ticker">
