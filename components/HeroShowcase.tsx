@@ -16,6 +16,11 @@ const SLIDES = [
     src: '/projects/central-square/central-square-hero.jpg', position: '60% 55%',
   },
   {
+    slug: 'sikka-kaamya-greens', what: 'wayfinding', who: 'residences',
+    line: 'A brass-and-grey signage system for a residential development in Greater Noida.',
+    src: '/projects/sikka-kaamya/kaamya-hero.jpg', position: '50% 50%',
+  },
+  {
     slug: 'artnest-studio', what: 'identities', who: 'art studios',
     line: 'A mascot-led brand identity for a community art studio in Faridabad.',
     src: '/projects/artnest/artnest-cover.jpg', position: '50% 50%',

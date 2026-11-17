@@ -88,6 +88,11 @@ const FEATURED = [
     imgSrc: '/projects/central-square/central-square-hero.jpg',
   },
   {
+    tag: 'Wayfinding · Residential', year: '26',
+    title: 'Sikka Kaamya Greens — brass-and-grey signage for a residential development',
+    loc: 'Greater Noida · 2026', diag: 'section', imgSrc: '/projects/sikka-kaamya/kaamya-hero.jpg',
+  },
+  {
     tag: 'Spatial Identity · Heritage', year: '24',
     title: 'Chopra Soda — retail revival of a Punjabi heritage soft drink',
     loc: 'Faridkot, Punjab · 2024', diag: 'retail', imgSrc: '/chopra-soda.png',
