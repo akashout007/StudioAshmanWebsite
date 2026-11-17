@@ -96,7 +96,7 @@ const FEATURED = [
   {
     tag: 'Brand Identity · Signage', year: '',
     title: 'Bollywood Kabab — cinema-inspired identity and facade signage for a kebab restaurant',
-    loc: 'Greater Noida', diag: 'sign', imgSrc: '/projects/bollywood-kabab/bollywood-kabab-cover.jpg',
+    loc: 'Greater Noida', diag: 'sign', imgSrc: '/projects/bollywood-kabab/bollywood-kabab-hero.jpg',
   },
   {
     tag: 'Wayfinding · Healthcare', year: '25',

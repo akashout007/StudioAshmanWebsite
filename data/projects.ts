@@ -143,8 +143,8 @@ export const PROJECTS: Project[] = [
     status: 'built',
     hasCaseStudy: true,
     hero: {
-      src: '/projects/bollywood-kabab/bollywood-kabab-cover.jpg',
-      alt: 'Night storefront with the Bollywood Kabab wordmark glowing as a yellow neon sign',
+      src: '/projects/bollywood-kabab/bollywood-kabab-hero.jpg',
+      alt: 'Bollywood Kebabs restaurant at dusk: glass frontage with black film-reel skewer letters above the entrance',
       type: 'hero',
     },
     images: [
