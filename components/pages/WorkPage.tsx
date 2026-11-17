@@ -165,7 +165,7 @@ export default function WorkPage() {
 
       {/* FILTER BAR */}
       <div className="filter-bar" role="group" aria-label="Filter projects">
-        {FILTERS.map(({ label, value }) => (
+        {FILTERS.filter(({ value }) => value === 'all' || PROJECTS.some((p) => p.categories.includes(value))).map(({ label, value }) => (
           <button
             key={value}
             className={`filter-btn${activeFilter === value ? ' active' : ''}`}

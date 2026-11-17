@@ -21,10 +21,10 @@ const TEAM = [
 ]
 
 const TIMELINE = [
-  { year: '2024', what: 'Chopra Soda — first retail engagement', where: 'A heritage soft-drink brand from Punjab; spatial identity, retail signage and a hand-painted dukan revival.' },
   { year: '2025', what: 'Artnest Studio — Charmwood Village, Faridabad', where: 'Environmental identity for an artist\'s atelier. The studio\'s first dedicated EGD engagement.' },
   { year: '2026', what: 'Regency Kanpur Hospital — wayfinding concept', where: 'Concept pitch for a hospital campus in Kanpur. Bilingual (English / Hindi) wayfinding, colour-coded cores and a sign family from gate pylons to corridor signs.' },
   { year: '2026', what: 'Delhigrapher — brand identity', where: 'Brand identity for a Delhi-based wedding photography practice.' },
+  { year: '2026', what: 'Chopra\'s Lemon Soda — brand collaterals', where: 'A soda bar on Ferozepur Road, Zira: the existing badge carried onto cups, packaging, print, uniform and the menu.' },
 ]
 
 const AWARDS = [
@@ -270,7 +270,7 @@ export default function StudioPage() {
               </p>
               <p>
                 The early work has been a small, careful set of engagements —
-                <em>Chopra Soda</em>, a heritage soft-drink brand from Faridkot; a wayfinding
+                <em>Chopra&apos;s Lemon Soda</em>, a soda bar in Zira; a wayfinding
                 concept for <em>Regency Kanpur Hospital</em>; and a brand identity for{' '}
                 <em>ArtNest Studio</em>, a community art studio in Faridabad.
               </p>

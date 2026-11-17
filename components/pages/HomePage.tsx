@@ -99,8 +99,8 @@ const FEATURED = [
   },
   {
     tag: 'Spatial Identity · Heritage', year: '24',
-    title: 'Chopra Soda — retail revival of a Punjabi heritage soft drink',
-    loc: 'Faridkot, Punjab · 2024', diag: 'retail', imgSrc: '/chopra-soda.png',
+    title: 'Chopra\'s Lemon Soda — brand collaterals and menu for a soda bar',
+    loc: 'Zira, Punjab · 2026', diag: 'retail', imgSrc: '/projects/chopra-soda/chopra-hero.jpg',
   },
   {
     tag: 'Brand Identity', year: '',
