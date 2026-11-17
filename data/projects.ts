@@ -285,6 +285,32 @@ export const PROJECTS: Project[] = [
     ],
     featured: false,
   },
+  {
+    slug: 'intiva',
+    number: '10',
+    title: 'Intiva',
+    category: 'Brand Identity · Packaging',
+    discipline: 'Brand identity and packaging for a foaming intimate wash',
+    categories: ['brand-identity'],
+    status: 'built',
+    hasCaseStudy: true,
+    hero: {
+      src: '/projects/intiva/intiva-cover.jpg',
+      alt: 'Intiva foaming intimate wash bottle surrounded by witch hazel, tea tree blossom, aloe vera and water droplets',
+      type: 'hero',
+    },
+    images: [
+      { src: '/projects/intiva/intiva-wordmark.jpg', alt: 'Intiva wordmark in black serif on sand', type: 'process' },
+      { src: '/projects/intiva/intiva-construction.jpg', alt: 'Wordmark construction — outlines and anchor points between cap-height and baseline guides', type: 'process' },
+      { src: '/projects/intiva/intiva-colour.jpg', alt: 'Colour palette — off-white F9F9F4, sand EFDFD0, blue 22408B and black 121211', type: 'process' },
+      { src: '/projects/intiva/intiva-label.jpg', alt: 'Bottle label artwork — Foaming Intimate Wash for men and women, with its four ingredients', type: 'process' },
+      { src: '/projects/intiva/intiva-dieline.jpg', alt: 'Carton dieline with the vertical Intiva front panel and the folded box outline', type: 'process' },
+      { src: '/projects/intiva/intiva-bottle.jpg', alt: 'Hand holding the Intiva foaming wash bottle among mugwort leaves and oil bubbles', type: 'process' },
+      { src: '/projects/intiva/intiva-box.jpg', alt: 'Hand holding the Intiva carton among mugwort leaves and oil bubbles', type: 'process' },
+      { src: '/projects/intiva/intiva-foam.jpg', alt: 'Foam pumped from the Intiva bottle into an open palm', type: 'process' },
+    ],
+    featured: false,
+  },
 ]
 
 export function getProject(slug: string): Project | undefined {

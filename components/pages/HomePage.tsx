@@ -107,6 +107,11 @@ const FEATURED = [
     loc: 'Greater Noida', diag: 'sign', imgSrc: '/projects/bollywood-kabab/bollywood-kabab-hero.jpg',
   },
   {
+    tag: 'Brand Identity · Packaging', year: '',
+    title: 'Intiva — brand identity and packaging for a foaming intimate wash',
+    loc: 'Label, carton and product imagery', diag: 'sign', imgSrc: '/projects/intiva/intiva-cover.jpg',
+  },
+  {
     tag: 'Wayfinding · Healthcare', year: '26',
     title: 'Regency Kanpur Hospital — gate, drop-off and corridor sign family',
     loc: 'Kanpur · 2026 · Concept', diag: 'section', imgSrc: '/projects/regency/regency-dr01.jpg',
