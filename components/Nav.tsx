@@ -71,7 +71,7 @@ const MEGA: Record<string, MegaData> = {
       items: [
         { name: 'Our story', meta: 'New Delhi · Dubai', page: 'studio' },
         { name: 'Team', meta: '2 people', page: 'studio' },
-        { name: 'Awards & press', meta: '3 honours', page: 'studio' },
+        { name: 'Awards & press', meta: '1 honour', page: 'studio' },
       ],
     },
     colB: {

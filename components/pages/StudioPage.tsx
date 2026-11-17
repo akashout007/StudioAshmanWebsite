@@ -28,8 +28,6 @@ const TIMELINE = [
 ]
 
 const AWARDS = [
-  { year: '2025', title: 'India Design Mark — Heritage Retail', org: 'Chopra Soda, Faridkot', cat: 'Spatial Identity' },
-  { year: '2025', title: 'AGDA Merit — Identity', org: 'Chopra Soda, Faridkot', cat: 'Sign Design' },
   { year: '2024', title: 'Brand New — Noted', org: 'Studio launch identity', cat: 'Brand' },
 ]
 
