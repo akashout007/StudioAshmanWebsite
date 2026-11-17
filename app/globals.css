@@ -854,6 +854,9 @@ footer {
    RESPONSIVE — NAV HAMBURGER (hidden on desktop)
 ══════════════════════════════════════════════════════════ */
 .nav-hamburger { display: none; }
+.nav-hamburger.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-hamburger.is-open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.is-open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 .mobile-nav { display: none; }
 
 /* ══════════════════════════════════════════════════════════
@@ -927,15 +930,6 @@ footer {
     transition: color .2s, padding-left .2s;
   }
   .mobile-nav > button:hover { color: var(--accent); padding-left: 8px; }
-  .mobile-nav-close {
-    position: absolute !important; top: 20px; right: 20px;
-    font-family: var(--font-label) !important; font-size: 9px !important;
-    font-weight: 700 !important; letter-spacing: .22em !important;
-    text-transform: uppercase !important; color: var(--mid) !important;
-    background: none !important; border: none !important;
-    font-size: 11px !important; padding: 8px !important;
-    cursor: pointer !important;
-  }
   .mobile-nav-footer {
     margin-top: 40px; font-family: var(--font-label); font-size: 9px;
     font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--mid);

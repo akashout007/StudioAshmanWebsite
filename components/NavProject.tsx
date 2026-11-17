@@ -1,6 +1,7 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import MobileMenu, { MenuToggle } from '@/components/MobileMenu'
 
 export default function NavProject() {
   const navRef = useRef<HTMLElement>(null)
@@ -14,11 +15,7 @@ export default function NavProject() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMobileOpen(false) }
-    document.addEventListener('keydown', onKey)
-    return () => document.removeEventListener('keydown', onKey)
-  }, [])
+  const closeMobile = useCallback(() => setMobileOpen(false), [])
 
   return (
     <nav ref={navRef}>
@@ -26,29 +23,14 @@ export default function NavProject() {
         Ashman<span>.</span>Studio
       </Link>
 
-      <button
-        className="nav-hamburger"
-        onClick={() => setMobileOpen(true)}
-        aria-label="Open navigation menu"
-      >
-        <span /><span /><span />
-      </button>
-
-      {mobileOpen && (
-        <div className="mobile-nav" role="dialog" aria-label="Navigation menu">
-          <button className="mobile-nav-close" onClick={() => setMobileOpen(false)}>
-            Close ✕
-          </button>
-          <Link href="/" onClick={() => setMobileOpen(false)}>Home</Link>
-          <Link href="/?section=work" onClick={() => setMobileOpen(false)}>Work</Link>
-          <Link href="/?section=services" onClick={() => setMobileOpen(false)}>What we do</Link>
-          <Link href="/?section=studio" onClick={() => setMobileOpen(false)}>Studio</Link>
-          <Link href="/?section=contact" onClick={() => setMobileOpen(false)}>Contact</Link>
-          <div className="mobile-nav-footer">
-            Ashman<span style={{ color: 'var(--accent)' }}>.</span>Studio · New Delhi · Dubai
-          </div>
-        </div>
-      )}
+      <MenuToggle open={mobileOpen} onToggle={() => setMobileOpen((o) => !o)} />
+      <MobileMenu open={mobileOpen} onClose={closeMobile}>
+        <Link href="/" onClick={closeMobile}>Home</Link>
+        <Link href="/?section=work" onClick={closeMobile}>Work</Link>
+        <Link href="/?section=services" onClick={closeMobile}>What we do</Link>
+        <Link href="/?section=studio" onClick={closeMobile}>Studio</Link>
+        <Link href="/?section=contact" onClick={closeMobile}>Contact</Link>
+      </MobileMenu>
 
       <ul className="nav-links" role="list">
         <li>

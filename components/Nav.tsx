@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, useCallback, type ReactNode } from 'react'
 import gsap from 'gsap'
 import { usePage, PageName } from '@/context/PageContext'
+import MobileMenu, { MenuToggle } from '@/components/MobileMenu'
 
 type MegaKey = 'work' | 'services' | 'studio' | null
 
@@ -97,6 +98,7 @@ export default function Nav() {
   const [openMega, setOpenMega] = useState<MegaKey>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const closeMobile = useCallback(() => setMobileOpen(false), [])
 
   useEffect(() => {
     const nav = navRef.current
@@ -160,29 +162,14 @@ export default function Nav() {
         Ashman<span>.</span>Studio
       </button>
 
-      {/* Mobile hamburger */}
-      <button
-        className="nav-hamburger"
-        onClick={() => setMobileOpen(true)}
-        aria-label="Open menu"
-      >
-        <span /><span /><span />
-      </button>
-
-      {/* Mobile nav overlay */}
-      {mobileOpen && (
-        <div className="mobile-nav">
-          <button className="mobile-nav-close" onClick={() => setMobileOpen(false)}>
-            Close ✕
-          </button>
-          <button onClick={() => go('home')}>Home</button>
-          <button onClick={() => go('work')}>Work</button>
-          <button onClick={() => go('services')}>What we do</button>
-          <button onClick={() => go('studio')}>Studio</button>
-          <button onClick={() => go('contact')}>Contact</button>
-          <div className="mobile-nav-footer">Ashman<span style={{ color: 'var(--accent)' }}>.</span>Studio · New Delhi · Dubai</div>
-        </div>
-      )}
+      <MenuToggle open={mobileOpen} onToggle={() => setMobileOpen((o) => !o)} />
+      <MobileMenu open={mobileOpen} onClose={closeMobile}>
+        <button onClick={() => go('home')}>Home</button>
+        <button onClick={() => go('work')}>Work</button>
+        <button onClick={() => go('services')}>What we do</button>
+        <button onClick={() => go('studio')}>Studio</button>
+        <button onClick={() => go('contact')}>Contact</button>
+      </MobileMenu>
 
       <ul className="nav-links">
         {NAV_ITEMS.map(({ label, key, page }) => (
