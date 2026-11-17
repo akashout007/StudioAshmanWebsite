@@ -53,16 +53,18 @@ button { font: inherit; cursor: pointer; }
   position: fixed; width: 10px; height: 10px;
   background: var(--accent); border-radius: 50%;
   pointer-events: none; z-index: 9999; top: 0; left: 0;
-  mix-blend-mode: multiply; transition: width .15s, height .15s, background .15s;
+  box-shadow: 0 0 0 1.5px rgba(242, 239, 232, .9), 0 0 6px rgba(14, 14, 13, .35);
+  transition: width .15s, height .15s, background .15s;
 }
 .cursor-ring {
   position: fixed; width: 36px; height: 36px;
-  border: 1px solid var(--accent); border-radius: 50%;
-  pointer-events: none; z-index: 9998; top: 0; left: 0; opacity: .5;
+  border: 1.5px solid var(--accent); border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(242, 239, 232, .55), inset 0 0 0 1px rgba(242, 239, 232, .55);
+  pointer-events: none; z-index: 9998; top: 0; left: 0; opacity: .85;
   transition: width .2s, height .2s, opacity .2s;
 }
 .cursor.hovered { width: 16px; height: 16px; background: var(--ink); }
-.cursor-ring.hovered { width: 52px; height: 52px; opacity: .2; }
+.cursor-ring.hovered { width: 52px; height: 52px; opacity: .5; }
 
 /* ── LAYOUT ── */
 .ash-wrap { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
