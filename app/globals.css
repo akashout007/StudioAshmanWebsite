@@ -1356,8 +1356,15 @@ a.nav-cta {
   overflow: hidden;
 }
 .proj-gallery-img--document {
-  aspect-ratio: 3/4;
-  background: var(--paper2);
+  aspect-ratio: 16/9;
+  background: var(--white);
+  outline: var(--border);
+}
+.proj-gallery-grid--documents {
+  grid-template-columns: 1fr;
+  gap: 24px;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 /* ── PROJECT NAV ── */

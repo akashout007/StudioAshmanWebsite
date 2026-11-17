@@ -52,11 +52,11 @@ export default async function ProjectPage({ params }: Props) {
       <main className="proj-detail proj-entrance">
         {/* ── HEADER ── */}
         <header className="proj-detail-header ash-wrap">
-          <nav aria-label="Breadcrumb" className="breadcrumb">
+          <div role="navigation" aria-label="Breadcrumb" className="breadcrumb">
             <Link href="/?section=work" className="breadcrumb-link">Work</Link>
             <span className="sep">/</span>
             <span className="current">{project.title}</span>
-          </nav>
+          </div>
 
           <div className="proj-detail-header-inner">
             <div className="proj-detail-meta">

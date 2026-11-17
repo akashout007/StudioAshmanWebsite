@@ -8,6 +8,9 @@ interface Props {
 export default function ProjectGallery({ images }: Props) {
   if (images.length === 0) return null
 
+  const isDoc = (img: ProjectImage) => img.type === 'process' || img.type === 'diagram'
+  const allDocuments = images.every(isDoc)
+
   return (
     <section className="proj-gallery">
       <div className="ash-wrap">
@@ -16,9 +19,9 @@ export default function ProjectGallery({ images }: Props) {
           Documentation
         </div>
       </div>
-      <div className="proj-gallery-grid">
+      <div className={`proj-gallery-grid${allDocuments ? ' proj-gallery-grid--documents' : ''}`}>
         {images.map((img, i) => {
-          const isDocument = img.type === 'process' || img.type === 'diagram'
+          const isDocument = isDoc(img)
           return (
             <div key={i} className="proj-gallery-item">
               <div className={`proj-gallery-img${isDocument ? ' proj-gallery-img--document' : ''}`}>
@@ -27,7 +30,7 @@ export default function ProjectGallery({ images }: Props) {
                     src={img.src}
                     alt={img.alt}
                     fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
+                    sizes={allDocuments ? '(max-width: 1280px) 100vw, 1184px' : '(max-width: 768px) 100vw, 50vw'}
                     style={{ objectFit: isDocument ? 'contain' : 'cover' }}
                   />
                 )}

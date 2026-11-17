@@ -8,7 +8,7 @@ interface Props {
 
 export default function ProjectPageNav({ prev, next }: Props) {
   return (
-    <nav className="proj-page-nav" aria-label="Project navigation">
+    <div role="navigation" className="proj-page-nav" aria-label="Project navigation">
       <div className="ash-wrap proj-page-nav-inner">
         <Link href="/?section=work" className="proj-page-nav-back">
           ← Back to work
@@ -36,6 +36,6 @@ export default function ProjectPageNav({ prev, next }: Props) {
           </div>
         )}
       </div>
-    </nav>
+    </div>
   )
 }
