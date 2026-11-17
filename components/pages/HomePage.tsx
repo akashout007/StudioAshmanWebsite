@@ -3,6 +3,7 @@ import { useEffect, useRef, type ComponentType } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { usePage } from '@/context/PageContext'
+import NextProjectArt from '@/components/NextProjectArt'
 import Footer from '@/components/Footer'
 import {
   DiagWayfinding, DiagSign, DiagActivation, DiagFacade,
@@ -83,7 +84,7 @@ const FEATURED = [
     tag: 'Wayfinding · Commercial', year: '',
     title: 'Central Square — signage and wayfinding for a three-plaza commercial complex',
     loc: 'North Delhi · Design development', diag: 'section',
-    imgSrc: '/projects/central-square/central-square-cover.jpg', imgPos: '68% 50%',
+    imgSrc: '/projects/central-square/central-square-hero.jpg',
   },
   {
     tag: 'Spatial Identity · Heritage', year: '24',
@@ -409,6 +410,20 @@ export default function HomePage() {
                 </button>
               )
             })}
+            {FEATURED.filter((p) => !p.hero).length % 2 === 1 && (
+              <button
+                className="project-card project-card-next"
+                onClick={() => navigateTo('contact')}
+                style={{ border: 'none', background: 'none', padding: 0, textAlign: 'left', cursor: 'pointer' }}
+              >
+                <div className="pc-img"><NextProjectArt /></div>
+                <div className="pc-meta">
+                  <span className="pc-tag">Coming soon</span>
+                </div>
+                <h3>Your project — tell us what you&apos;re building</h3>
+                <div className="pc-loc">New Delhi · Dubai</div>
+              </button>
+            )}
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 56 }}>
             <button className="btn-outline" onClick={() => navigateTo('work')}>

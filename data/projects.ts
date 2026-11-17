@@ -261,10 +261,9 @@ export const PROJECTS: Project[] = [
     status: 'ongoing',
     hasCaseStudy: true,
     hero: {
-      src: '/projects/central-square/central-square-cover.jpg',
-      alt: 'Central Square signage and wayfinding: aerial view of the white commercial complex beside the railway lines in North Delhi',
+      src: '/projects/central-square/central-square-hero.jpg',
+      alt: 'Aerial view of Central Square, a long white commercial complex beside the railway lines in North Delhi',
       type: 'hero',
-      position: '68% 50%',
     },
     images: [
       { src: '/projects/central-square/central-square-concept.jpg', alt: 'Design concept — a square plus space equals a cube, the language of the signage system', type: 'process' },

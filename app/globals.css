@@ -1084,6 +1084,39 @@ a.proj-card-link {
   color: inherit;
 }
 
+/* ── NEXT PROJECT FILLER CARD ── */
+button.proj-card-next {
+  display: block; width: 100%; border: none; padding: 0;
+  text-align: left; font: inherit; color: inherit;
+}
+.next-art {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: clamp(20px, 4%, 40px);
+  background:
+    linear-gradient(135deg, transparent 0 62%, rgba(200, 80, 42, .14) 62% 100%),
+    var(--ink);
+  color: var(--paper);
+  transition: transform .5s var(--ease);
+}
+.next-art-label {
+  font-family: var(--font-label); font-size: 9px; font-weight: 700;
+  letter-spacing: .22em; text-transform: uppercase; color: var(--accent);
+}
+.next-art-title {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(26px, 3vw, 44px); line-height: 1.05; letter-spacing: -.02em;
+}
+.next-art-title em { color: var(--accent); }
+.next-art-cta {
+  font-family: var(--font-label); font-size: 10px; font-weight: 700;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--light2);
+}
+.proj-card:hover .next-art,
+.project-card:hover .next-art { transform: scale(1.02); }
+.proj-card-next .proj-img-inner,
+.project-card-next .pc-img { position: relative; }
+
 .proj-card-placeholder {
   width: 100%; height: 100%;
   background: var(--ink2);
@@ -1451,6 +1484,7 @@ a.nav-cta {
   }
   .featured-grid { padding: 0 20px; grid-template-columns: 1fr; }
   .selected-grid { padding: 0 20px 48px; grid-template-columns: 1fr; }
+  .proj-card-next, .project-card-next { display: none; }
   .work-section-head { padding: 28px 0 14px; }
 
   .proj-detail-header { padding-top: 80px; padding-bottom: 32px; }

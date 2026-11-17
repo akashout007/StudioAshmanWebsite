@@ -4,6 +4,8 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Footer from '@/components/Footer'
 import ProjectCard from '@/components/ProjectCard'
+import NextProjectArt from '@/components/NextProjectArt'
+import { usePage } from '@/context/PageContext'
 import { PROJECTS } from '@/data/projects'
 import type { ProjectCategory } from '@/data/projects'
 import { EDITORIAL_COVERS } from '@/components/project/EditorialCover'
@@ -38,10 +40,28 @@ const FILTERS: { label: string; value: FilterValue }[] = [
 // Featured slugs — appear in the editorial 7fr/5fr diagonal grid
 const FEATURED_SLUGS = ['mall-of-expressway', 'artnest-studio', 'regency-hospital', 'chopra-soda']
 
-// Aspect ratios for featured grid positions: wide, tall, tall, wide (diagonal swap)
-const FEATURED_RATIOS = ['16/10', '3/4', '3/4', '16/10']
+// Wide (7fr) and narrow (5fr) cards share a row, so narrow = wide × 5/7 keeps both the same height
+const FEATURED_RATIOS = ['4/3', '20/21', '20/21', '4/3']
+
+function NextProjectCard({ aspectRatio, onClick }: { aspectRatio: string; onClick: () => void }) {
+  return (
+    <button type="button" className="proj-card proj-card-link proj-card-next" onClick={onClick}>
+      <div className="proj-img">
+        <div className="proj-img-inner" style={{ aspectRatio }}>
+          <NextProjectArt />
+        </div>
+      </div>
+      <div className="proj-info">
+        <div className="proj-cat">Coming soon</div>
+        <div className="proj-title">Your project</div>
+        <div className="proj-sub">Have something in mind? Start a conversation →</div>
+      </div>
+    </button>
+  )
+}
 
 export default function WorkPage() {
+  const { navigateTo } = usePage()
   const [activeFilter, setActiveFilter] = useState<FilterValue>('all')
   const heroRef = useRef<HTMLDivElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
@@ -159,27 +179,33 @@ export default function WorkPage() {
 
       {/* PROJECT GRID */}
       <div ref={gridRef}>
-        {featuredFiltered.length > 0 && (
+        {!isFiltered && featuredFiltered.length > 0 && (
           <div className="work-section">
             <div className="work-section-head ash-wrap">
               <div className="ash-eyebrow muted">
                 <span className="dash" />Featured work
               </div>
             </div>
-            <div className={isFiltered ? 'selected-grid' : 'featured-editorial'}>
+            <div className="featured-editorial">
               {featuredFiltered.map((p, i) => (
                 <ProjectCard
                   key={p.slug}
                   project={p}
                   Cover={getCover(p.slug)}
-                  aspectRatio={isFiltered ? '4/3' : FEATURED_RATIOS[i]}
+                  aspectRatio={FEATURED_RATIOS[i % FEATURED_RATIOS.length]}
                 />
               ))}
+              {featuredFiltered.length % 2 === 1 && (
+                <NextProjectCard
+                  aspectRatio={FEATURED_RATIOS[featuredFiltered.length % FEATURED_RATIOS.length]}
+                  onClick={() => navigateTo('contact')}
+                />
+              )}
             </div>
           </div>
         )}
 
-        {selectedFiltered.length > 0 && (
+        {!isFiltered && selectedFiltered.length > 0 && (
           <div className="work-section">
             <div className="work-section-head ash-wrap">
               <div className="ash-eyebrow muted">
@@ -188,13 +214,31 @@ export default function WorkPage() {
             </div>
             <div className="selected-grid">
               {selectedFiltered.map((p) => (
-                <ProjectCard
-                  key={p.slug}
-                  project={p}
-                  Cover={getCover(p.slug)}
-                  aspectRatio="4/3"
-                />
+                <ProjectCard key={p.slug} project={p} Cover={getCover(p.slug)} aspectRatio="4/3" />
               ))}
+              {selectedFiltered.length % 2 === 1 && (
+                <NextProjectCard aspectRatio="4/3" onClick={() => navigateTo('contact')} />
+              )}
+            </div>
+          </div>
+        )}
+
+        {isFiltered && allFiltered.length > 0 && (
+          <div className="work-section">
+            <div className="work-section-head ash-wrap">
+              <div className="ash-eyebrow muted">
+                <span className="dash" />
+                {FILTERS.find((f) => f.value === activeFilter)?.label} · {allFiltered.length}{' '}
+                {allFiltered.length === 1 ? 'project' : 'projects'}
+              </div>
+            </div>
+            <div className="selected-grid">
+              {[...featuredFiltered, ...selectedFiltered].map((p) => (
+                <ProjectCard key={p.slug} project={p} Cover={getCover(p.slug)} aspectRatio="4/3" />
+              ))}
+              {allFiltered.length % 2 === 1 && (
+                <NextProjectCard aspectRatio="4/3" onClick={() => navigateTo('contact')} />
+              )}
             </div>
           </div>
         )}
