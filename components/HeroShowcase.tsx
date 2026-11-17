@@ -1,5 +1,5 @@
 'use client'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getProject } from '@/data/projects'
@@ -44,6 +44,34 @@ const SLIDES = [
 
 const INTERVAL = 5500
 
+function WordSlot({ word, delay = 0 }: { word: string; delay?: number }) {
+  const [words, setWords] = useState({ cur: word, prev: null as string | null, n: 0 })
+  const [width, setWidth] = useState<number>()
+  const measureRef = useRef<HTMLSpanElement>(null)
+
+  useEffect(() => {
+    setWords((w) => (w.cur === word ? w : { cur: word, prev: w.cur, n: w.n + 1 }))
+  }, [word])
+
+  useLayoutEffect(() => {
+    if (measureRef.current) setWidth(measureRef.current.offsetWidth)
+  }, [words.cur])
+
+  return (
+    <span className="slot" style={{ width, transitionDelay: `${delay}ms` }}>
+      <span ref={measureRef} className="slot-measure" aria-hidden="true">{words.cur}</span>
+      {words.prev && (
+        <span key={`out-${words.n}`} className="slot-word slot-out" style={{ animationDelay: `${delay}ms` }} aria-hidden="true">
+          {words.prev}
+        </span>
+      )}
+      <span key={`in-${words.n}`} className={`slot-word${words.n ? ' slot-in' : ''}`} style={{ animationDelay: `${delay}ms` }}>
+        {words.cur}
+      </span>
+    </span>
+  )
+}
+
 export default function HeroShowcase() {
   const [active, setActive] = useState(0)
   const [paused, setPaused] = useState(false)
@@ -65,6 +93,15 @@ export default function HeroShowcase() {
 
   const go = useCallback((i: number) => setActive((i + SLIDES.length) % SLIDES.length), [])
 
+  const touchX = useRef<number | null>(null)
+  const onTouchStart = (e: React.TouchEvent) => { touchX.current = e.touches[0].clientX }
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchX.current === null) return
+    const dx = e.changedTouches[0].clientX - touchX.current
+    if (Math.abs(dx) > 50) go(active + (dx < 0 ? 1 : -1))
+    touchX.current = null
+  }
+
   const onKey = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowRight') go(active + 1)
     if (e.key === 'ArrowLeft') go(active - 1)
@@ -83,7 +120,7 @@ export default function HeroShowcase() {
       onBlur={() => setPaused(false)}
       onKeyDown={onKey}
     >
-      <div className="showcase-stage">
+      <div className="showcase-stage" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
         {SLIDES.map((s, i) => {
           const project = getProject(s.slug)
           if (!project) return null
@@ -112,11 +149,15 @@ export default function HeroShowcase() {
         <div className="showcase-shade" aria-hidden="true" />
 
         <p className="showcase-pill" aria-live="polite">
-          We design{' '}
-          <span key={`w-${active}`} className="showcase-word">{current.what}</span>
-          {' '}for{' '}
-          <span key={`p-${active}`} className="showcase-word">{current.who}</span>
+          We design <WordSlot word={current.what} /> for <WordSlot word={current.who} delay={120} />
         </p>
+
+        <button type="button" className="showcase-arrow showcase-prev" aria-label="Previous project" onClick={() => go(active - 1)}>
+          <span aria-hidden="true">←</span>
+        </button>
+        <button type="button" className="showcase-arrow showcase-next" aria-label="Next project" onClick={() => go(active + 1)}>
+          <span aria-hidden="true">→</span>
+        </button>
 
         <div className="showcase-caption">
           <Link href={`/work/${current.slug}`} className="showcase-title">
