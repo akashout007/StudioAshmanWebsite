@@ -80,6 +80,12 @@ const FEATURED = [
     imgSrc: '/projects/regency/regency-cover.jpg', imgPos: '72% 50%',
   },
   {
+    tag: 'Wayfinding · Commercial', year: '',
+    title: 'Central Square — signage and wayfinding for a three-plaza commercial complex',
+    loc: 'North Delhi · Design development', diag: 'section',
+    imgSrc: '/projects/central-square/central-square-cover.jpg', imgPos: '68% 50%',
+  },
+  {
     tag: 'Spatial Identity · Heritage', year: '24',
     title: 'Chopra Soda — retail revival of a Punjabi heritage soft drink',
     loc: 'Faridkot, Punjab · 2024', diag: 'retail', imgSrc: '/chopra-soda.png',
