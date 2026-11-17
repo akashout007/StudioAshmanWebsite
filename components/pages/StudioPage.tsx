@@ -21,20 +21,15 @@ const TEAM = [
 ]
 
 const TIMELINE = [
-  { year: '2024', what: 'Studio founded in New Delhi', where: 'Akash Manna opens the practice out of a single room in Hauz Khas Village. First commission: Chopra Soda, Faridkot.' },
   { year: '2024', what: 'Chopra Soda — first retail engagement', where: 'A heritage soft-drink brand from Punjab; spatial identity, retail signage and a hand-painted dukan revival.' },
   { year: '2025', what: 'Artnest Studio — Charmwood Village, Faridabad', where: 'Environmental identity for an artist\'s atelier. The studio\'s first dedicated EGD engagement.' },
-  { year: '2025', what: 'Dubai studio opens', where: 'A second studio in Alserkal Avenue for engagements across the Gulf.' },
   { year: '2026', what: 'Regency Kanpur Hospital — wayfinding concept', where: 'Concept pitch for a hospital campus in Kanpur. Bilingual (English / Hindi) wayfinding, colour-coded cores and a sign family from gate pylons to corridor signs.' },
   { year: '2026', what: 'Delhigrapher — brand identity', where: 'Brand identity for a Delhi-based wedding photography practice.' },
-  { year: '2026', what: 'Dubai studio opens', where: 'A third studio in Alserkal Avenue (Al Quoz) to handle Gulf engagements.' },
 ]
 
 const AWARDS = [
-  { year: '2026', title: (<>Kyoorius Yellow — <em>Wayfinding</em></>), org: 'Regency Hospital, Lucknow', cat: 'Wayfinding' },
   { year: '2025', title: 'India Design Mark — Heritage Retail', org: 'Chopra Soda, Faridkot', cat: 'Spatial Identity' },
   { year: '2025', title: 'AGDA Merit — Identity', org: 'Chopra Soda, Faridkot', cat: 'Sign Design' },
-  { year: '2025', title: (<>WIN Awards — <em>shortlist</em></>), org: 'Regency Hospital, Lucknow', cat: 'Healthcare' },
   { year: '2024', title: 'Brand New — Noted', org: 'Studio launch identity', cat: 'Brand' },
 ]
 
@@ -240,7 +235,7 @@ export default function StudioPage() {
             </h1>
           </div>
           <p className="lede" style={{ opacity: 0 }}>
-            Founded 2024 in New Delhi by Akash Manna — an architect and wayfinding
+            Founded in New Delhi by Akash Manna — an architect and wayfinding
             specialist. A small team of architects, graphic designers and technical
             designers across three studios. Independent on purpose: no holding company,
             no second-guessing, no pitch-process theatre.
@@ -267,7 +262,7 @@ export default function StudioPage() {
             </div>
             <div>
               <p>
-                Ashman Studio was started in 2024 by <strong>Akash Manna</strong>, an architect
+                Ashman Studio was started by <strong>Akash Manna</strong>, an architect
                 and wayfinding specialist working out of New Delhi. The studio grew out of a single
                 hospital wayfinding commission and a deliberate bet that brand and architecture
                 should be designed by the same hand.
@@ -279,7 +274,7 @@ export default function StudioPage() {
                 <em>Artnest Studio</em>, a working atelier in Faridabad.
               </p>
               <p>
-                We opened a second studio in Dubai in 2026 for engagements across the Gulf.
+                A second studio in Dubai handles engagements across the Gulf.
                 New Delhi remains the head office.
               </p>
               <p>

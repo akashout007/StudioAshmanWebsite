@@ -68,9 +68,9 @@ const MEGA: Record<string, MegaData> = {
     colA: {
       title: 'About us',
       items: [
-        { name: 'Our story', meta: 'Since 2024', page: 'studio' },
+        { name: 'Our story', meta: 'New Delhi · Dubai', page: 'studio' },
         { name: 'Team', meta: '2 people', page: 'studio' },
-        { name: 'Awards & press', meta: '5 honours', page: 'studio' },
+        { name: 'Awards & press', meta: '3 honours', page: 'studio' },
       ],
     },
     colB: {
@@ -84,7 +84,7 @@ const MEGA: Record<string, MegaData> = {
     feature: {
       eyebrow: 'In the studio',
       title: <>A practice that&apos;s stayed <em>independent</em>.</>,
-      meta: ['Hauz Khas, New Delhi', 'Since 2024'],
+      meta: ['Hauz Khas, New Delhi', 'Independent'],
       page: 'studio',
     },
   },
@@ -180,7 +180,7 @@ export default function Nav() {
           <button onClick={() => go('services')}>What we do</button>
           <button onClick={() => go('studio')}>Studio</button>
           <button onClick={() => go('contact')}>Contact</button>
-          <div className="mobile-nav-footer">Ashman<span style={{ color: 'var(--accent)' }}>.</span>Studio · Est. New Delhi 2024</div>
+          <div className="mobile-nav-footer">Ashman<span style={{ color: 'var(--accent)' }}>.</span>Studio · New Delhi · Dubai</div>
         </div>
       )}
 

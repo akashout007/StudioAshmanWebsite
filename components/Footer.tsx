@@ -15,7 +15,7 @@ export default function Footer() {
               We design the physical world of <em>your brand</em> — where space becomes experience.
             </div>
             <div className="footer-tag-sub">
-              Independent practice. Founded New Delhi 2024. Studios in New Delhi and Dubai.
+              Independent practice. Studios in New Delhi and Dubai.
             </div>
           </div>
 

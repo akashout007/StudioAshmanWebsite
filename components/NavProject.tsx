@@ -45,7 +45,7 @@ export default function NavProject() {
           <Link href="/?section=studio" onClick={() => setMobileOpen(false)}>Studio</Link>
           <Link href="/?section=contact" onClick={() => setMobileOpen(false)}>Contact</Link>
           <div className="mobile-nav-footer">
-            Ashman<span style={{ color: 'var(--accent)' }}>.</span>Studio · Est. New Delhi 2024
+            Ashman<span style={{ color: 'var(--accent)' }}>.</span>Studio · New Delhi · Dubai
           </div>
         </div>
       )}

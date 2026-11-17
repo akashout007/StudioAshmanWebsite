@@ -122,8 +122,7 @@ const ProjArtMap: Record<string, ComponentType> = {
 }
 
 const STATS = [
-  { label: 'Year founded', val: '2024' },
-  { label: 'People in studio', val: '11' },
+  { label: 'People in studio', val: '2' },
   { label: 'Cities · NDL · DXB', val: '2' },
   { label: 'Independent', val: '100%' },
 ]
@@ -243,12 +242,7 @@ export default function HomePage() {
         })
 
         /* stat counter animation */
-        const counterTargets = [
-          { el: statNums.current[0], val: '2024' },
-          { el: statNums.current[1], val: '11' },
-          { el: statNums.current[2], val: '3' },
-          { el: statNums.current[3], val: '100%' },
-        ]
+        const counterTargets = STATS.map((s, i) => ({ el: statNums.current[i], val: s.val }))
         ScrollTrigger.create({
           trigger: statementRef.current,
           start: 'top 65%',
@@ -301,7 +295,7 @@ export default function HomePage() {
       <section className="hero">
         <div className="hero-left">
           <div ref={heroEyeRef} className="hero-eyebrow" style={{ opacity: 0 }}>
-            Brand environments · Est. New Delhi 2024
+            Brand environments · New Delhi · Dubai
           </div>
           <h1 ref={heroHeadRef} className="hero-headline" style={{ opacity: 0 }}>
             Space is your<br />most <em>powerful</em><br />brand asset.
@@ -383,9 +377,9 @@ export default function HomePage() {
               <h2>Recent <em>projects</em>.</h2>
             </div>
             <p className="lede">
-              A young studio with a small, deliberate output. Four named engagements since
-              we opened in 2024 — healthcare wayfinding, heritage retail, an artist&apos;s atelier
-              and a photography collective — most still in active phases.
+              A young studio with a small, deliberate output — healthcare wayfinding, heritage
+              retail, and brand identities for an art studio, a wedding photographer and a
+              kebab restaurant — most still in active phases.
             </p>
           </div>
           <div ref={featuredRef} className="project-grid">

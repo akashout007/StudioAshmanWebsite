@@ -413,7 +413,7 @@ nav.scrolled {
   line-height: 1.85; max-width: 60ch;
 }
 .ash-stats {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
   margin-top: 72px; padding-top: 48px;
   border-top: .5px solid rgba(242,239,232,.12);
 }
