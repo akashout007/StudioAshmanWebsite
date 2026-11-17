@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Playfair_Display, Syne, DM_Sans } from 'next/font/google'
 import './globals.css'
+import Cursor from '@/components/Cursor'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={`${playfair.variable} ${syne.variable} ${dmSans.variable}`}>
+        <Cursor />
         {children}
       </body>
     </html>

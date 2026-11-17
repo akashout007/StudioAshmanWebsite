@@ -2,7 +2,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import gsap from 'gsap'
 import { PageContext, PageName } from '@/context/PageContext'
-import Cursor from '@/components/Cursor'
 import Nav from '@/components/Nav'
 import HomePage from '@/components/pages/HomePage'
 import WorkPage from '@/components/pages/WorkPage'
@@ -52,7 +51,6 @@ export default function App() {
 
   return (
     <PageContext.Provider value={{ currentPage, navigateTo }}>
-      <Cursor />
       <Nav />
       <div ref={wrapRef} className="page-wrap">
         {currentPage === 'home' && <HomePage />}
