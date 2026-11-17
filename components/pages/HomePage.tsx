@@ -84,9 +84,9 @@ const FEATURED = [
     loc: 'Faridkot, Punjab · 2024', diag: 'retail', imgSrc: '/chopra-soda.png',
   },
   {
-    tag: 'EGD · Studio', year: '25',
-    title: 'Artnest Studio — environmental identity for an atelier',
-    loc: 'Charmwood Village, Faridabad · 2025', diag: 'facade',
+    tag: 'Brand Identity', year: '',
+    title: 'ArtNest Studio — brand identity for a community art studio',
+    loc: 'Charmwood Village, Faridabad', diag: 'facade', imgSrc: '/projects/artnest/artnest-cover.jpg',
   },
   {
     tag: 'Brand Identity', year: '26',
@@ -401,7 +401,7 @@ export default function HomePage() {
                   </div>
                   <div className="pc-meta">
                     <span className="pc-tag">{p.tag}</span>
-                    <span className="pc-year">— {p.year}</span>
+                    {p.year && <span className="pc-year">— {p.year}</span>}
                   </div>
                   <h3>{p.title}</h3>
                   <div className="pc-loc">{p.loc}</div>
