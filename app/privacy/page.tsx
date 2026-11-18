@@ -1,5 +1,12 @@
 import Link from 'next/link'
 import { EMAIL, SITE } from '@/lib/site'
+import { pageMeta } from '@/lib/seo'
+
+export const metadata = pageMeta({
+  title: 'Privacy | Ashman Studio',
+  description: 'What Ashman Studio collects through its contact form, why, and how to ask for your details to be deleted.',
+  path: '/privacy',
+})
 
 export default function PrivacyPage() {
   return (

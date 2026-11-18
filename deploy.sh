@@ -11,7 +11,7 @@ REPO_DESC="Ashman Studio — Brand Environments & Spatial Design (Next.js + GSAP
 
 echo ""
 echo "════════════════════════════════════════════════"
-echo "  ASHMAN STUDIO — Deploy Script"
+echo "  Ashman Studio — Deploy Script"
 echo "════════════════════════════════════════════════"
 echo ""
 

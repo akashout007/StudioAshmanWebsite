@@ -1,45 +1,11 @@
-'use client'
-import { useEffect } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Link from 'next/link'
 import HeroShowcase from '@/components/HeroShowcase'
 import { CTA, EXTERNAL, LINKS, SERVICES, SITE } from '@/lib/site'
 import { Belief, Cities, Clients, CtaBand, Disciplines, HowWeWork, Testimonials } from '@/components/sections'
 import HomeBrandStories from '@/components/BrandStories'
-
-gsap.registerPlugin(ScrollTrigger)
+import Reveal from '@/components/Reveal'
 
 export default function HomePage() {
-
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const ctx = gsap.context(() => {
-
-      /* ─── Section head num labels slide ─── */
-      gsap.utils.toArray<HTMLElement>('.section-head .num').forEach((el) => {
-        gsap.fromTo(el, { opacity: 0, x: -20 }, {
-          opacity: 1, x: 0, duration: .7, ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 88%' },
-        })
-      })
-      gsap.utils.toArray<HTMLElement>('.section-head h2').forEach((el) => {
-        gsap.fromTo(el, { opacity: 0, y: 28 }, {
-          opacity: 1, y: 0, duration: .8, ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 85%' },
-        })
-      })
-      gsap.utils.toArray<HTMLElement>('.section-head .lede').forEach((el) => {
-        gsap.fromTo(el, { opacity: 0, y: 18 }, {
-          opacity: 1, y: 0, duration: .75, ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 85%' },
-        })
-      })
-
-    })
-    return () => ctx.revert()
-  }, [])
-
   return (
     <>
       <section className="home-hero">
@@ -77,6 +43,7 @@ export default function HomePage() {
       <Belief />
       <HowWeWork />
       <Cities />
+      <Reveal />
     </>
   )
 }

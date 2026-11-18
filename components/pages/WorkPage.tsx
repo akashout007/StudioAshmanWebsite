@@ -1,23 +1,34 @@
 'use client'
 import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { Suspense, useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import ProjectCard from '@/components/ProjectCard'
 import { FilterChips, filterProjects, type FilterValue } from '@/components/BrandStories'
-import { SERVICES, serviceBySlug } from '@/lib/site'
+import { SERVICES, serviceBySlug, type ServiceSlug } from '@/lib/site'
 
 const FEATURED_SLUGS = ['mall-of-expressway', 'artnest-studio', 'bollywood-kabab', 'chopra-soda']
 // Wide (7fr) and narrow (5fr) cards share a row, so narrow = wide × 5/7 keeps both the same height
 const FEATURED_RATIOS = ['4/3', '20/21', '20/21', '4/3']
 
-export default function WorkPage() {
-  const params = useSearchParams()
-  const router = useRouter()
-  const pathname = usePathname()
-  const raw = params.get('service')
-  const active: FilterValue = SERVICES.some((s) => s.slug === raw) ? (raw as FilterValue) : 'all'
+const isService = (v: string | null): v is ServiceSlug => SERVICES.some((s) => s.slug === v)
 
-  const setFilter = (v: FilterValue) =>
-    router.replace(v === 'all' ? pathname : `${pathname}?service=${v}`, { scroll: false })
+// Reads ?service= in its own Suspense boundary so the grid itself still renders on the server.
+function ServiceParam({ onChange }: { onChange: (v: FilterValue) => void }) {
+  const params = useSearchParams()
+  useEffect(() => {
+    const v = params.get('service')
+    onChange(isService(v) ? v : 'all')
+  }, [params, onChange])
+  return null
+}
+
+export default function WorkPage() {
+  const [active, setActive] = useState<FilterValue>('all')
+
+  const setFilter = (v: FilterValue) => {
+    setActive(v)
+    window.history.replaceState(null, '', v === 'all' ? '/work' : `/work?service=${v}`)
+  }
 
   const projects = filterProjects(active)
   const featured = active === 'all'
@@ -46,6 +57,7 @@ export default function WorkPage() {
         </div>
       </div>
 
+      <Suspense fallback={null}><ServiceParam onChange={setActive} /></Suspense>
       <FilterChips value={active} onChange={setFilter} label="Filter brand stories by discipline" />
       <p className="sr-only" aria-live="polite">
         {projects.length} brand stories{activeName ? ` in ${activeName}` : ''}

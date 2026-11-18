@@ -86,6 +86,24 @@ export default function HeroShowcase() {
   const [active, setActive] = useState(0)
   const [paused, setPaused] = useState(false)
   const [reduceMotion, setReduceMotion] = useState(false)
+  const [loaded, setLoaded] = useState<Set<number>>(() => new Set([0]))
+  const [idle, setIdle] = useState(false)
+
+  useEffect(() => {
+    const onLoad = () => setTimeout(() => setIdle(true), 1500)
+    if (document.readyState === 'complete') onLoad()
+    else window.addEventListener('load', onLoad, { once: true })
+    return () => window.removeEventListener('load', onLoad)
+  }, [])
+
+  useEffect(() => {
+    if (!idle) return
+    setLoaded((prev) => {
+      const wanted = [active, (active + 1) % SLIDES.length, (active - 1 + SLIDES.length) % SLIDES.length]
+      if (wanted.every((i) => prev.has(i))) return prev
+      return new Set([...Array.from(prev), ...wanted])
+    })
+  }, [active, idle])
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -96,7 +114,7 @@ export default function HeroShowcase() {
   }, [])
 
   useEffect(() => {
-    if (paused || reduceMotion) return
+    if (paused || reduceMotion || !idle) return
     const id = window.setTimeout(() => setActive((i) => (i + 1) % SLIDES.length), INTERVAL)
     return () => window.clearTimeout(id)
   }, [active, paused, reduceMotion])
@@ -143,14 +161,14 @@ export default function HeroShowcase() {
               aria-hidden={!isActive}
               tabIndex={isActive ? 0 : -1}
             >
-              <Image
+              {loaded.has(i) && <Image
                 src={s.src}
                 alt={s.alt}
                 fill
                 priority={i === 0}
                 sizes="100vw"
                 style={{ objectFit: 'cover', objectPosition: s.position }}
-              />
+              />}
             </Link>
           )
         })}

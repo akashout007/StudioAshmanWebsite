@@ -5,12 +5,14 @@ import Cursor from '@/components/Cursor'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import WhatsAppFloat from '@/components/WhatsAppFloat'
+import { EMAIL, LINKS, SITE, STUDIOS } from '@/lib/site'
+import { DEFAULT_OG_IMAGE, pageMeta } from '@/lib/seo'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair',
   display: 'swap',
-  weight: ['400', '700', '900'],
+  adjustFontFallback: false,
   style: ['normal', 'italic'],
 })
 
@@ -18,30 +20,62 @@ const syne = Syne({
   subsets: ['latin'],
   variable: '--font-syne',
   display: 'swap',
-  weight: ['400', '500', '600', '700', '800'],
+  adjustFontFallback: false,
 })
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
   variable: '--font-dm-sans',
   display: 'swap',
-  weight: ['300', '400', '500'],
+  adjustFontFallback: false,
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
-  ),
-  title: 'Ashman Studio — Brand Environments & Spatial Design',
-  description:
-    'We design the physical world of your brand — activations that stop people, wayfinding that guides them, and environments that make them feel something.',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? SITE.url),
+  ...pageMeta({ title: SITE.metaTitle, description: SITE.metaDescription, path: '/' }),
+  applicationName: SITE.name,
 }
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${SITE.url}/#organization`,
+      name: SITE.name,
+      url: SITE.url,
+      logo: `${SITE.url}/icon.png`,
+      founder: { '@type': 'Person', name: SITE.founder },
+      email: EMAIL.work,
+      sameAs: [LINKS.linkedin, LINKS.instagram],
+    },
+    ...STUDIOS.map((st) => ({
+      '@type': 'ProfessionalService',
+      '@id': `${SITE.url}/#${st.key}`,
+      name: `${SITE.name}, ${st.city}`,
+      parentOrganization: { '@id': `${SITE.url}/#organization` },
+      url: SITE.url,
+      image: `${SITE.url}${DEFAULT_OG_IMAGE}`,
+      email: EMAIL.work,
+      telephone: st.schema.telephone,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: st.schema.streetAddress,
+        addressLocality: st.schema.addressLocality,
+        ...(st.schema.postalCode ? { postalCode: st.schema.postalCode } : {}),
+        addressCountry: st.schema.addressCountry,
+      },
+      hasMap: st.mapsUrl,
+    })),
+  ],
+}
+
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${playfair.variable} ${syne.variable} ${dmSans.variable}`}>
       <body>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <a href="#main" className="skip-link">Skip to content</a>
         <Cursor />
         <Nav />

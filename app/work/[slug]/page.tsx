@@ -7,6 +7,7 @@ import {
 } from '@/data/projects'
 import { CTA, EXTERNAL, LINKS, SITE, serviceBySlug, type ServiceSlug } from '@/lib/site'
 import ProjectHero from '@/components/project/ProjectHero'
+import { pageMeta } from '@/lib/seo'
 import ProjectGallery from '@/components/project/ProjectGallery'
 import ProjectPageNav from '@/components/project/ProjectPageNav'
 
@@ -26,21 +27,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const project = getProject(slug)
   if (!project) return {}
 
-  const title = `${project.title}: ${primaryService(project)} | ${SITE.name}`
-  const description = `${hookOf(project)}${project.location ? `, ${project.location}` : ''}. A brand story by ${SITE.name}.`
-
-  return {
-    title,
-    description,
-    alternates: { canonical: `/work/${project.slug}` },
-    openGraph: {
-      title,
-      description,
-      type: 'article',
-      images: [{ url: project.hero.src, alt: project.hero.alt }],
-    },
-    twitter: { card: 'summary_large_image', title, description, images: [project.hero.src] },
-  }
+  return pageMeta({
+    title: `${project.title}: ${primaryService(project)} | ${SITE.name}`,
+    description: `${hookOf(project)}${project.location ? `, ${project.location}` : ''}. A brand story by ${SITE.name}.`,
+    path: `/work/${project.slug}`,
+    image: `/og/${project.slug}.jpg`,
+    imageAlt: project.hero.alt,
+  })
 }
 
 const SECTION_SERVICES: Record<Exclude<StorySection, 'overview'>, ServiceSlug[]> = {

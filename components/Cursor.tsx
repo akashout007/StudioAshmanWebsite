@@ -1,6 +1,5 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
-import gsap from 'gsap'
 
 export default function Cursor() {
   const dotRef = useRef<HTMLDivElement>(null)
@@ -18,6 +17,10 @@ export default function Cursor() {
     const dot = dotRef.current
     const ring = ringRef.current
     if (!dot || !ring) return
+    let cleanup = () => {}
+    let cancelled = false
+    import('gsap').then(({ default: gsap }) => {
+      if (cancelled) return
 
     gsap.set([dot, ring], { xPercent: -50, yPercent: -50 })
 
@@ -53,10 +56,15 @@ export default function Cursor() {
     document.addEventListener('mouseover', onOver)
     document.addEventListener('mouseout', onOut)
 
+      cleanup = () => {
+        window.removeEventListener('mousemove', onMove)
+        document.removeEventListener('mouseover', onOver)
+        document.removeEventListener('mouseout', onOut)
+      }
+    })
     return () => {
-      window.removeEventListener('mousemove', onMove)
-      document.removeEventListener('mouseover', onOver)
-      document.removeEventListener('mouseout', onOut)
+      cancelled = true
+      cleanup()
     }
   }, [enabled])
 

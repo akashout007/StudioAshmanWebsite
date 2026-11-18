@@ -7,6 +7,7 @@ const legacySections = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: { formats: ['image/webp'] },
   async redirects() {
     return [
       { source: '/work/sikka-kaamya-greens', destination: '/work/kaamya-greens', permanent: true },
