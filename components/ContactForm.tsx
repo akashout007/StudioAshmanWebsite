@@ -33,6 +33,8 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<Partial<Record<FieldKey, string>>>({})
   const [status, setStatus] = useState<Status>('idle')
   const formRef = useRef<HTMLFormElement>(null)
+  // One ID per enquiry, so a retry or double submit can't send the same emails twice
+  const submissionId = useRef<string | null>(null)
 
   const set = (k: FieldKey) => (e: { target: { value: string } }) => {
     const value = e.target.value
@@ -51,15 +53,18 @@ export default function ContactForm() {
       return
     }
     setStatus('submitting')
+    submissionId.current ??= crypto.randomUUID()
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(fields),
+        body: JSON.stringify({ ...fields, submissionId: submissionId.current }),
       })
-      if (!res.ok) throw new Error(String(res.status))
+      const data = await res.json().catch(() => null)
+      if (!res.ok || !data?.ok) throw new Error(String(res.status))
       setStatus('success')
       setFields(EMPTY)
+      submissionId.current = null
     } catch {
       setStatus('error')
     }

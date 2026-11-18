@@ -34,9 +34,9 @@ export default function PrivacyPage() {
 
         <h2>How it is handled</h2>
         <p>
-          Form submissions are sent to our studio inbox by email through an email delivery provider.
-          [PLACEHOLDER: LEGAL REVIEW: name the email provider, where data is stored, and how long
-          enquiries are kept.]
+          Form submissions are sent to our studio inbox by email through Resend, an email delivery
+          service, which also sends you a confirmation that we received your message.
+          [PLACEHOLDER: LEGAL REVIEW: where data is stored, and how long enquiries are kept.]
         </p>
 
         <h2>Deleting your details</h2>
