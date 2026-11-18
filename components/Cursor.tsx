@@ -11,7 +11,7 @@ export default function Cursor() {
   const ringRef = useRef<HTMLDivElement>(null)
   const [enabled, setEnabled] = useState(false)
   // Where the pointer first moved; the ring only exists from then on
-  const [start, setStart] = useState<{ x: number; y: number } | null>(null)
+  const [start, setStart] = useState<{ x: number; y: number; covered: boolean } | null>(null)
 
   useEffect(() => {
     const mq = window.matchMedia(QUERY)
@@ -44,7 +44,7 @@ export default function Cursor() {
         started = true
         pos.x = target.x
         pos.y = target.y
-        setStart({ x: target.x, y: target.y })
+        setStart({ x: target.x, y: target.y, covered: !!(e.target as Element).closest?.(COVERED) })
       }
       const ring = ringRef.current
       if (ring) {
@@ -70,7 +70,8 @@ export default function Cursor() {
   return (
     <div
       ref={ringRef}
-      className="cursor-ring"
+      // The first move happens before the ring exists, so it starts hidden if that move was over the header
+      className={`cursor-ring${start.covered ? ' is-hidden' : ''}`}
       aria-hidden="true"
       style={{ transform: `translate3d(${start.x}px, ${start.y}px, 0)` }}
     />
