@@ -1722,3 +1722,55 @@ ol.bordered-grid, ul.ash-stats { list-style: none; padding: 0; }
 ul.bordered-grid { list-style: none; padding: 0; }
 .two-col-title { font-family: var(--font-display); font-size: clamp(28px, 3vw, 40px); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; }
 .two-col p a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ── BRAND STORIES: CARDS ── */
+.proj-img-inner { position: relative; }
+.proj-status-chip, .proj-status-badge {
+  display: inline-flex; align-items: center;
+  font-family: var(--font-label); font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  padding: 6px 12px; background: var(--paper); color: var(--ink); border: 1px solid var(--ink);
+}
+.proj-status-chip { position: absolute; top: 14px; left: 14px; z-index: 2; }
+.proj-status-chip.status-concept, .proj-status-badge.status-concept { background: var(--ink); color: var(--paper); }
+.proj-info .proj-title { font-size: 1.25rem; }
+.proj-hook { font-size: 14px; color: var(--ink); line-height: 1.55; font-weight: 300; margin-bottom: 8px; }
+.story-grid { padding-bottom: 32px; }
+.story-more { display: flex; justify-content: center; padding-top: 24px; }
+
+/* ── BRAND STORIES: PROJECT PAGE ── */
+.proj-detail-hook {
+  font-family: var(--font-display); font-style: italic; font-size: clamp(20px, 2.2vw, 28px);
+  line-height: 1.3; color: var(--ink); max-width: 40ch; margin-top: 18px;
+}
+.proj-meta-row { padding-top: 48px; padding-bottom: 16px; }
+.proj-meta-row dl {
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 24px;
+  border-top: var(--border); border-bottom: var(--border); padding: 24px 0;
+}
+.proj-meta-row dt {
+  font-family: var(--font-label); font-size: 12px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--mid); margin-bottom: 8px;
+}
+.proj-meta-row dd { font-size: 15px; line-height: 1.5; color: var(--ink); }
+.is-placeholder { color: #8a4a12 !important; background: #fff4d6; padding: 2px 6px; font-style: normal; }
+.story-section { padding: 56px 0 8px; }
+.story-text { max-width: 1280px; margin-bottom: 28px; display: grid; grid-template-columns: 280px minmax(0, 62ch); gap: 48px; }
+.story-title { font-family: var(--font-display); font-size: clamp(26px, 2.6vw, 36px); font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
+.story-text p { font-size: 17px; line-height: 1.75; color: var(--ink); font-weight: 300; }
+.story-cta { background: var(--paper2); padding: 72px 0; margin-top: 64px; }
+.story-cta-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
+.story-cta h2 { font-family: var(--font-display); font-size: clamp(30px, 3.6vw, 48px); font-weight: 700; letter-spacing: -.02em; }
+.story-cta h2 em { font-style: italic; color: var(--accent-dk); }
+.story-cta .cta-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.story-cta .btn-primary, .story-cta .btn-whatsapp { margin-top: 0; min-height: 48px; display: inline-flex; align-items: center; }
+figure.proj-gallery-item { margin: 0; }
+
+@media (max-width: 1024px) {
+  .proj-meta-row dl { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .story-text { grid-template-columns: 1fr; gap: 12px; }
+}
+@media (max-width: 768px) {
+  .proj-meta-row dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .story-section { padding-top: 40px; }
+  .story-text p { font-size: 16px; }
+}

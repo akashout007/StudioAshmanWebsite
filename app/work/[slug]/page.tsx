@@ -1,8 +1,11 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
-import { PROJECTS, getProject, getAdjacentProjects } from '@/data/projects'
+import {
+  PROJECTS, STATUS_LABEL, getAdjacentProjects, getProject, placeholder,
+  type Project, type ProjectImage, type StorySection,
+} from '@/data/projects'
+import { CTA, EXTERNAL, LINKS, SITE, serviceBySlug, type ServiceSlug } from '@/lib/site'
 import ProjectHero from '@/components/project/ProjectHero'
 import ProjectGallery from '@/components/project/ProjectGallery'
 import ProjectPageNav from '@/components/project/ProjectPageNav'
@@ -15,25 +18,49 @@ export function generateStaticParams() {
   return PROJECTS.map((p) => ({ slug: p.slug }))
 }
 
+const primaryService = (p: Project) => serviceBySlug(p.services[0])?.name ?? SITE.positioning
+const hookOf = (p: Project) => p.hook ?? p.discipline ?? placeholder('one-line story hook')
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const project = getProject(slug)
   if (!project) return {}
 
-  const title = `${project.title} — Ashman Studio`
-  const description =
-    project.description ??
-    `${project.category}${project.location ? ` · ${project.location}` : ''}${project.year ? ` · ${project.year}` : ''} — Ashman Studio`
+  const title = `${project.title}: ${primaryService(project)} | ${SITE.name}`
+  const description = `${hookOf(project)}${project.location ? `, ${project.location}` : ''}. A brand story by ${SITE.name}.`
 
   return {
     title,
     description,
+    alternates: { canonical: `/work/${project.slug}` },
     openGraph: {
       title,
       description,
-      ...(project.hero.src ? { images: [{ url: project.hero.src, alt: project.hero.alt }] } : {}),
+      type: 'article',
+      images: [{ url: project.hero.src, alt: project.hero.alt }],
     },
+    twitter: { card: 'summary_large_image', title, description, images: [project.hero.src] },
   }
+}
+
+const SECTION_SERVICES: Record<Exclude<StorySection, 'overview'>, ServiceSlug[]> = {
+  identity: ['brand-identity'],
+  spatial: ['wayfinding-signage', 'spatial-branding'],
+  digital: ['digital-collateral'],
+}
+
+function Story({ id, title, text, fallback, images = [] }: {
+  id: string; title: string; text?: string; fallback: string; images?: ProjectImage[]
+}) {
+  return (
+    <section className="story-section" aria-labelledby={id}>
+      <div className="ash-wrap story-text">
+        <h2 id={id} className="story-title">{title}</h2>
+        <p className={text ? undefined : 'is-placeholder'}>{text ?? placeholder(fallback)}</p>
+      </div>
+      <ProjectGallery images={images} />
+    </section>
+  )
 }
 
 export default async function ProjectPage({ params }: Props) {
@@ -42,159 +69,84 @@ export default async function ProjectPage({ params }: Props) {
   if (!project) notFound()
 
   const { prev, next } = getAdjacentProjects(slug)
+  const imagesFor = (s: StorySection) => project.images.filter((i) => (i.section ?? 'overview') === s)
+  const shows = (s: Exclude<StorySection, 'overview'>) =>
+    imagesFor(s).length > 0 || project.services.some((sv) => SECTION_SERVICES[s].includes(sv))
+  const services = project.services.map((s) => serviceBySlug(s)?.name).filter(Boolean)
+
+  const meta: [string, string][] = [
+    ['Client', project.client ?? placeholder('client name')],
+    ['Sector', project.sector],
+    ['Location', project.location ?? placeholder('location')],
+    ['Year', project.year ?? placeholder('year')],
+    ['Status', STATUS_LABEL[project.status]],
+    ['Services', services.join(', ')],
+  ]
 
   return (
-    <>
+    <div className="proj-detail proj-entrance">
+      <header className="proj-detail-header ash-wrap">
+        <div role="navigation" aria-label="Breadcrumb" className="breadcrumb">
+          <Link href="/work" className="breadcrumb-link">Brand stories</Link>
+          <span className="sep" aria-hidden="true">/</span>
+          <span className="current">{project.title}</span>
+        </div>
 
-      <div className="proj-detail proj-entrance">
-        {/* ── HEADER ── */}
-        <header className="proj-detail-header ash-wrap">
-          <div role="navigation" aria-label="Breadcrumb" className="breadcrumb">
-            <Link href="/work" className="breadcrumb-link">Work</Link>
-            <span className="sep">/</span>
-            <span className="current">{project.title}</span>
-          </div>
-
-          <div className="proj-detail-header-inner">
-            <div className="proj-detail-meta">
-              <div className="ash-eyebrow">
-                <span className="dash" />
-                {project.number} — {project.category}
-              </div>
-              {project.status === 'proposal' && (
-                <span className="proj-status-badge">Proposal</span>
-              )}
-            </div>
-
-            <h1 className="proj-detail-title">{project.title}</h1>
-
-            {(project.location || project.year) && (
-              <p className="proj-detail-location">
-                {[project.location, project.year].filter(Boolean).join(' · ')}
-              </p>
-            )}
-
-            {project.introduction && (
-              <p className="proj-detail-intro">{project.introduction}</p>
+        <div className="proj-detail-header-inner">
+          <div className="proj-detail-meta">
+            <div className="ash-eyebrow"><span className="dash" />{services.join(' · ')}</div>
+            {project.status !== 'built' && (
+              <span className={`proj-status-badge status-${project.status}`}>{STATUS_LABEL[project.status]}</span>
             )}
           </div>
-        </header>
+          <h1 className="proj-detail-title">{project.title}</h1>
+          <p className="proj-detail-hook">{hookOf(project)}</p>
+        </div>
+      </header>
 
-        {/* ── HERO ── */}
-        <ProjectHero image={project.hero} />
+      <ProjectHero image={project.hero} />
 
-        {/* ── OVERVIEW ── */}
-        {(project.client || project.location || project.year || project.description || project.scope) && (
-          <section className="proj-detail-overview ash-wrap">
-            <div className="proj-overview-left">
-              <dl className="proj-overview-dl">
-                {project.client && (
-                  <>
-                    <dt>Client</dt>
-                    <dd>{project.client}</dd>
-                  </>
-                )}
-                {project.location && (
-                  <>
-                    <dt>Location</dt>
-                    <dd>{project.location}</dd>
-                  </>
-                )}
-                {project.year && (
-                  <>
-                    <dt>Year</dt>
-                    <dd>{project.year}</dd>
-                  </>
-                )}
-                <dt>Status</dt>
-                <dd className={project.status === 'proposal' ? 'proj-status-proposal' : ''}>
-                  {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
-                </dd>
-              </dl>
-
-              {project.role && (
-                <div className="proj-overview-role">
-                  <div className="proj-overview-label">Role</div>
-                  <p>{project.role}</p>
-                </div>
-              )}
-
-              {project.scope && project.scope.length > 0 && (
-                <div className="proj-overview-scope">
-                  <div className="proj-overview-label">Scope</div>
-                  <ul>
-                    {project.scope.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+      <section className="ash-wrap proj-meta-row" aria-label="Project details">
+        <dl>
+          {meta.map(([k, v]) => (
+            <div key={k}>
+              <dt>{k}</dt>
+              <dd className={v.startsWith('[PLACEHOLDER') ? 'is-placeholder' : undefined}>{v}</dd>
             </div>
+          ))}
+        </dl>
+      </section>
 
-            <div className="proj-overview-right">
-              {project.description && (
-                <p className="proj-overview-desc">{project.description}</p>
-              )}
-            </div>
-          </section>
-        )}
+      <Story id="brief" title="The brief" text={project.brief}
+        fallback="the brief: what the client needed and why" images={imagesFor('overview')} />
+      <Story id="story" title="The story we built" text={project.story}
+        fallback="the brand story and the idea behind the work" />
+      {shows('identity') && (
+        <Story id="identity" title="Identity" text={project.identityText}
+          fallback="identity: name, logo, visual system, type and colour" images={imagesFor('identity')} />
+      )}
+      {shows('spatial') && (
+        <Story id="spatial" title="Spatial" text={project.spatialText}
+          fallback="spatial: wayfinding, signage, facade and interior work" images={imagesFor('spatial')} />
+      )}
+      {shows('digital') && (
+        <Story id="digital" title="Digital & collateral" text={project.digitalText}
+          fallback="digital and collateral: social, web, packaging and print" images={imagesFor('digital')} />
+      )}
+      <Story id="outcome" title="Outcome" text={project.outcome}
+        fallback="outcome: only real, client-approved results" />
 
-        {/* ── SECTIONS ── */}
-        {project.sections?.map((section, i) => (
-          <section key={i} className="proj-detail-section">
-            {(section.eyebrow || section.title) && (
-              <div className="ash-wrap proj-section-head">
-                {section.eyebrow && (
-                  <div className="ash-eyebrow muted">
-                    <span className="dash" />
-                    {section.eyebrow}
-                  </div>
-                )}
-                {section.title && (
-                  <h2 className="proj-section-title">{section.title}</h2>
-                )}
-              </div>
-            )}
-            {section.text && (
-              <div className="ash-wrap">
-                <p className="proj-section-text">{section.text}</p>
-              </div>
-            )}
-            {section.images && section.images.length > 0 && (
-              <div className={`proj-section-images proj-section-images--${section.layout ?? 'full'}`}>
-                {section.images.map((img, j) => {
-                  const isDocument = img.type === 'diagram' || img.type === 'process'
-                  return (
-                    <div key={j} className="proj-section-img-wrap">
-                      {img.src && (
-                        <Image
-                          src={img.src}
-                          alt={img.alt}
-                          fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 80vw, 1280px"
-                          style={{ objectFit: isDocument ? 'contain' : 'cover' }}
-                        />
-                      )}
-                      {img.caption && (
-                        <figcaption className="proj-img-caption">{img.caption}</figcaption>
-                      )}
-                    </div>
-                  )
-                })}
-              </div>
-            )}
-          </section>
-        ))}
+      <section className="story-cta">
+        <div className="ash-wrap story-cta-inner">
+          <h2>Building a brand or a <em>space</em>?</h2>
+          <div className="cta-actions">
+            <Link href="/contact" className="btn-primary">{CTA.primary}</Link>
+            <a href={LINKS.whatsapp} {...EXTERNAL} className="btn-whatsapp">{CTA.whatsapp} ↗</a>
+          </div>
+        </div>
+      </section>
 
-        {/* ── GALLERY ── */}
-        {project.images.length > 0 && (
-          <ProjectGallery images={project.images} />
-        )}
-
-        {/* ── PROJECT NAV ── */}
-        <ProjectPageNav prev={prev} next={next} />
-      </div>
-
-    </>
+      <ProjectPageNav prev={prev} next={next} />
+    </div>
   )
 }

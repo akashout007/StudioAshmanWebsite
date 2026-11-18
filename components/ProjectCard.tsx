@@ -1,16 +1,29 @@
 import type { ComponentType } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import type { Project } from '@/data/projects'
+import { STATUS_LABEL, placeholder, type Project } from '@/data/projects'
+import { serviceBySlug } from '@/lib/site'
 
 interface Props {
   project: Project
   Cover?: ComponentType
   aspectRatio?: string
+  sizes?: string
+  priority?: boolean
 }
 
-export default function ProjectCard({ project, Cover, aspectRatio = '4/3' }: Props) {
-  const sizes = '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw'
+export function projectMeta(project: Project) {
+  return [project.location ?? placeholder('location'), project.year ?? placeholder('year')].join(' · ')
+}
+
+export default function ProjectCard({
+  project,
+  Cover,
+  aspectRatio = '4/3',
+  sizes = '(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 640px',
+  priority = false,
+}: Props) {
+  const services = project.services.map((s) => serviceBySlug(s)?.short).filter(Boolean).join(' · ')
 
   return (
     <Link href={`/work/${project.slug}`} className="proj-card proj-card-link">
@@ -22,6 +35,7 @@ export default function ProjectCard({ project, Cover, aspectRatio = '4/3' }: Pro
               alt={project.hero.alt}
               fill
               sizes={sizes}
+              priority={priority}
               style={{ objectFit: 'cover', objectPosition: project.hero.position }}
             />
           ) : Cover ? (
@@ -29,22 +43,16 @@ export default function ProjectCard({ project, Cover, aspectRatio = '4/3' }: Pro
           ) : (
             <div className="proj-card-placeholder" />
           )}
-          {!project.hasCaseStudy && (
-            <div className="proj-dev-badge" aria-label="Case study in development">
-              <span>Case Study in Development</span>
-            </div>
+          {project.status !== 'built' && (
+            <span className={`proj-status-chip status-${project.status}`}>{STATUS_LABEL[project.status]}</span>
           )}
         </div>
       </div>
       <div className="proj-info">
-        <div className="proj-cat">{project.number} — {project.category}</div>
-        <div className="proj-title">{project.title}</div>
-        <div className="proj-sub">
-          {[project.location, project.year].filter(Boolean).join(' · ')}
-          {project.discipline && !project.location && !project.year && (
-            <span className="proj-discipline">{project.discipline}</span>
-          )}
-        </div>
+        <div className="proj-cat">{services}</div>
+        <h3 className="proj-title">{project.title}</h3>
+        <p className="proj-hook">{project.hook ?? project.discipline}</p>
+        <div className="proj-sub">{projectMeta(project)}</div>
       </div>
     </Link>
   )
