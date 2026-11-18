@@ -4,6 +4,7 @@ import './globals.css'
 import Cursor from '@/components/Cursor'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
+import WhatsAppFloat from '@/components/WhatsAppFloat'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Nav />
         <main id="main">{children}</main>
         <Footer />
+        <WhatsAppFloat />
       </body>
     </html>
   )

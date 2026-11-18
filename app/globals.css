@@ -14,7 +14,7 @@
   --accent:     #c8502a;
   --accent-dk:  #9e3d1e;
   --accent-lt:  #e8b49e;
-  --mid:        #7a7670;
+  --mid:        #625e58;
   --light:      #e2ddd4;
   --light2:     #cdc8be;
   --success:    #3a7d44;
@@ -344,13 +344,12 @@ nav.scrolled {
 .mosaic-tile.ink .tile-arrow { color: var(--accent-lt); }
 .mosaic-tile:hover .tile-arrow { gap: 18px; }
 .mosaic-tile .ghost-art {
-  position: absolute; right: -40px; bottom: -40px; width: 240px; height: 240px;
-  opacity: .06; pointer-events: none;
+  position: absolute; right: 24px; top: 20px; width: 88px; height: 66px;
+  opacity: .9; pointer-events: none; overflow: hidden;
   transition: opacity .3s;
 }
-.mosaic-tile.ink .ghost-art { opacity: .18; }
-.mosaic-tile:hover .ghost-art { opacity: .1; }
-.mosaic-tile.ink:hover .ghost-art { opacity: .24; }
+.mosaic-tile.ink .ghost-art { outline: .5px solid rgba(242,239,232,.18); }
+.mosaic-tile:hover .ghost-art { opacity: 1; }
 .mosaic-tile .ghost-art svg { width: 100%; height: 100%; }
 
 /* ── PROJECT GRID (home featured) ── */
@@ -1079,39 +1078,6 @@ a.proj-card-link {
   color: inherit;
 }
 
-/* ── NEXT PROJECT FILLER CARD ── */
-button.proj-card-next {
-  display: block; width: 100%; border: none; padding: 0;
-  text-align: left; font: inherit; color: inherit;
-}
-.next-art {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column; justify-content: space-between;
-  padding: clamp(20px, 4%, 40px);
-  background:
-    linear-gradient(135deg, transparent 0 62%, rgba(200, 80, 42, .14) 62% 100%),
-    var(--ink);
-  color: var(--paper);
-  transition: transform .5s var(--ease);
-}
-.next-art-label {
-  font-family: var(--font-label); font-size: 9px; font-weight: 700;
-  letter-spacing: .22em; text-transform: uppercase; color: var(--accent);
-}
-.next-art-title {
-  font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(26px, 3vw, 44px); line-height: 1.05; letter-spacing: -.02em;
-}
-.next-art-title em { color: var(--accent); }
-.next-art-cta {
-  font-family: var(--font-label); font-size: 10px; font-weight: 700;
-  letter-spacing: .2em; text-transform: uppercase; color: var(--light2);
-}
-.proj-card:hover .next-art,
-.project-card:hover .next-art { transform: scale(1.02); }
-.proj-card-next .proj-img-inner,
-.project-card-next .pc-img { position: relative; }
-
 .proj-card-placeholder {
   width: 100%; height: 100%;
   background: var(--ink2);
@@ -1479,7 +1445,6 @@ a.nav-cta {
   }
   .featured-grid { padding: 0 20px; grid-template-columns: 1fr; }
   .selected-grid { padding: 0 20px 48px; grid-template-columns: 1fr; }
-  .proj-card-next, .project-card-next { display: none; }
   .work-section-head { padding: 28px 0 14px; }
 
   .proj-detail-header { padding-top: 80px; padding-bottom: 32px; }
@@ -1523,10 +1488,10 @@ a.nav-cta {
 /* ══════════════════════════════════════════════════════════
    HOME — PROJECT SHOWCASE (top of homepage)
 ══════════════════════════════════════════════════════════ */
-.showcase { padding-top: 84px; background: var(--paper); }
+.showcase { background: var(--paper); }
 .showcase-stage {
   position: relative; overflow: hidden; background: var(--ink);
-  height: clamp(440px, calc(100svh - 84px), 920px);
+  height: clamp(420px, 68svh, 820px);
 }
 .showcase-slide {
   position: absolute; inset: 0; display: block;
@@ -1682,3 +1647,78 @@ address { font-style: normal; }
 .legal-body a { text-decoration: underline; text-underline-offset: 3px; }
 .legal-flag { background: #fff4d6; border-left: 3px solid var(--accent); padding: 12px 16px; font-size: 14px !important; }
 .legal-updated { margin-top: 2.4rem; color: var(--mid) !important; font-size: 14px !important; }
+
+/* ── HOME HERO ── */
+.home-hero { padding-top: 84px; background: var(--paper); }
+.home-hero-text {
+  max-width: 1440px; margin: 0 auto; padding: 40px 48px 36px;
+  display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: end;
+}
+.home-hero-text h1 {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(2.6rem, 5vw, 4.6rem); line-height: .98; letter-spacing: -.03em; color: var(--ink);
+  max-width: 14ch;
+}
+.home-hero-side p { font-size: 17px; line-height: 1.65; color: var(--ink); font-weight: 300; max-width: 46ch; }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+.hero-ctas .btn-primary, .hero-ctas .btn-whatsapp { margin-top: 0; min-height: 48px; display: inline-flex; align-items: center; }
+.btn-whatsapp.on-accent { background: var(--ink); }
+.btn-whatsapp.on-accent:hover { background: #1f7a4d; }
+
+/* ── DISCIPLINE TILES (4) ── */
+.mosaic-tile.wide { grid-column: span 2; }
+.mosaic-tile .tile-copy { position: relative; z-index: 1; }
+.mosaic-tile .ghost-art { pointer-events: none; }
+
+/* ── STEPS + STATS ── */
+.bordered-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+ol.bordered-grid, ul.ash-stats { list-style: none; padding: 0; }
+.ash-stats .ash-stat-label { font-size: 13px; letter-spacing: .14em; line-height: 1.5; }
+
+/* ── CITY ACTIONS ── */
+.office-card .city-actions {
+  margin-top: 28px; padding-top: 22px; border-top: .5px solid var(--light);
+  display: flex; flex-wrap: wrap; gap: 10px 24px;
+}
+.office-card .city-actions a {
+  font-family: var(--font-label); font-size: 13px; font-weight: 700; letter-spacing: .06em;
+  color: var(--ink); text-decoration: underline; text-underline-offset: 4px;
+  min-height: 44px; display: inline-flex; align-items: center;
+}
+.office-card .city-actions a:hover { color: var(--accent-dk); }
+.office-card { cursor: default; }
+
+/* ── CTA BAND ── */
+.ash-cta-strip .cta-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.ash-cta-strip .cta-actions .btn-primary, .ash-cta-strip .cta-actions .btn-whatsapp { margin-top: 0; min-height: 48px; display: inline-flex; align-items: center; }
+
+@media (max-width: 1024px) {
+  .mosaic-tile.wide { grid-column: auto; }
+  .home-hero-text { padding: 32px 28px 28px; }
+  .bordered-grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .home-hero { padding-top: 64px; }
+  .home-hero-text { grid-template-columns: 1fr; gap: 16px; padding: 24px 20px 24px; }
+  .home-hero-side p { font-size: 15px; }
+  .mosaic-tile.wide { grid-column: auto; }
+  .bordered-grid.cols-4 { grid-template-columns: 1fr; }
+  .ash-cta-strip .cta-actions { margin-top: 8px; }
+}
+
+/* ── FLOATING WHATSAPP ── */
+.wa-float {
+  position: fixed; z-index: 480;
+  right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom));
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: #1f7a4d; color: #fff; box-shadow: 0 6px 20px rgba(14,14,13,.22);
+  transition: background .2s, transform .2s;
+}
+.wa-float:hover { background: #17603c; transform: translateY(-2px); }
+@media (max-width: 768px) { footer { padding-bottom: 104px; } }
+
+/* ── STUDIO PAGE ── */
+ul.bordered-grid { list-style: none; padding: 0; }
+.two-col-title { font-family: var(--font-display); font-size: clamp(28px, 3vw, 40px); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; }
+.two-col p a { text-decoration: underline; text-underline-offset: 3px; }

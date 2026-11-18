@@ -48,7 +48,7 @@ export default function MobileMenu({ open, onClose, children }: {
     <div id="mobile-menu" className="mobile-nav" role="dialog" aria-modal="true" aria-label="Navigation menu">
       {children}
       <div className="mobile-nav-footer">
-        Ashman<span style={{ color: 'var(--accent)' }}>.</span>Studio · New Delhi · Dubai
+        ashman<span style={{ color: 'var(--accent)' }}>.</span>studio · New Delhi · Dubai
       </div>
     </div>,
     document.body,

@@ -4,7 +4,6 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Link from 'next/link'
 import ProjectCard from '@/components/ProjectCard'
-import NextProjectArt from '@/components/NextProjectArt'
 import { PROJECTS } from '@/data/projects'
 import type { ProjectCategory } from '@/data/projects'
 import { EDITORIAL_COVERS } from '@/components/project/EditorialCover'
@@ -41,23 +40,6 @@ const FEATURED_SLUGS = ['mall-of-expressway', 'artnest-studio', 'regency-hospita
 
 // Wide (7fr) and narrow (5fr) cards share a row, so narrow = wide × 5/7 keeps both the same height
 const FEATURED_RATIOS = ['4/3', '20/21', '20/21', '4/3']
-
-function NextProjectCard({ aspectRatio }: { aspectRatio: string }) {
-  return (
-    <Link href="/contact" className="proj-card proj-card-link proj-card-next">
-      <div className="proj-img">
-        <div className="proj-img-inner" style={{ aspectRatio }}>
-          <NextProjectArt />
-        </div>
-      </div>
-      <div className="proj-info">
-        <div className="proj-cat">Coming soon</div>
-        <div className="proj-title">Your project</div>
-        <div className="proj-sub">Have something in mind? Start a conversation →</div>
-      </div>
-    </Link>
-  )
-}
 
 export default function WorkPage() {
   const [activeFilter, setActiveFilter] = useState<FilterValue>('all')
@@ -125,21 +107,20 @@ export default function WorkPage() {
         <div ref={heroRef} className="page-hero">
           <div>
             <div className="breadcrumb">
-              <span>Ashman.Studio</span>
-              <span className="sep">/</span>
-              <span className="current">Work</span>
+              <Link href="/" className="breadcrumb-link">Ashman Studio</Link>
+              <span className="sep" aria-hidden="true">/</span>
+              <span className="current">Brand stories</span>
             </div>
             <div className="ash-eyebrow" style={{ opacity: 0 }}>
-              <span className="dash" />01 — Selected work
+              <span className="dash" />Brand stories
             </div>
             <h1 style={{ opacity: 0 }}>
-              Projects that<br />define <em>space</em>.
+              Brands we&apos;ve built,<br />and the <em>places</em> they live.
             </h1>
           </div>
           <p className="lede" style={{ opacity: 0 }}>
-            A young studio with a small, deliberate output. Named engagements across
-            healthcare wayfinding, heritage retail, artist ateliers and photography —
-            most still in active phases.
+            Identities, wayfinding systems, spaces and collateral, each one designed as part of a
+            single brand story.
           </p>
         </div>
       </div>
@@ -193,11 +174,6 @@ export default function WorkPage() {
                   aspectRatio={FEATURED_RATIOS[i % FEATURED_RATIOS.length]}
                 />
               ))}
-              {featuredFiltered.length % 2 === 1 && (
-                <NextProjectCard
-                  aspectRatio={FEATURED_RATIOS[featuredFiltered.length % FEATURED_RATIOS.length]}
-                />
-              )}
             </div>
           </div>
         )}
@@ -213,9 +189,6 @@ export default function WorkPage() {
               {selectedFiltered.map((p) => (
                 <ProjectCard key={p.slug} project={p} Cover={getCover(p.slug)} aspectRatio="4/3" />
               ))}
-              {selectedFiltered.length % 2 === 1 && (
-                <NextProjectCard aspectRatio="4/3" />
-              )}
             </div>
           </div>
         )}
@@ -233,9 +206,6 @@ export default function WorkPage() {
               {[...featuredFiltered, ...selectedFiltered].map((p) => (
                 <ProjectCard key={p.slug} project={p} Cover={getCover(p.slug)} aspectRatio="4/3" />
               ))}
-              {allFiltered.length % 2 === 1 && (
-                <NextProjectCard aspectRatio="4/3" />
-              )}
             </div>
           </div>
         )}

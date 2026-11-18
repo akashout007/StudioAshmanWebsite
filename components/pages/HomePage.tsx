@@ -3,76 +3,15 @@ import { useEffect, useRef, type ComponentType } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Link from 'next/link'
-import NextProjectArt from '@/components/NextProjectArt'
 import HeroShowcase from '@/components/HeroShowcase'
-import { EXTERNAL, STUDIOS } from '@/lib/site'
+import { CTA, EXTERNAL, LINKS, SERVICES, SITE } from '@/lib/site'
+import { Belief, Cities, Clients, CtaBand, Disciplines, HowWeWork, Testimonials } from '@/components/sections'
 import {
   DiagWayfinding, DiagSign, DiagActivation, DiagFacade,
   DiagFloorplan, DiagRetail, DiagSection
 } from '@/components/svg/Diagrams'
 
 gsap.registerPlugin(ScrollTrigger)
-
-const TICKER_ITEMS = [
-  'Wayfinding', 'Sign Design', 'Environmental Graphics',
-  'Brand Activation', 'Spatial Identity', 'Retail Environments', 'Exhibition Design',
-]
-
-const PRACTICES = [
-  {
-    cls: 'span2 ink',
-    num: '01 / Practice',
-    title: (<>Wayfinding<br />&amp; <em>navigation</em>.</>),
-    body: 'Strategy, masterplan, sign family, specification and supervised install. Airport terminals, hospital campuses, civic interiors, transit interchanges.',
-    art: 'wayfinding',
-    page: 'services' as const,
-    arrow: 'See projects',
-  },
-  {
-    cls: 'paper',
-    num: '02',
-    title: (<>Sign <em>design</em>.</>),
-    body: 'Letterforms, pictogram libraries, dimensional sign families, typographic system audits.',
-    art: 'sign',
-    page: 'services' as const,
-    arrow: 'Open',
-  },
-  {
-    cls: 'paper2',
-    num: '03',
-    title: (<>Environmental graphics.</>),
-    body: 'Surface design at architectural scale — facades, atria, supergraphics, floor narratives.',
-    art: 'facade',
-    page: 'services' as const,
-    arrow: 'Open',
-  },
-  {
-    cls: 'paper',
-    num: '04',
-    title: (<>Brand <em>activation</em>.</>),
-    body: 'Pop-ups, flagship moments and live experiences that connect brands with people.',
-    art: 'activation',
-    page: 'services' as const,
-    arrow: 'Open',
-  },
-  {
-    cls: 'paper2',
-    num: '05',
-    title: (<>Spatial identity.</>),
-    body: 'Translating brand language into three dimensions — retail flagships and concept stores.',
-    art: 'retail',
-    page: 'services' as const,
-    arrow: 'Open',
-  },
-]
-
-const ArtMap: Record<string, ComponentType> = {
-  wayfinding: DiagWayfinding,
-  sign: DiagSign,
-  facade: DiagFacade,
-  activation: DiagActivation,
-  retail: DiagRetail,
-}
 
 const FEATURED = [
   {
@@ -139,22 +78,11 @@ const ProjArtMap: Record<string, ComponentType> = {
   activation: DiagActivation,
 }
 
-const STATS = [
-  { label: 'People in studio', val: '2' },
-  { label: 'Cities · NDL · DXB', val: '2' },
-  { label: 'Independent', val: '100%' },
-]
-
 export default function HomePage() {
-  const mosaicRef    = useRef<HTMLDivElement>(null)
   const featuredRef  = useRef<HTMLDivElement>(null)
-  const statementRef = useRef<HTMLElement>(null)
-  const statBgRef    = useRef<HTMLDivElement>(null)
-  const statNums     = useRef<(HTMLDivElement | null)[]>([])
-  const studiosRef   = useRef<HTMLDivElement>(null)
-  const ctaRef       = useRef<HTMLElement>(null)
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const ctx = gsap.context(() => {
 
       /* ─── Section head num labels slide ─── */
@@ -177,19 +105,6 @@ export default function HomePage() {
         })
       })
 
-      /* ─── Practice Mosaic tiles ─── */
-      if (mosaicRef.current) {
-        const tiles = mosaicRef.current.querySelectorAll('.mosaic-tile')
-        gsap.fromTo(tiles,
-          { opacity: 0, y: 32, scale: .97 },
-          {
-            opacity: 1, y: 0, scale: 1,
-            duration: .7, stagger: .08, ease: 'power3.out',
-            scrollTrigger: { trigger: mosaicRef.current, start: 'top 78%' },
-          }
-        )
-      }
-
       /* ─── Featured project cards ─── */
       if (featuredRef.current) {
         const cards = featuredRef.current.querySelectorAll('.project-card')
@@ -202,131 +117,38 @@ export default function HomePage() {
         )
       }
 
-      /* ─── Statement — text fade ─── */
-      if (statementRef.current) {
-        gsap.fromTo(
-          statementRef.current.querySelector('.ash-statement-inner'),
-          { opacity: 0, y: 40 },
-          {
-            opacity: 1, y: 0, duration: .9, ease: 'power3.out',
-            scrollTrigger: { trigger: statementRef.current, start: 'top 70%' },
-          }
-        )
-
-        /* ghost ASHMAN parallax */
-        gsap.to(statBgRef.current, {
-          x: '-8%',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: statementRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.2,
-          },
-        })
-
-        /* stat counter animation */
-        const counterTargets = STATS.map((s, i) => ({ el: statNums.current[i], val: s.val }))
-        ScrollTrigger.create({
-          trigger: statementRef.current,
-          start: 'top 65%',
-          onEnter: () => {
-            counterTargets.forEach(({ el, val }) => {
-              if (!el) return
-              const numeric = parseInt(val)
-              if (isNaN(numeric)) { el.textContent = val; return }
-              const suffix = val.replace(String(numeric), '')
-              const obj = { n: 0 }
-              gsap.to(obj, {
-                n: numeric, duration: 2, ease: 'power2.out',
-                onUpdate: () => { el.textContent = Math.round(obj.n) + suffix },
-              })
-            })
-          },
-        })
-      }
-
-      /* ─── Office cards ─── */
-      if (studiosRef.current) {
-        const cards = studiosRef.current.querySelectorAll('.office-card')
-        gsap.fromTo(cards,
-          { opacity: 0, y: 24 },
-          {
-            opacity: 1, y: 0, duration: .65, stagger: .12, ease: 'power3.out',
-            scrollTrigger: { trigger: studiosRef.current, start: 'top 78%' },
-          }
-        )
-      }
-
-      /* ─── CTA strip ─── */
-      if (ctaRef.current) {
-        gsap.fromTo(ctaRef.current,
-          { opacity: 0, y: 32 },
-          {
-            opacity: 1, y: 0, duration: .8, ease: 'power3.out',
-            scrollTrigger: { trigger: ctaRef.current, start: 'top 82%' },
-          }
-        )
-      }
-
     })
     return () => ctx.revert()
   }, [])
 
   return (
     <>
-      <HeroShowcase />
+      <section className="home-hero">
+        <div className="home-hero-text">
+          <h1>{SITE.heroTitle}</h1>
+          <div className="home-hero-side">
+            <p>{SITE.heroSub}</p>
+            <div className="hero-ctas">
+              <Link href="/contact" className="btn-primary">{CTA.primary}</Link>
+              <a href={LINKS.whatsapp} {...EXTERNAL} className="btn-whatsapp">{CTA.whatsapp} ↗</a>
+            </div>
+          </div>
+        </div>
+        <HeroShowcase />
+      </section>
 
-      {/* TICKER */}
-      <div className="ticker">
-        <div className="ticker-track">
-          {[...TICKER_ITEMS, ...TICKER_ITEMS, ...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
+      <div className="ticker" aria-label={`Disciplines: ${SERVICES.map((sv) => sv.name).join(', ')}`} role="region">
+        <div className="ticker-track" aria-hidden="true">
+          {[...SERVICES, ...SERVICES, ...SERVICES, ...SERVICES].map((sv, i) => (
             <span key={i}>
-              <span className="ticker-item">{item}</span>
+              <span className="ticker-item">{sv.name}</span>
               <span className="ticker-dot">✦</span>
             </span>
           ))}
         </div>
       </div>
 
-      {/* PRACTICE MOSAIC */}
-      <section className="ash-section">
-        <div className="ash-wrap">
-          <div className="section-head">
-            <div className="left">
-              <div className="num">— 01 / What we do</div>
-              <h2>A practice<br />in <em>five</em> parts.</h2>
-            </div>
-            <p className="lede">
-              Five overlapping disciplines, one studio. Most projects sit across two or three —
-              a wayfinding system that needs a flagship moment; a retail environment that lives
-              or dies on its sign family. We work end-to-end, from the first audit walk to
-              installation supervision.
-            </p>
-          </div>
-          <div ref={mosaicRef} className="home-mosaic">
-            {PRACTICES.map((p, i) => {
-              const Art = ArtMap[p.art]
-              return (
-                <Link
-                  key={i}
-                  href="/work"
-                  className={`mosaic-tile ${p.cls}`}
-                  style={{ textAlign: 'left', width: '100%', height: '100%' }}
-                >
-                  <div className="tile-num">{p.num}</div>
-                  <div className="ghost-art" aria-hidden="true"><Art /></div>
-                  <div>
-                    <h3>{p.title}</h3>
-                    <p>{p.body}</p>
-                  </div>
-                  <div className="tile-arrow">{p.arrow} <span>→</span></div>
-                </Link>
-              )
-            })}
-          </div>
-        </div>
-      </section>
+      <Disciplines id="what-we-do" />
 
       {/* FEATURED PROJECTS */}
       <section className="ash-section" style={{ paddingTop: 0 }}>
@@ -337,9 +159,8 @@ export default function HomePage() {
               <h2>Recent <em>projects</em>.</h2>
             </div>
             <p className="lede">
-              A young studio with a small, deliberate output — healthcare wayfinding, heritage
-              retail, and brand identities for an art studio, a wedding photographer and a
-              kebab restaurant — most still in active phases.
+              Identities, wayfinding systems and spaces we have built, each one a brand with a story
+              to tell.
             </p>
           </div>
           <div ref={featuredRef} className="project-grid">
@@ -367,16 +188,6 @@ export default function HomePage() {
                 </Link>
               )
             })}
-            {FEATURED.filter((p) => !p.hero).length % 2 === 1 && (
-              <Link href="/contact" className="project-card project-card-next">
-                <div className="pc-img"><NextProjectArt /></div>
-                <div className="pc-meta">
-                  <span className="pc-tag">Coming soon</span>
-                </div>
-                <h3>Your project — tell us what you&apos;re building</h3>
-                <div className="pc-loc">New Delhi · Dubai</div>
-              </Link>
-            )}
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 56 }}>
             <Link href="/work" className="btn-outline">
@@ -386,89 +197,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* STATEMENT */}
-      <section ref={statementRef} className="ash-statement">
-        <div ref={statBgRef} className="ash-statement-bg" aria-hidden="true">ASHMAN</div>
-        <div className="ash-statement-inner">
-          <div className="ash-eyebrow on-dark">
-            <span className="dash" />Our belief
-          </div>
-          <h2>
-            The best brands don&apos;t just look good — they feel like <em>somewhere</em>.
-          </h2>
-          <p>
-            Two years ago Akash Manna set out to do one thing well — design the physical
-            environments that carry a brand once a visitor arrives. Sometimes that&apos;s a sign.
-            Sometimes it&apos;s a hospital. Sometimes it&apos;s the difference between getting lost and
-            feeling looked after. We work with brands and institutions that understand space
-            is not the wrapping; it&apos;s the experience.
-          </p>
-          <div className="ash-stats">
-            {STATS.map((s, i) => (
-              <div key={s.label}>
-                <div
-                  className="ash-stat-num"
-                  ref={(el) => { statNums.current[i] = el }}
-                >
-                  {s.val}
-                </div>
-                <div className="ash-stat-label">{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* STUDIOS */}
-      <section className="ash-section">
-        <div className="ash-wrap">
-          <div className="section-head">
-            <div className="left">
-              <div className="num">— 03 / Studios</div>
-              <h2>Two <em>cities</em>,<br />one practice.</h2>
-            </div>
-            <p className="lede">
-              Two studios across two countries. <em>New Delhi</em> is the head office — strategy,
-              wayfinding and most of the design work. Dubai handles Gulf clients.
-            </p>
-          </div>
-          <div ref={studiosRef} className="office-grid">
-            {STUDIOS.map((st) => (
-              <div key={st.key} className="office-card">
-                <div>
-                  <div className="city-role">{st.role}</div>
-                  <div className="city">{st.key === 'new-delhi' ? <em>{st.city}</em> : st.city}</div>
-                  <address className="city-addr">
-                    {st.addressLines.map((l) => <span key={l}>{l}<br /></span>)}
-                  </address>
-                </div>
-                <div className="city-meta">
-                  <span className="city-clock">{st.timezone}</span>
-                  <a className="city-tz" href={st.tel}>{st.phone}</a>
-                  <a className="city-tz" href={st.mapsUrl} {...EXTERNAL}>Get directions ↗</a>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA STRIP */}
-      <section ref={ctaRef} className="ash-cta-strip">
-        <div className="inner">
-          <div>
-            <h2>Have a <em>space</em> in mind?</h2>
-            <p>
-              Tell us about your project — share as much or as little as you like and
-              we&apos;ll be in touch within two working days.
-            </p>
-          </div>
-          <Link href="/contact" className="btn-primary">
-            Start a project →
-          </Link>
-        </div>
-      </section>
-
+      <CtaBand />
+      <Clients />
+      <Testimonials />
+      <Belief />
+      <HowWeWork />
+      <Cities />
     </>
   )
 }
