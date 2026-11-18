@@ -1866,3 +1866,8 @@ footer :focus-visible, .ash-statement :focus-visible,
 .not-found .hero-ctas .btn-outline { min-height: 48px; display: inline-flex; align-items: center; }
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
 .reveal.revealed { opacity: 1; transform: none; }
+
+/* /work arriving with ?service= or ?sector=: results wait for the filter (set in app/work/page.tsx),
+   with a CSS-only reveal after 3s in case scripts never run */
+.work-filtering .work-results { visibility: hidden; animation: workReveal 0s 3s forwards; }
+@keyframes workReveal { to { visibility: visible; } }

@@ -30,14 +30,23 @@ function FilterParams({ onChange }: { onChange: (f: Filters) => void }) {
 
 export default function WorkPage() {
   const [filters, setFilters] = useState<Filters>({ service: 'all', sector: 'all' })
+  const [urlRead, setUrlRead] = useState(false)
   const { service, sector } = filters
+
+  // Results stay hidden (see app/work/page.tsx) until the URL's filters are on screen
+  useEffect(() => {
+    if (urlRead) document.documentElement.classList.remove('work-filtering')
+  }, [urlRead])
 
   const apply = (next: Filters) => {
     setFilters(next)
     // A history entry per change, so Back/Forward step through filters
     window.history.pushState(null, '', workHref(next.service, next.sector))
   }
-  const fromUrl = useCallback((f: Filters) => setFilters(f), [])
+  const fromUrl = useCallback((f: Filters) => {
+    setFilters(f)
+    setUrlRead(true)
+  }, [])
 
   const projects = filterProjects(service, sector)
   const unfiltered = service === 'all' && sector === 'all'
@@ -83,47 +92,49 @@ export default function WorkPage() {
         {projects.length} brand {projects.length === 1 ? 'story' : 'stories'}{heading ? ` in ${heading}` : ''}
       </p>
 
-      {featured.length > 0 && (
-        <section className="work-section" aria-labelledby="featured-heading">
-          <div className="work-section-head ash-wrap">
-            <h2 id="featured-heading" className="ash-eyebrow muted"><span className="dash" />Featured</h2>
-          </div>
-          <div className="featured-editorial">
-            {featured.map((p, i) => (
-              <ProjectCard
-                key={p.slug}
-                project={p}
-                aspectRatio={FEATURED_RATIOS[i % FEATURED_RATIOS.length]}
-                sizes="(max-width: 768px) 100vw, 60vw"
-                priority={i < 2}
-              />
-            ))}
-          </div>
-        </section>
-      )}
+      <div className="work-results">
+        {featured.length > 0 && (
+          <section className="work-section" aria-labelledby="featured-heading">
+            <div className="work-section-head ash-wrap">
+              <h2 id="featured-heading" className="ash-eyebrow muted"><span className="dash" />Featured</h2>
+            </div>
+            <div className="featured-editorial">
+              {featured.map((p, i) => (
+                <ProjectCard
+                  key={p.slug}
+                  project={p}
+                  aspectRatio={FEATURED_RATIOS[i % FEATURED_RATIOS.length]}
+                  sizes="(max-width: 768px) 100vw, 60vw"
+                  priority={i < 2}
+                />
+              ))}
+            </div>
+          </section>
+        )}
 
-      {rest.length > 0 && (
-        <section className="work-section" aria-labelledby="list-heading">
-          <div className="work-section-head ash-wrap">
-            <h2 id="list-heading" className="ash-eyebrow muted">
-              <span className="dash" />
-              {heading || 'More brand stories'}
-            </h2>
-          </div>
-          <div className="selected-grid">
-            {rest.map((p) => <ProjectCard key={p.slug} project={p} />)}
-          </div>
-        </section>
-      )}
+        {rest.length > 0 && (
+          <section className="work-section" aria-labelledby="list-heading">
+            <div className="work-section-head ash-wrap">
+              <h2 id="list-heading" className="ash-eyebrow muted">
+                <span className="dash" />
+                {heading || 'More brand stories'}
+              </h2>
+            </div>
+            <div className="selected-grid">
+              {rest.map((p) => <ProjectCard key={p.slug} project={p} />)}
+            </div>
+          </section>
+        )}
 
-      {projects.length === 0 && (
-        <div className="ash-wrap work-empty">
-          <p>No brand stories for this combination yet.</p>
-          <button type="button" className="btn-outline" onClick={() => apply({ service: 'all', sector: 'all' })}>
-            Show all brand stories
-          </button>
-        </div>
-      )}
+        {projects.length === 0 && (
+          <div className="ash-wrap work-empty">
+            <p>No brand stories for this combination yet.</p>
+            <button type="button" className="btn-outline" onClick={() => apply({ service: 'all', sector: 'all' })}>
+              Show all brand stories
+            </button>
+          </div>
+        )}
+      </div>
     </>
   )
 }
