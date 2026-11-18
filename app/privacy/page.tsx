@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { EMAIL, SITE } from '@/lib/site'
+import { EMAIL, SITE, filled } from '@/lib/site'
 import { pageMeta } from '@/lib/seo'
 
 export const metadata = pageMeta({
@@ -8,11 +8,16 @@ export const metadata = pageMeta({
   path: '/privacy',
 })
 
+// Fill these after legal review; each line renders only once it has real text.
+// Where enquiries are stored and how long they're kept, as one or two plain sentences.
+const DATA_HANDLING: string | null = null
+// The review date, e.g. '18 November 2026'.
+const LAST_UPDATED: string | null = null
+
 export default function PrivacyPage() {
   return (
     <div className="page-hero-wrap legal">
       <div className="ash-wrap legal-body">
-        <p className="legal-flag">[PLACEHOLDER: LEGAL REVIEW] This page is a plain-language draft and has not been reviewed by a lawyer.</p>
         <h1>Privacy</h1>
         <p>
           This page explains what {SITE.name} collects through this website, why, and how to ask us to
@@ -36,7 +41,7 @@ export default function PrivacyPage() {
         <p>
           Form submissions are sent to our studio inbox by email through Resend, an email delivery
           service, which also sends you a confirmation that we received your message.
-          [PLACEHOLDER: LEGAL REVIEW: where data is stored, and how long enquiries are kept.]
+          {filled(DATA_HANDLING) && ` ${DATA_HANDLING}`}
         </p>
 
         <h2>Deleting your details</h2>
@@ -45,7 +50,7 @@ export default function PrivacyPage() {
           <a href={`mailto:${EMAIL.work}`}>{EMAIL.work}</a>. We&apos;ll confirm once it&apos;s done.
         </p>
 
-        <p className="legal-updated">Last updated: [PLACEHOLDER: date of legal review]</p>
+        {filled(LAST_UPDATED) && <p className="legal-updated">Last updated: {LAST_UPDATED}</p>}
       </div>
     </div>
   )

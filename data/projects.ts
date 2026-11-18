@@ -46,6 +46,8 @@ export interface Project {
   images: ProjectImage[]
   sections?: ProjectSection[]
   featured?: boolean
+  // Story fields. Leave any of these (and client, location, year) unset until you have the
+  // real text; the story page hides whatever isn't filled.
   hook?: string
   brief?: string
   story?: string
@@ -393,4 +395,4 @@ export function orderedProjects(list: Project[] = PROJECTS): Project[] {
   )
 }
 
-export const placeholder = (what: string) => `[PLACEHOLDER: ${what}]`
+export { filled } from '@/lib/site'

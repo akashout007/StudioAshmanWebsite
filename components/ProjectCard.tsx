@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { STATUS_LABEL, placeholder, type Project } from '@/data/projects'
+import { STATUS_LABEL, filled, type Project } from '@/data/projects'
 import { serviceBySlug } from '@/lib/site'
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 }
 
 export function projectMeta(project: Project) {
-  return [project.location ?? placeholder('location'), project.year ?? placeholder('year')].join(' · ')
+  return [project.location, project.year].filter(filled).join(' · ')
 }
 
 export default function ProjectCard({
@@ -24,6 +24,8 @@ export default function ProjectCard({
   priority = false,
 }: Props) {
   const services = project.services.map((s) => serviceBySlug(s)?.short).filter(Boolean).join(' · ')
+  const hook = [project.hook, project.discipline].find(filled)
+  const meta = projectMeta(project)
 
   return (
     <Link href={`/work/${project.slug}`} className="proj-card proj-card-link">
@@ -51,8 +53,8 @@ export default function ProjectCard({
       <div className="proj-info">
         <div className="proj-cat">{services}</div>
         <h3 className="proj-title">{project.title}</h3>
-        <p className="proj-hook">{project.hook ?? project.discipline}</p>
-        <div className="proj-sub">{projectMeta(project)}</div>
+        {hook && <p className="proj-hook">{hook}</p>}
+        {meta && <div className="proj-sub">{meta}</div>}
       </div>
     </Link>
   )

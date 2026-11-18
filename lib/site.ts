@@ -105,3 +105,9 @@ export const LINKS = {
 } as const
 
 export const EXTERNAL = { target: '_blank', rel: 'noopener noreferrer' } as const
+
+/**
+ * True when a content field holds real text. Empty fields, and any value still containing a
+ * "[PLACEHOLDER" note, never render: their section, fact row or line is hidden instead.
+ */
+export const filled = (v?: string | null): v is string => !!v?.trim() && !v.includes('[PLACEHOLDER')
