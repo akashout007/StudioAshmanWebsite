@@ -6,47 +6,47 @@ import { getProject } from '@/data/projects'
 
 const SLIDES = [
   {
-    slug: 'bollywood-kabab', what: 'signage', who: 'restaurants',
+    slug: 'bollywood-kabab', alt: 'Bollywood Kabab facade signage at dusk, Greater Noida', what: 'signage', who: 'restaurants',
     line: 'Cinema-inspired identity and facade signage for a kebab restaurant in Greater Noida.',
     src: '/projects/bollywood-kabab/bollywood-kabab-hero.jpg', position: '60% 40%',
   },
   {
-    slug: 'central-square', what: 'wayfinding', who: 'commercial complexes',
+    slug: 'central-square', alt: 'Aerial view of the Central Square commercial complex, North Delhi', what: 'wayfinding', who: 'commercial complexes',
     line: 'A cube-based signage and wayfinding system for three plazas in North Delhi.',
     src: '/projects/central-square/central-square-hero.jpg', position: '60% 55%',
   },
   {
-    slug: 'kaamya-greens', what: 'wayfinding', who: 'residences',
+    slug: 'kaamya-greens', alt: 'Aerial render of the Kaamya Greens residential towers, Greater Noida', what: 'wayfinding', who: 'residences',
     line: 'A brass-and-grey signage system for a residential development in Greater Noida.',
     src: '/projects/kaamya-greens/kaamya-hero.jpg', position: '50% 50%',
   },
   {
-    slug: 'mall-of-expressway', what: 'wayfinding', who: 'malls',
+    slug: 'mall-of-expressway', alt: 'Render of the Mall of Expressway building, Greater Noida', what: 'wayfinding', who: 'malls',
     line: 'One brass-and-grey sign system for a retail mall and studio apartments in Greater Noida.',
     src: '/projects/mall-of-expressway/mall-banner.jpg', position: '50% 55%',
   },
   {
-    slug: 'artnest-studio', what: 'identities', who: 'art studios',
+    slug: 'artnest-studio', alt: 'ArtNest Studio wordmark surrounded by its bird mascot', what: 'identities', who: 'art studios',
     line: 'A mascot-led brand identity for a community art studio in Faridabad.',
     src: '/projects/artnest/artnest-cover.jpg', position: '50% 50%',
   },
   {
-    slug: 'regency-hospital', what: 'wayfinding', who: 'hospitals',
+    slug: 'regency-hospital', alt: 'Night elevation of Regency Kanpur Hospital with its illuminated sign and emergency signage', what: 'wayfinding', who: 'hospitals',
     line: 'A bilingual signage and wayfinding concept for a hospital campus in Kanpur.',
     src: '/projects/regency/regency-hero.jpg', position: '50% 20%',
   },
   {
-    slug: 'swetafilms', what: 'identities', who: 'film studios',
+    slug: 'swetafilms', alt: 'Sweta Films wordmark over a black and white studio photograph', what: 'identities', who: 'film studios',
     line: 'A bold red identity for a photography and visual storytelling practice in Dubai.',
     src: '/projects/swetafilms/swetafilms-cover.jpg', position: '50% 45%',
   },
   {
-    slug: 'intiva', what: 'packaging', who: 'skincare',
+    slug: 'intiva', alt: 'Intiva foaming wash bottle among botanicals', what: 'packaging', who: 'skincare',
     line: 'Brand identity, label and carton for a foaming intimate wash.',
     src: '/projects/intiva/intiva-cover.jpg', position: '50% 50%',
   },
   {
-    slug: 'delhigrapher', what: 'identities', who: 'photographers',
+    slug: 'delhigrapher', alt: 'Delhigrapher wordmark beside a black and white wedding photograph', what: 'identities', who: 'photographers',
     line: 'A handwritten identity for a wedding photography practice in New Delhi.',
     src: '/delhigrapher/delhigrapher-cover.jpg', position: '40% 40%',
   },
@@ -142,11 +142,10 @@ export default function HeroShowcase() {
               className={`showcase-slide${isActive ? ' is-active' : ''}`}
               aria-hidden={!isActive}
               tabIndex={isActive ? 0 : -1}
-              aria-label={`${project.title} — view project`}
             >
               <Image
                 src={s.src}
-                alt=""
+                alt={s.alt}
                 fill
                 priority={i === 0}
                 sizes="100vw"
@@ -158,7 +157,11 @@ export default function HeroShowcase() {
 
         <div className="showcase-shade" aria-hidden="true" />
 
-        <p className="showcase-pill" aria-live="polite">
+        <p className="sr-only">
+          We design {Array.from(new Set(SLIDES.map((sl) => sl.what))).join(', ')} for{' '}
+          {Array.from(new Set(SLIDES.map((sl) => sl.who))).join(', ')}.
+        </p>
+        <p className="showcase-pill" aria-hidden="true">
           We design <WordSlot word={current.what} /> for <WordSlot word={current.who} delay={120} />
         </p>
 
@@ -176,14 +179,16 @@ export default function HeroShowcase() {
           <p key={`l-${active}`} className="showcase-line">{current.line}</p>
         </div>
 
-        <div className="showcase-dots" role="tablist" aria-label="Choose project">
+        <p className="showcase-count" aria-live="polite">
+          <span className="sr-only">Slide </span>{active + 1} / {SLIDES.length}
+        </p>
+        <div className="showcase-dots" role="group" aria-label="Choose a slide">
           {SLIDES.map((s, i) => (
             <button
               key={s.slug}
               type="button"
-              role="tab"
-              aria-selected={i === active}
-              aria-label={getProject(s.slug)?.title}
+              aria-current={i === active ? 'true' : undefined}
+              aria-label={`Go to slide ${i + 1}`}
               className={`showcase-dot${i === active ? ' is-active' : ''}`}
               onClick={() => go(i)}
             />

@@ -1,12 +1,20 @@
 'use client'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 
 export default function Cursor() {
   const dotRef = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
+  const [enabled, setEnabled] = useState(false)
 
   useEffect(() => {
+    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    setEnabled(fine && !reduce && navigator.maxTouchPoints === 0)
+  }, [])
+
+  useEffect(() => {
+    if (!enabled) return
     const dot = dotRef.current
     const ring = ringRef.current
     if (!dot || !ring) return
@@ -50,12 +58,14 @@ export default function Cursor() {
       document.removeEventListener('mouseover', onOver)
       document.removeEventListener('mouseout', onOut)
     }
-  }, [])
+  }, [enabled])
+
+  if (!enabled) return null
 
   return (
     <>
-      <div ref={dotRef} className="cursor" />
-      <div ref={ringRef} className="cursor-ring" />
+      <div ref={dotRef} className="cursor" aria-hidden="true" />
+      <div ref={ringRef} className="cursor-ring" aria-hidden="true" />
     </>
   )
 }

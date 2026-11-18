@@ -28,6 +28,9 @@ export default function MobileMenu({ open, onClose, children }: {
 
   useEffect(() => {
     if (!open) return
+    const raf = requestAnimationFrame(() => {
+      document.querySelector<HTMLElement>('#mobile-menu a, #mobile-menu button')?.focus()
+    })
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -36,6 +39,7 @@ export default function MobileMenu({ open, onClose, children }: {
     document.addEventListener('keydown', onKey)
     desktop.addEventListener('change', onResize)
     return () => {
+      cancelAnimationFrame(raf)
       document.body.style.overflow = prevOverflow
       document.removeEventListener('keydown', onKey)
       desktop.removeEventListener('change', onResize)

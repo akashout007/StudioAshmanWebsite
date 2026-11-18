@@ -94,7 +94,7 @@ export default function Nav() {
         {menuOpen && (
           <div id="nav-services" className="mega-menu">
             <div className="mega-col">
-              <h4>Disciplines</h4>
+              <p className="mega-heading">Disciplines</p>
               <ul className="mega-list">
                 {SERVICES.map((s) => (
                   <li key={s.slug}>
@@ -108,7 +108,7 @@ export default function Nav() {
             </div>
 
             <div className="mega-col">
-              <h4>Explore</h4>
+              <p className="mega-heading">Explore</p>
               <ul className="mega-list">
                 <li><Link href="/#what-we-do" onClick={() => setMenuOpen(false)}>How the four fit together<span className="mm-meta">Overview</span></Link></li>
                 <li><Link href="/work" onClick={() => setMenuOpen(false)}>Brand stories<span className="mm-meta">All work</span></Link></li>
