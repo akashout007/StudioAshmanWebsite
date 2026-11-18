@@ -202,7 +202,7 @@ export const PROJECTS: Project[] = [
     status: 'built',
     hero: {
       src: '/projects/bollywood-kabab/bollywood-kabab-hero.jpg',
-      alt: 'Bollywood Kebabs restaurant at dusk: glass frontage with black film-reel skewer letters above the entrance',
+      alt: 'Bollywood Kabab facade signage at dusk, Greater Noida: glass frontage with black film-reel skewer letters above the entrance',
       type: 'hero',
     },
     images: [
