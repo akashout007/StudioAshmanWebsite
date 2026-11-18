@@ -261,8 +261,9 @@ nav.scrolled {
   font-family: var(--font-label); font-size: 12px; letter-spacing: .24em;
   text-transform: uppercase; font-weight: 700; color: var(--mid);
 }
+/* H2s sit below the homepage H1 (clamp(32px, 20px + 3vw, 60px)) at every width */
 .section-head h2 {
-  font-family: var(--font-display); font-size: clamp(40px, 5vw, 72px);
+  font-family: var(--font-display); font-size: clamp(28px, 1rem + 2.6vw, 52px);
   font-weight: 900; line-height: .98; letter-spacing: -.025em;
 }
 .section-head h2 em { font-style: italic; font-weight: 700; color: var(--accent); }
@@ -374,7 +375,7 @@ nav.scrolled {
   max-width: 880px; margin: 0 auto; padding: 0 48px; position: relative; z-index: 1;
 }
 .ash-statement-inner h2 {
-  font-family: var(--font-display); font-size: clamp(40px, 5.5vw, 76px);
+  font-family: var(--font-display); font-size: clamp(28px, 1rem + 2.8vw, 56px);
   font-weight: 400; line-height: 1.08; color: var(--paper);
   margin: 22px 0 28px; max-width: 18ch; letter-spacing: -.02em;
 }
@@ -434,7 +435,7 @@ nav.scrolled {
   display: grid; grid-template-columns: 1fr auto; gap: 64px; align-items: center;
 }
 .ash-cta-strip h2 {
-  font-family: var(--font-display); font-size: clamp(36px, 4.5vw, 64px);
+  font-family: var(--font-display); font-size: clamp(26px, .875rem + 2.4vw, 48px);
   font-weight: 700; line-height: .98; letter-spacing: -.025em;
   color: var(--paper); max-width: 14ch;
 }
@@ -1710,13 +1711,19 @@ address { font-style: normal; }
 /* ── HOME HERO ── */
 .home-hero { padding-top: 84px; background: var(--paper); }
 .home-hero-text {
-  max-width: 1440px; margin: 0 auto; padding: 40px 48px 36px;
+  max-width: 1440px; margin: 0 auto; padding: 32px 48px 32px;
   display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: end;
 }
+/* ≈32px on phones, 60px max. 10.4em fits "Wayfinding & Spatial" (9.9em) but not "… Branding"
+   (14.5em), so desktop breaks into exactly two lines without a forced <br>. */
 .home-hero-text h1 {
   font-family: var(--font-display); font-weight: 900;
-  font-size: clamp(2.6rem, 5vw, 4.6rem); line-height: .98; letter-spacing: -.03em; color: var(--ink);
-  max-width: 14ch;
+  font-size: clamp(2rem, 1.25rem + 3vw, 3.75rem); line-height: 1.05; letter-spacing: -.01em; color: var(--ink);
+  max-width: 10.4em; hyphens: manual; overflow-wrap: normal; word-break: normal;
+}
+/* Desktop: the heading column takes the heading's own width, so line one always fits */
+@media (min-width: 1024px) {
+  .home-hero-text { grid-template-columns: auto minmax(0, 1fr); gap: 56px; align-items: end; }
 }
 .home-hero-side p { font-size: 17px; line-height: 1.65; color: var(--ink); font-weight: 300; max-width: 46ch; }
 .hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
