@@ -16,34 +16,51 @@ export const SITE = {
 
 export type ServiceSlug = 'brand-identity' | 'wayfinding-signage' | 'spatial-branding' | 'digital-collateral'
 
-export const SERVICES: { slug: ServiceSlug; name: string; short: string; scope: string }[] = [
+// `short` labels project cards; `chip` is the one-word label in the hero sentence.
+export const SERVICES: { slug: ServiceSlug; name: string; short: string; chip: string; scope: string }[] = [
   {
     slug: 'brand-identity',
     name: 'Brand Identity & Storytelling',
     short: 'Brand Identity',
+    chip: 'Identity',
     scope: 'Strategy, naming, logo, visual system, brand story',
   },
   {
     slug: 'wayfinding-signage',
     name: 'Wayfinding & Signage',
     short: 'Wayfinding',
+    chip: 'Wayfinding',
     scope: 'Wayfinding strategy, sign families, pictograms, fabrication and install supervision',
   },
   {
     slug: 'spatial-branding',
     name: 'Spatial Branding',
     short: 'Spatial',
+    chip: 'Spaces',
     scope: 'Environmental graphics, facades, interiors, activations, retail',
   },
   {
     slug: 'digital-collateral',
     name: 'Digital & Brand Collateral',
     short: 'Digital & Collateral',
+    chip: 'Collateral',
     scope: 'Social, web, packaging, print, launch assets',
   },
 ]
 
 export const serviceBySlug = (slug: string) => SERVICES.find((s) => s.slug === slug)
+
+export type SectorSlug = 'hospitals' | 'real-estate' | 'malls-mixed-use' | 'restaurants-cafes' | 'lifestyle-brands'
+
+export const SECTORS: { slug: SectorSlug; name: string }[] = [
+  { slug: 'hospitals', name: 'Hospitals' },
+  { slug: 'real-estate', name: 'Real estate' },
+  { slug: 'malls-mixed-use', name: 'Malls & mixed-use' },
+  { slug: 'restaurants-cafes', name: 'Restaurants & cafés' },
+  { slug: 'lifestyle-brands', name: 'Lifestyle brands' },
+]
+
+export const sectorBySlug = (slug: string) => SECTORS.find((s) => s.slug === slug)
 
 export const CTA = {
   primary: 'Start a project →',

@@ -2,10 +2,11 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getProject, orderedProjects } from '@/data/projects'
-import { SERVICES, type ServiceSlug } from '@/lib/site'
-
-type Filter = ServiceSlug | 'all'
+import {
+  getProject, matchesFilters, orderedProjects, workHref,
+  type Project, type SectorFilter, type ServiceFilter,
+} from '@/data/projects'
+import { SECTORS, SERVICES, type SectorSlug, type ServiceSlug } from '@/lib/site'
 
 // Hero art and caption for the carousel, in display order. Projects without an entry follow,
 // using their own hero image and one-liner.
@@ -67,62 +68,189 @@ const SLIDES = [
   const src = art?.src ?? p.hero.src
   if (!src) return []
   return [{
-    slug, title: p.title, services: p.services, src,
+    slug, project: p as Project, title: p.title, src,
     alt: art?.alt ?? p.hero.alt,
     position: art?.position ?? p.hero.position ?? '50% 50%',
     line: art?.line ?? p.discipline ?? '',
   }]
 })
 
-const slidesFor = (f: Filter) =>
-  SLIDES.flatMap((s, i) => (f === 'all' || s.services.includes(f) ? [i] : []))
+const slidesFor = (service: ServiceFilter, sector: SectorFilter) =>
+  SLIDES.flatMap((s, i) => (matchesFilters(s.project, service, sector) ? [i] : []))
 
-// Services with no projects are left out of both the rotation and the menu.
-const ROTATION = SERVICES.filter((s) => slidesFor(s.slug).length > 0)
-const OPTIONS: { value: Filter; label: string; count: number }[] = [
-  { value: 'all', label: 'All work', count: SLIDES.length },
-  ...ROTATION.map((s) => ({ value: s.slug, label: s.name, count: slidesFor(s.slug).length })),
+type Pair = { service: ServiceSlug; sector: SectorSlug }
+// Rotation starts from the lead built project (the first slide) under its primary service and sector,
+// then walks every service + sector pair that has at least one project. Empty pairs never appear.
+const LEAD = SLIDES[0].project
+const ALL_PAIRS: Pair[] = SERVICES.flatMap((sv) => SECTORS.map((sc) => ({ service: sv.slug, sector: sc.slug })))
+  .filter((p) => slidesFor(p.service, p.sector).length > 0)
+const LEAD_INDEX = Math.max(0, ALL_PAIRS.findIndex((p) => p.service === LEAD.services[0] && p.sector === LEAD.sectors[0]))
+const PAIRS = [...ALL_PAIRS.slice(LEAD_INDEX), ...ALL_PAIRS.slice(0, LEAD_INDEX)]
+const pairKey = (p: Pair) => `${p.service}|${p.sector}`
+
+const SERVICE_OPTIONS = [
+  { value: 'all' as ServiceFilter, name: 'Everything', chip: 'Everything' },
+  ...SERVICES.map((s) => ({ value: s.slug as ServiceFilter, name: s.name, chip: s.chip })),
 ]
-const labelOf = (f: Filter) => OPTIONS.find((o) => o.value === f)?.label ?? 'All work'
+const SECTOR_OPTIONS = [
+  { value: 'all' as SectorFilter, name: 'Every sector', chip: 'Every sector' },
+  ...SECTORS.map((s) => ({ value: s.slug as SectorFilter, name: s.name, chip: s.name })),
+]
+
+/** "Showing 2 Wayfinding projects for hospitals." Spoken only after a visitor's own choice. */
+function describe(n: number, service: ServiceFilter, sector: SectorFilter) {
+  const sv = service === 'all' ? '' : `${SERVICE_OPTIONS.find((o) => o.value === service)?.chip} `
+  const sc = sector === 'all' ? '' : ` for ${SECTOR_OPTIONS.find((o) => o.value === sector)?.name.toLowerCase()}`
+  const all = service === 'all' && sector === 'all' ? 'all ' : ''
+  return `Showing ${all}${n} ${sv}project${n === 1 ? '' : 's'}${sc}.`
+}
 
 const INTERVAL = 4000
 
+type Option<T> = { value: T; name: string; chip: string; count: number }
+
+/** One dropdown in the hero sentence: a button that opens a listbox (a bottom sheet on phones). */
+function ChipSelect<T extends string>({ id, kind, options, value, open, onOpen, onClose, onChoose, align }: {
+  id: string
+  kind: 'Service' | 'Sector'
+  options: Option<T>[]
+  value: T
+  open: boolean
+  onOpen: () => void
+  onClose: () => void
+  onChoose: (v: T) => void
+  align: 'left' | 'right'
+}) {
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const listRef = useRef<HTMLUListElement>(null)
+  const [active, setActive] = useState(0)
+  const current = options.find((o) => o.value === value) ?? options[0]
+  const enabled = (i: number) => options[i].count > 0
+
+  useEffect(() => {
+    if (!open) return
+    setActive(Math.max(0, options.findIndex((o) => o.value === value)))
+    listRef.current?.focus()
+  }, [open]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const step = (from: number, dir: 1 | -1) => {
+    for (let i = from + dir; i >= 0 && i < options.length; i += dir) if (enabled(i)) return i
+    return from
+  }
+  const close = () => { onClose(); triggerRef.current?.focus() }
+  const choose = (i: number) => {
+    if (!enabled(i)) return
+    onChoose(options[i].value)
+    triggerRef.current?.focus()
+  }
+
+  const onListKey = (e: React.KeyboardEvent) => {
+    e.stopPropagation()
+    switch (e.key) {
+      case 'ArrowDown': e.preventDefault(); setActive((i) => step(i, 1)); break
+      case 'ArrowUp': e.preventDefault(); setActive((i) => step(i, -1)); break
+      case 'Home': e.preventDefault(); setActive(step(-1, 1)); break
+      case 'End': e.preventDefault(); setActive(step(options.length, -1)); break
+      case 'Enter': case ' ': e.preventDefault(); choose(active); break
+      case 'Escape': e.preventDefault(); close(); break
+      case 'Tab': onClose(); break
+    }
+  }
+
+  return (
+    <span
+      className={`chip-select chip-select-${align}`}
+      onBlur={(e) => { if (open && !e.currentTarget.contains(e.relatedTarget as Node)) onClose() }}
+    >
+      <button
+        ref={triggerRef}
+        type="button"
+        className="chip-trigger"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={`${id}-list`}
+        aria-label={`${kind}: ${current.name}`}
+        onClick={() => (open ? onClose() : onOpen())}
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); onOpen() }
+        }}
+      >
+        {/* Every label is stacked in one cell, so the trigger is as wide as its longest label and never
+            jumps; each carries its own caret so the ▾ always sits right after the word */}
+        <span className="chip-trigger-text" aria-hidden="true">
+          {options.map((o) => (
+            <span key={o.value} className={o.value === value ? 'is-current' : undefined}>
+              {o.chip}<span className="chip-caret">▾</span>
+            </span>
+          ))}
+        </span>
+      </button>
+
+      <span className="chip-menu" hidden={!open}>
+        <span className="chip-sheet-title" id={`${id}-title`}>{kind}</span>
+        <ul
+          ref={listRef}
+          id={`${id}-list`}
+          role="listbox"
+          tabIndex={-1}
+          aria-labelledby={`${id}-title`}
+          aria-activedescendant={open ? `${id}-opt-${active}` : undefined}
+          onKeyDown={onListKey}
+        >
+          {options.map((o, i) => (
+            <li
+              key={o.value}
+              id={`${id}-opt-${i}`}
+              role="option"
+              aria-selected={o.value === value}
+              aria-disabled={o.count === 0 || undefined}
+              className={i === active ? 'is-active' : undefined}
+              onClick={() => choose(i)}
+              onPointerMove={() => { if (enabled(i)) setActive(i) }}
+            >
+              <span className="chip-check" aria-hidden="true">{o.value === value ? '✓' : ''}</span>
+              <span className="chip-option-name">{o.name}</span>
+              <span className="chip-option-count">({o.count})</span>
+            </li>
+          ))}
+        </ul>
+      </span>
+    </span>
+  )
+}
+
 export default function HeroShowcase() {
-  const [filter, setFilter] = useState<Filter>(ROTATION[0]?.slug ?? 'all')
+  const [service, setService] = useState<ServiceFilter>(PAIRS[0]?.service ?? 'all')
+  const [sector, setSector] = useState<SectorFilter>(PAIRS[0]?.sector ?? 'all')
   const [pos, setPos] = useState(0)
   const [chosen, setChosen] = useState(false)
   const [userPaused, setUserPaused] = useState(false)
   const [hovering, setHovering] = useState(false)
   const [focusInside, setFocusInside] = useState(false)
-  const [open, setOpen] = useState(false)
-  const [activeOpt, setActiveOpt] = useState(0)
+  const [menu, setMenu] = useState<'service' | 'sector' | null>(null)
   const [reduceMotion, setReduceMotion] = useState(false)
   const [idle, setIdle] = useState(false)
   const [loaded, setLoaded] = useState<Set<number>>(() => new Set([0]))
   const [announcement, setAnnouncement] = useState('')
-  const visits = useRef<Partial<Record<ServiceSlug, number>>>(ROTATION[0] ? { [ROTATION[0].slug]: 0 } : {})
+  const visits = useRef<Record<string, number>>(PAIRS[0] ? { [pairKey(PAIRS[0])]: 0 } : {})
+  const pairIndex = useRef(0)
   const chosenRef = useRef(false)
   chosenRef.current = chosen
-  const triggerRef = useRef<HTMLButtonElement>(null)
-  const listRef = useRef<HTMLUListElement>(null)
   const uid = useId()
 
-  const list = slidesFor(filter)
+  const list = slidesFor(service, sector)
   const current = list[Math.min(pos, list.length - 1)] ?? 0
   const slide = SLIDES[current]
-  const rotating = !chosen && !reduceMotion && ROTATION.length > 1
-  const held = !rotating || userPaused || hovering || focusInside || open || !idle
+  const rotating = !chosen && !reduceMotion && PAIRS.length > 1
+  const held = !rotating || userPaused || hovering || focusInside || menu !== null || !idle
 
-  const nextService = () => {
-    const i = ROTATION.findIndex((s) => s.slug === filter)
-    return ROTATION[(i + 1) % ROTATION.length].slug
-  }
-  // Next unseen project for a service, skipping the one already on screen (some projects carry several services)
-  const nextVisit = (s: ServiceSlug) => {
-    const l = slidesFor(s)
-    const v = ((visits.current[s] ?? -1) + 1) % l.length
+  // Next unseen project for a pair, skipping the one already on screen
+  const nextVisit = (p: Pair) => {
+    const l = slidesFor(p.service, p.sector)
+    const v = ((visits.current[pairKey(p)] ?? -1) + 1) % l.length
     return l.length > 1 && l[v] === current ? (v + 1) % l.length : v
   }
+  const nextPair = () => PAIRS[(pairIndex.current + 1) % PAIRS.length]
 
   // Start rotating only once the page has settled, so the first image paints fast
   useEffect(() => {
@@ -136,78 +264,56 @@ export default function HeroShowcase() {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
     const apply = (reduce: boolean) => {
       setReduceMotion(reduce)
-      if (reduce) setFilter((f) => (chosenRef.current ? f : 'all'))
+      if (reduce && !chosenRef.current) {
+        setService('all')
+        setSector('all')
+        setPos(0)
+      }
     }
     apply(mq.matches)
     const onChange = (e: MediaQueryListEvent) => apply(e.matches)
     mq.addEventListener('change', onChange)
     return () => mq.removeEventListener('change', onChange)
   }, [])
-  // Each turn moves to the next service and shows its next project
+
   useEffect(() => {
     if (held) return
     const id = window.setTimeout(() => {
-      const s = nextService()
-      const v = nextVisit(s)
-      visits.current[s] = v
-      setFilter(s)
+      const p = nextPair()
+      const v = nextVisit(p)
+      pairIndex.current = (pairIndex.current + 1) % PAIRS.length
+      visits.current[pairKey(p)] = v
+      setService(p.service)
+      setSector(p.sector)
       setPos(v)
     }, INTERVAL)
     return () => window.clearTimeout(id)
-  }, [held, filter, pos]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [held, service, sector, pos]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Mount images just ahead of need: neighbours in this list and the next rotation stop
+  // Mount images just ahead of need: neighbours in this set and the next rotation stop
   useEffect(() => {
     if (!idle) return
     const wanted = [current, list[(pos + 1) % list.length], list[(pos - 1 + list.length) % list.length]]
     if (rotating) {
-      const s = nextService()
-      wanted.push(slidesFor(s)[nextVisit(s)])
+      const p = nextPair()
+      wanted.push(slidesFor(p.service, p.sector)[nextVisit(p)])
     }
     setLoaded((prev) => (wanted.every((i) => prev.has(i)) ? prev : new Set([...Array.from(prev), ...wanted])))
-  }, [idle, filter, pos, rotating]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    if (open) listRef.current?.focus()
-  }, [open])
+  }, [idle, service, sector, pos, rotating]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const go = (delta: number) => setPos((p) => (Math.min(p, list.length - 1) + delta + list.length) % list.length)
 
-  const choose = (value: Filter) => {
-    const count = slidesFor(value).length
-    setFilter(value)
+  const choose = (nextService: ServiceFilter, nextSector: SectorFilter) => {
+    setService(nextService)
+    setSector(nextSector)
     setPos(0)
     setChosen(true)
-    setOpen(false)
-    setAnnouncement(value === 'all' ? `Showing all ${count} projects` : `Showing ${count} ${labelOf(value)} projects`)
-    triggerRef.current?.focus()
+    setMenu(null)
+    setAnnouncement(describe(slidesFor(nextService, nextSector).length, nextService, nextSector))
   }
 
-  const openMenu = () => {
-    setActiveOpt(Math.max(0, OPTIONS.findIndex((o) => o.value === filter)))
-    setOpen(true)
-  }
-
-  const onTriggerKey = (e: React.KeyboardEvent) => {
-    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-      e.preventDefault()
-      openMenu()
-    }
-  }
-
-  const onListKey = (e: React.KeyboardEvent) => {
-    e.stopPropagation()
-    const last = OPTIONS.length - 1
-    switch (e.key) {
-      case 'ArrowDown': e.preventDefault(); setActiveOpt((i) => Math.min(i + 1, last)); break
-      case 'ArrowUp': e.preventDefault(); setActiveOpt((i) => Math.max(i - 1, 0)); break
-      case 'Home': e.preventDefault(); setActiveOpt(0); break
-      case 'End': e.preventDefault(); setActiveOpt(last); break
-      case 'Enter': case ' ': e.preventDefault(); choose(OPTIONS[activeOpt].value); break
-      case 'Escape': e.preventDefault(); setOpen(false); triggerRef.current?.focus(); break
-      case 'Tab': setOpen(false); break
-    }
-  }
+  const serviceOptions: Option<ServiceFilter>[] = SERVICE_OPTIONS.map((o) => ({ ...o, count: slidesFor(o.value, sector).length }))
+  const sectorOptions: Option<SectorFilter>[] = SECTOR_OPTIONS.map((o) => ({ ...o, count: slidesFor(service, o.value).length }))
 
   const touchX = useRef<number | null>(null)
   const onTouchStart = (e: React.TouchEvent) => { touchX.current = e.touches[0].clientX }
@@ -222,9 +328,6 @@ export default function HeroShowcase() {
     if (e.key === 'ArrowRight') go(1)
     if (e.key === 'ArrowLeft') go(-1)
   }
-
-  const listId = `${uid}-services`
-  const optId = (i: number) => `${uid}-opt-${i}`
 
   return (
     <section
@@ -264,44 +367,34 @@ export default function HeroShowcase() {
 
         <div className="showcase-shade" aria-hidden="true" />
 
-        <div className={`showcase-ui${open ? ' is-open' : ''}`}>
-          <div
-            className="showcase-switch"
-            onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setOpen(false) }}
-          >
+        <div className={`showcase-ui${menu ? ' is-open' : ''}`}>
+          <div className="showcase-switch">
             <div className="showcase-chip">
-              <span id={`${uid}-lead`} className="showcase-chip-lead">We build</span>
-              <button
-                ref={triggerRef}
-                type="button"
-                className="showcase-trigger"
-                aria-haspopup="listbox"
-                aria-expanded={open}
-                aria-controls={listId}
-                aria-labelledby={`${uid}-lead ${uid}-value`}
-                onClick={() => (open ? setOpen(false) : openMenu())}
-                onKeyDown={onTriggerKey}
-              >
-                <span className="showcase-trigger-text">
-                  {/* Every label is stacked in one cell, so the chip is as wide as the longest and never jumps */}
-                  {OPTIONS.map((o) => (
-                    <span
-                      key={o.value}
-                      id={o.value === filter ? `${uid}-value` : undefined}
-                      className={o.value === filter ? 'is-current' : undefined}
-                      aria-hidden={o.value === filter ? undefined : true}
-                    >
-                      {o.label}
-                    </span>
-                  ))}
+              <div className="chip-sentence">
+                <span className="chip-line">
+                  <span className="chip-word">We design</span>
+                  <ChipSelect
+                    id={`${uid}-service`} kind="Service" align="left"
+                    options={serviceOptions} value={service}
+                    open={menu === 'service'} onOpen={() => setMenu('service')} onClose={() => setMenu(null)}
+                    onChoose={(v) => choose(v, sector)}
+                  />
                 </span>
-                <span className="showcase-caret" aria-hidden="true">▾</span>
-              </button>
+                <span className="chip-line">
+                  <span className="chip-word">for</span>
+                  <ChipSelect
+                    id={`${uid}-sector`} kind="Sector" align="right"
+                    options={sectorOptions} value={sector}
+                    open={menu === 'sector'} onOpen={() => setMenu('sector')} onClose={() => setMenu(null)}
+                    onChoose={(v) => choose(service, v)}
+                  />
+                </span>
+              </div>
               {rotating && (
                 <button
                   type="button"
                   className="showcase-rotate"
-                  aria-label={userPaused ? 'Play service rotation' : 'Pause service rotation'}
+                  aria-label={userPaused ? 'Play rotation' : 'Pause rotation'}
                   onClick={() => setUserPaused((p) => !p)}
                 >
                   <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false">
@@ -312,43 +405,19 @@ export default function HeroShowcase() {
                 </button>
               )}
             </div>
-
-            <ul
-              ref={listRef}
-              id={listId}
-              role="listbox"
-              tabIndex={-1}
-              hidden={!open}
-              aria-label="Show projects for"
-              aria-activedescendant={open ? optId(activeOpt) : undefined}
-              className="showcase-options"
-              onKeyDown={onListKey}
-            >
-              {OPTIONS.map((o, i) => (
-                <li
-                  key={o.value}
-                  id={optId(i)}
-                  role="option"
-                  aria-selected={o.value === filter}
-                  className={i === activeOpt ? 'is-active' : undefined}
-                  onClick={() => choose(o.value)}
-                  onPointerMove={() => setActiveOpt(i)}
-                >
-                  <span>{o.label}</span>
-                  <span className="showcase-option-count">({o.count})</span>
-                </li>
-              ))}
-            </ul>
           </div>
 
           <div className="showcase-caption">
             <Link href={`/work/${slide.slug}`} className="showcase-title">{slide.title}</Link>
             <p key={`l-${current}`} className="showcase-line">{slide.line}</p>
-            <Link href={filter === 'all' ? '/work' : `/work?service=${filter}`} className="showcase-all">
-              {filter === 'all' ? 'View all brand stories' : `View all ${labelOf(filter)} stories`} <span aria-hidden="true">→</span>
+            <Link href={workHref(service, sector)} className="showcase-all">
+              View {list.length} {list.length === 1 ? 'story' : 'stories'} <span aria-hidden="true">→</span>
             </Link>
           </div>
         </div>
+
+        {/* Tapping outside an open bottom sheet closes it (phones only; hidden by CSS elsewhere) */}
+        {menu && <div className="chip-backdrop" aria-hidden="true" onClick={() => setMenu(null)} />}
 
         <p className="sr-only" aria-live="polite">{announcement}</p>
 

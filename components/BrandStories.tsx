@@ -2,22 +2,29 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import ProjectCard from '@/components/ProjectCard'
-import { orderedProjects } from '@/data/projects'
-import { SERVICES, type ServiceSlug } from '@/lib/site'
+import { matchesFilters, orderedProjects, workHref, type SectorFilter, type ServiceFilter } from '@/data/projects'
+import { SECTORS, SERVICES } from '@/lib/site'
 
-export type FilterValue = 'all' | ServiceSlug
+export type FilterValue = ServiceFilter
 
-export function FilterChips({ value, onChange, label }: {
-  value: FilterValue
-  onChange: (v: FilterValue) => void
+export const SERVICE_CHOICES: { value: ServiceFilter; label: string }[] = [
+  { value: 'all', label: 'All work' },
+  ...SERVICES.map((s) => ({ value: s.slug, label: s.name })),
+]
+export const SECTOR_CHOICES: { value: SectorFilter; label: string }[] = [
+  { value: 'all', label: 'Every sector' },
+  ...SECTORS.map((s) => ({ value: s.slug, label: s.name })),
+]
+
+export function FilterChips<T extends string>({ value, onChange, label, options = SERVICE_CHOICES as { value: T; label: string }[], className = '' }: {
+  value: T
+  onChange: (v: T) => void
   label: string
+  options?: { value: T; label: string }[]
+  className?: string
 }) {
-  const options: { value: FilterValue; label: string }[] = [
-    { value: 'all', label: 'All work' },
-    ...SERVICES.map((s) => ({ value: s.slug, label: s.name })),
-  ]
   return (
-    <div className="filter-bar" role="group" aria-label={label}>
+    <div className={`filter-bar ${className}`.trim()} role="group" aria-label={label}>
       {options.map((o) => (
         <button
           key={o.value}
@@ -33,9 +40,8 @@ export function FilterChips({ value, onChange, label }: {
   )
 }
 
-export function filterProjects(value: FilterValue) {
-  const list = orderedProjects()
-  return value === 'all' ? list : list.filter((p) => p.services.includes(value))
+export function filterProjects(service: ServiceFilter, sector: SectorFilter = 'all') {
+  return orderedProjects().filter((p) => matchesFilters(p, service, sector))
 }
 
 export default function HomeBrandStories() {
@@ -64,7 +70,7 @@ export default function HomeBrandStories() {
         ))}
       </div>
       <div className="ash-wrap story-more">
-        <Link href={filter === 'all' ? '/work' : `/work?service=${filter}`} className="btn-outline">
+        <Link href={workHref(filter, 'all')} className="btn-outline">
           View all brand stories <span aria-hidden="true">→</span>
         </Link>
       </div>

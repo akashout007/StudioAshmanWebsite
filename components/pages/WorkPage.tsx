@@ -1,41 +1,54 @@
 'use client'
 import Link from 'next/link'
-import { Suspense, useEffect, useState } from 'react'
+import { Suspense, useCallback, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import ProjectCard from '@/components/ProjectCard'
-import { FilterChips, filterProjects, type FilterValue } from '@/components/BrandStories'
-import { SERVICES, serviceBySlug, type ServiceSlug } from '@/lib/site'
+import { FilterChips, SECTOR_CHOICES, SERVICE_CHOICES, filterProjects } from '@/components/BrandStories'
+import { workHref, type SectorFilter, type ServiceFilter } from '@/data/projects'
+import { SECTORS, SERVICES, sectorBySlug, serviceBySlug, type SectorSlug, type ServiceSlug } from '@/lib/site'
 
 const FEATURED_SLUGS = ['mall-of-expressway', 'artnest-studio', 'bollywood-kabab', 'chopra-soda']
 // Wide (7fr) and narrow (5fr) cards share a row, so narrow = wide × 5/7 keeps both the same height
 const FEATURED_RATIOS = ['4/3', '20/21', '20/21', '4/3']
 
 const isService = (v: string | null): v is ServiceSlug => SERVICES.some((s) => s.slug === v)
+const isSector = (v: string | null): v is SectorSlug => SECTORS.some((s) => s.slug === v)
 
-// Reads ?service= in its own Suspense boundary so the grid itself still renders on the server.
-function ServiceParam({ onChange }: { onChange: (v: FilterValue) => void }) {
+type Filters = { service: ServiceFilter; sector: SectorFilter }
+
+// Reads ?service= and ?sector= in its own Suspense boundary so the grid itself still renders on the
+// server. It also re-runs on Back/Forward, since Next keeps useSearchParams in step with history.
+function FilterParams({ onChange }: { onChange: (f: Filters) => void }) {
   const params = useSearchParams()
   useEffect(() => {
-    const v = params.get('service')
-    onChange(isService(v) ? v : 'all')
+    const service = params.get('service')
+    const sector = params.get('sector')
+    onChange({ service: isService(service) ? service : 'all', sector: isSector(sector) ? sector : 'all' })
   }, [params, onChange])
   return null
 }
 
 export default function WorkPage() {
-  const [active, setActive] = useState<FilterValue>('all')
+  const [filters, setFilters] = useState<Filters>({ service: 'all', sector: 'all' })
+  const { service, sector } = filters
 
-  const setFilter = (v: FilterValue) => {
-    setActive(v)
-    window.history.replaceState(null, '', v === 'all' ? '/work' : `/work?service=${v}`)
+  const apply = (next: Filters) => {
+    setFilters(next)
+    // A history entry per change, so Back/Forward step through filters
+    window.history.pushState(null, '', workHref(next.service, next.sector))
   }
+  const fromUrl = useCallback((f: Filters) => setFilters(f), [])
 
-  const projects = filterProjects(active)
-  const featured = active === 'all'
+  const projects = filterProjects(service, sector)
+  const unfiltered = service === 'all' && sector === 'all'
+  const featured = unfiltered
     ? FEATURED_SLUGS.map((slug) => projects.find((p) => p.slug === slug)).filter((p) => p !== undefined)
     : []
   const rest = projects.filter((p) => !featured.includes(p))
-  const activeName = active === 'all' ? null : serviceBySlug(active)?.name
+  const heading = [
+    service === 'all' ? null : serviceBySlug(service)?.name,
+    sector === 'all' ? null : sectorBySlug(sector)?.name,
+  ].filter(Boolean).join(' · ')
 
   return (
     <>
@@ -57,10 +70,17 @@ export default function WorkPage() {
         </div>
       </div>
 
-      <Suspense fallback={null}><ServiceParam onChange={setActive} /></Suspense>
-      <FilterChips value={active} onChange={setFilter} label="Filter brand stories by discipline" />
+      <Suspense fallback={null}><FilterParams onChange={fromUrl} /></Suspense>
+      <FilterChips
+        value={service} options={SERVICE_CHOICES} label="Filter brand stories by discipline"
+        onChange={(v) => apply({ service: v, sector })}
+      />
+      <FilterChips
+        value={sector} options={SECTOR_CHOICES} label="Filter brand stories by sector" className="filter-bar-sector"
+        onChange={(v) => apply({ service, sector: v })}
+      />
       <p className="sr-only" aria-live="polite">
-        {projects.length} brand stories{activeName ? ` in ${activeName}` : ''}
+        {projects.length} brand {projects.length === 1 ? 'story' : 'stories'}{heading ? ` in ${heading}` : ''}
       </p>
 
       {featured.length > 0 && (
@@ -87,7 +107,7 @@ export default function WorkPage() {
           <div className="work-section-head ash-wrap">
             <h2 id="list-heading" className="ash-eyebrow muted">
               <span className="dash" />
-              {activeName ?? 'More brand stories'}
+              {heading || 'More brand stories'}
             </h2>
           </div>
           <div className="selected-grid">
@@ -97,7 +117,12 @@ export default function WorkPage() {
       )}
 
       {projects.length === 0 && (
-        <p className="ash-wrap work-empty">No brand stories in this discipline yet.</p>
+        <div className="ash-wrap work-empty">
+          <p>No brand stories for this combination yet.</p>
+          <button type="button" className="btn-outline" onClick={() => apply({ service: 'all', sector: 'all' })}>
+            Show all brand stories
+          </button>
+        </div>
       )}
     </>
   )

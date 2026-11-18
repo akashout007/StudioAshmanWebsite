@@ -612,6 +612,10 @@ nav.scrolled {
 }
 .filter-btn:hover { color: var(--ink); }
 .filter-btn.active { color: var(--ink); border-bottom-color: var(--accent); }
+/* Sector row sits under the service row, a step quieter */
+.filter-bar-sector { background: var(--paper2); }
+.filter-bar-sector .filter-btn { padding-block: 14px; }
+.work-empty .btn-outline { margin-top: 16px; }
 
 /* ── PROJECTS GRID (work page) ── */
 .projects-grid {
@@ -1522,46 +1526,63 @@ a.nav-cta {
 .showcase-ui.is-open { z-index: 470; }
 .showcase-switch { grid-row: 1; justify-self: center; position: relative; z-index: 2; pointer-events: auto; max-width: 100%; }
 .showcase-chip {
-  display: inline-flex; align-items: center; max-width: 100%;
-  padding-left: 20px; background: var(--paper); color: var(--ink);
+  display: inline-flex; align-items: stretch; max-width: 100%;
+  background: var(--paper); color: var(--ink);
   font-family: var(--font-body); font-size: 15px; font-weight: 400; line-height: 1.3;
   box-shadow: 0 4px 18px rgba(14, 14, 13, .18);
 }
-.showcase-chip-lead { white-space: nowrap; margin-right: 8px; }
-.showcase-trigger {
-  display: inline-flex; align-items: center; gap: 8px; min-height: 48px; min-width: 0;
-  padding: 6px 16px 6px 12px; border: 0; border-left: 1px solid var(--light2);
-  background: transparent; color: var(--accent-text); text-align: left;
+/* "We design [service ▾] for [sector ▾]": one line on desktop, two on phones */
+.chip-sentence { display: flex; align-items: center; gap: 0 10px; padding: 0 14px 0 20px; }
+.chip-line { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.chip-select { position: relative; display: inline-flex; }
+.chip-trigger {
+  display: inline-flex; align-items: center; min-height: 48px; padding: 0 2px;
+  border: 0; background: transparent; color: var(--accent-text); text-align: left;
   font-family: var(--font-display); font-style: italic; font-weight: 700; font-size: 16px;
 }
-.showcase-trigger:hover, .showcase-trigger[aria-expanded="true"] { background: var(--light); }
-.showcase-trigger-text { display: grid; }
-.showcase-trigger-text > span { grid-area: 1 / 1; visibility: hidden; }
-.showcase-trigger-text > .is-current { visibility: visible; animation: showcaseWord .5s var(--ease) both; }
-.showcase-caret { font-style: normal; font-size: 12px; color: var(--ink); }
+.chip-trigger-text {
+  display: grid;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px;
+  transition: text-decoration-thickness .15s;
+}
+.chip-trigger-text > span { grid-area: 1 / 1; visibility: hidden; }
+.chip-trigger-text > .is-current { visibility: visible; animation: showcaseWord .5s var(--ease) both; }
+/* inline-block keeps the caret out of the label's underline */
+.chip-caret { display: inline-block; margin-left: 6px; font-style: normal; font-size: 11px; color: var(--ink); transition: transform .15s; }
+.chip-trigger:hover .chip-trigger-text, .chip-trigger[aria-expanded="true"] .chip-trigger-text { text-decoration-thickness: 2px; }
+.chip-trigger:hover .chip-caret, .chip-trigger[aria-expanded="true"] .chip-caret { transform: translateY(2px); }
 .showcase-rotate {
-  width: 48px; min-height: 48px; flex: none; border: 0; border-left: 1px solid var(--light2);
+  width: 48px; min-height: 48px; flex: none; border: 0; border-left: .5px solid var(--light2);
   background: transparent; color: var(--ink);
   display: flex; align-items: center; justify-content: center;
 }
 .showcase-rotate:hover { background: var(--light); }
-.showcase-options {
-  position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%);
-  min-width: 100%; width: max-content; max-width: calc(100vw - 32px);
-  margin: 0; padding: 6px 0; list-style: none;
+
+.chip-menu {
+  display: block; position: absolute; top: calc(100% + 6px); z-index: 2;
+  min-width: 260px; width: max-content; max-width: calc(100vw - 32px);
   background: var(--paper); color: var(--ink);
-  box-shadow: 0 12px 36px rgba(14, 14, 13, .28);
+  border: .5px solid rgba(14, 14, 13, .35);
+  box-shadow: 0 12px 32px rgba(14, 14, 13, .22);
 }
-.showcase-options[hidden] { display: none; }
-.showcase-options:focus { outline: none; }
-.showcase-options:focus-visible { outline: 2px solid var(--accent-dk); outline-offset: 2px; }
-.showcase-options li {
-  display: flex; justify-content: space-between; align-items: center; gap: 24px;
-  min-height: 44px; padding: 8px 20px; cursor: pointer; font-size: 15px;
+.chip-select-left .chip-menu { left: -8px; }
+.chip-select-right .chip-menu { right: -8px; }
+.chip-menu[hidden] { display: none; }
+.chip-sheet-title { display: none; }
+.chip-menu ul { list-style: none; margin: 0; padding: 6px 0; }
+.chip-menu ul:focus { outline: none; }
+.chip-menu ul:focus-visible { outline: 2px solid var(--accent-dk); outline-offset: -2px; }
+.chip-menu li {
+  display: grid; grid-template-columns: 1.1em 1fr auto; align-items: center; gap: 10px;
+  min-height: 44px; padding: 6px 18px 6px 14px; cursor: pointer;
+  font-family: var(--font-body); font-style: normal; font-weight: 400; font-size: 15px; color: var(--ink);
 }
-.showcase-options li.is-active { background: var(--light); }
-.showcase-options li[aria-selected="true"] { font-weight: 600; color: var(--accent-text); }
-.showcase-option-count { color: var(--mid); font-variant-numeric: tabular-nums; }
+.chip-menu li.is-active { background: var(--light); }
+.chip-menu li[aria-selected="true"] { color: var(--accent-text); font-weight: 600; }
+.chip-menu li[aria-disabled="true"] { color: var(--mid); opacity: .55; cursor: default; }
+.chip-check { color: var(--accent-text); font-weight: 700; }
+.chip-option-count { color: var(--mid); font-variant-numeric: tabular-nums; }
+.chip-backdrop { display: none; }
 
 .showcase-arrow {
   position: absolute; z-index: 3; top: 50%; transform: translateY(-50%);
@@ -1577,6 +1598,7 @@ a.nav-cta {
 .showcase:hover .showcase-arrow, .showcase-arrow:focus-visible { opacity: 1; }
 .showcase-arrow:hover { background: var(--accent); color: var(--white); }
 @media (hover: none) { .showcase-arrow { opacity: 1; } }
+@keyframes chipSheetUp { from { transform: translateY(100%); } to { transform: none; } }
 @keyframes showcaseWord { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 .showcase-caption {
@@ -1637,12 +1659,29 @@ a.nav-cta {
 @media (max-width: 768px) {
   .showcase { padding-top: 64px; }
   .showcase-stage { height: clamp(460px, 76svh, 660px); }
-  /* Phone: chip sits just above the caption; the menu opens as a full-width sheet under it */
+  /* Phone: chip sits just above the caption */
   .showcase-ui { grid-template-rows: 1fr auto auto; gap: 14px; padding: 20px 20px 64px; }
   .showcase-switch { grid-row: 2; justify-self: stretch; }
-  .showcase-chip { font-size: 14px; padding-left: 14px; }
-  .showcase-trigger { font-size: 15px; flex: 1 1 auto; }
-  .showcase-options { left: 0; right: 0; transform: none; width: auto; min-width: 0; max-width: none; }
+  .chip-sentence { flex-direction: column; align-items: flex-start; padding: 2px 12px 2px 16px; }
+  .chip-line { min-height: 44px; }
+  .chip-trigger { min-height: 44px; font-size: 15px; }
+  /* Menus become bottom sheets above a dimmed page */
+  .showcase-ui.is-open { z-index: 520; }
+  .chip-backdrop { display: block; position: fixed; inset: 0; z-index: 515; background: rgba(14, 14, 13, .45); }
+  .chip-menu {
+    position: fixed; left: 0; right: 0; bottom: 0; top: auto;
+    width: auto; min-width: 0; max-width: none; max-height: 75svh; overflow-y: auto;
+    border: 0; border-top: .5px solid rgba(14, 14, 13, .35);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-shadow: 0 -12px 32px rgba(14, 14, 13, .22);
+    animation: chipSheetUp .25s var(--ease) both;
+  }
+  .chip-select-left .chip-menu, .chip-select-right .chip-menu { left: 0; right: 0; }
+  .chip-sheet-title {
+    display: block; padding: 18px 20px 6px;
+    font-family: var(--font-label); font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--mid);
+  }
+  .chip-menu li { min-height: 52px; padding: 6px 20px; font-size: 16px; }
   .showcase-caption { max-width: none; }
   .showcase-line { font-size: 13px; }
   .showcase-next { right: 20px; }
@@ -1650,7 +1689,7 @@ a.nav-cta {
 @media (prefers-reduced-motion: reduce) {
   .showcase-slide, .showcase-slide img { transition: none; }
   .showcase-slide img, .showcase-slide.is-active img { transform: none; }
-  .showcase-line, .showcase-trigger-text > .is-current { animation: none; }
+  .showcase-line, .chip-trigger-text > .is-current, .chip-menu { animation: none; }
 }
 
 /* ── SKIP LINK ── */

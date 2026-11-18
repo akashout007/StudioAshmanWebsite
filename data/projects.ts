@@ -1,4 +1,4 @@
-import type { ServiceSlug } from '@/lib/site'
+import type { SectorSlug, ServiceSlug } from '@/lib/site'
 
 export interface ProjectImage {
   src: string
@@ -33,6 +33,8 @@ export interface Project {
   category: string
   services: ServiceSlug[]
   sector: string
+  // Hero and /work sector filters; tag only from facts in the project's own data or copy
+  sectors: SectorSlug[]
   discipline?: string
   location?: string
   year?: string
@@ -66,6 +68,7 @@ export const PROJECTS: Project[] = [
     discipline: 'Bilingual wayfinding concept and a gate, drop-off and corridor sign family for a hospital campus',
     services: ['wayfinding-signage', 'spatial-branding'],
     sector: 'Healthcare',
+    sectors: ['hospitals'],
     location: 'Kanpur',
     year: '2026',
     status: 'concept',
@@ -98,6 +101,7 @@ export const PROJECTS: Project[] = [
     discipline: 'Brand identity for a community art studio',
     services: ['brand-identity', 'digital-collateral'],
     sector: 'Creative education',
+    sectors: ['lifestyle-brands'],
     location: 'Charmwood Village, Faridabad',
     client: 'ArtNest Studio',
     status: 'built',
@@ -130,6 +134,7 @@ export const PROJECTS: Project[] = [
     discipline: 'Signage and wayfinding for a retail mall with studio apartments',
     services: ['wayfinding-signage', 'spatial-branding'],
     sector: 'Retail and residential',
+    sectors: ['malls-mixed-use'],
     location: 'Greater Noida',
     year: '2026',
     status: 'built',
@@ -164,6 +169,7 @@ export const PROJECTS: Project[] = [
     discipline: 'Signage and wayfinding for a mixed-use residential development',
     services: ['wayfinding-signage', 'spatial-branding'],
     sector: 'Residential',
+    sectors: ['real-estate'],
     location: 'Greater Noida',
     year: '2026',
     status: 'built',
@@ -197,6 +203,7 @@ export const PROJECTS: Project[] = [
     discipline: 'Cinema-inspired brand identity and facade signage for a kebab restaurant',
     services: ['brand-identity', 'spatial-branding', 'digital-collateral'],
     sector: 'Food and beverage',
+    sectors: ['restaurants-cafes'],
     location: 'Greater Noida',
     client: 'Bollywood Kabab',
     status: 'built',
@@ -227,6 +234,7 @@ export const PROJECTS: Project[] = [
     discipline: 'Brand collaterals and menu for a soda bar',
     services: ['brand-identity', 'digital-collateral'],
     sector: 'Food and beverage',
+    sectors: ['restaurants-cafes'],
     location: 'Zira, Punjab',
     year: '2026',
     client: 'Chopra\'s Lemon Soda',
@@ -258,6 +266,7 @@ export const PROJECTS: Project[] = [
     discipline: 'Brand identity for a wedding photography practice',
     services: ['brand-identity', 'digital-collateral'],
     sector: 'Wedding photography',
+    sectors: ['lifestyle-brands'],
     location: 'New Delhi',
     year: '2026',
     client: 'Delhigrapher',
@@ -289,6 +298,7 @@ export const PROJECTS: Project[] = [
     discipline: 'Brand identity for a photography and visual storytelling practice',
     services: ['brand-identity', 'digital-collateral'],
     sector: 'Photography and film',
+    sectors: ['lifestyle-brands'],
     location: 'Dubai',
     client: 'Sweta Films',
     status: 'built',
@@ -316,6 +326,7 @@ export const PROJECTS: Project[] = [
     discipline: 'Signage and wayfinding for a three-plaza commercial complex',
     services: ['wayfinding-signage', 'spatial-branding'],
     sector: 'Commercial real estate',
+    sectors: ['malls-mixed-use'],
     location: 'North Delhi',
     status: 'in-progress',
     hero: {
@@ -351,6 +362,7 @@ export const PROJECTS: Project[] = [
     discipline: 'Brand identity and packaging for a foaming intimate wash',
     services: ['brand-identity', 'digital-collateral'],
     sector: 'Personal care',
+    sectors: ['lifestyle-brands'],
     client: 'Intiva',
     status: 'built',
     hero: {
@@ -396,3 +408,19 @@ export function orderedProjects(list: Project[] = PROJECTS): Project[] {
 }
 
 export { filled } from '@/lib/site'
+
+export type ServiceFilter = ServiceSlug | 'all'
+export type SectorFilter = SectorSlug | 'all'
+
+/** Shared by the hero carousel and /work, so both always agree on what a filter shows. */
+export const matchesFilters = (p: Project, service: ServiceFilter, sector: SectorFilter) =>
+  (service === 'all' || p.services.includes(service)) && (sector === 'all' || p.sectors.includes(sector))
+
+/** /work link for a filter pair; "all" leaves its parameter out. */
+export function workHref(service: ServiceFilter, sector: SectorFilter) {
+  const q = new URLSearchParams()
+  if (service !== 'all') q.set('service', service)
+  if (sector !== 'all') q.set('sector', sector)
+  const s = q.toString()
+  return s ? `/work?${s}` : '/work'
+}
