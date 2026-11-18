@@ -1,22 +1,12 @@
-import type { ComponentType } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { CTA, EXTERNAL, LINKS, SERVICES, SITE, STUDIOS, type ServiceSlug } from '@/lib/site'
+import { CTA, EXTERNAL, LINKS, SERVICES, SITE, STUDIOS } from '@/lib/site'
 import { CLIENTS, TESTIMONIALS } from '@/lib/proof'
-import { DiagActivation, DiagFacade, DiagSign, DiagWayfinding } from '@/components/svg/Diagrams'
-
-const DISCIPLINE_ART: Record<ServiceSlug, ComponentType> = {
-  'brand-identity': DiagFacade,
-  'wayfinding-signage': DiagWayfinding,
-  'spatial-branding': DiagActivation,
-  'digital-collateral': DiagSign,
-}
-const TILE_STYLE = ['span2 ink', 'paper', 'paper2', 'paper wide']
 
 export function Disciplines({ id, headingLevel = 'h2' }: { id?: string; headingLevel?: 'h1' | 'h2' }) {
   const Heading = headingLevel
   return (
-    <section className="ash-section" id={id}>
+    <section className="ash-section disciplines" id={id}>
       <div className="ash-wrap">
         <div className="section-head">
           <div className="left">
@@ -24,26 +14,23 @@ export function Disciplines({ id, headingLevel = 'h2' }: { id?: string; headingL
             <Heading>One brand,<br /><em>four</em> disciplines.</Heading>
           </div>
           <p className="lede">
-            Most projects run across all four: an identity that becomes a facade, a sign family, a
-            launch campaign. We work end-to-end, from the first workshop to installation.
+            Most projects run across all four, end-to-end, from the first workshop to installation.
           </p>
         </div>
-        <div className="home-mosaic">
-          {SERVICES.map((s, i) => {
-            const Art = DISCIPLINE_ART[s.slug]
-            return (
-              <Link key={s.slug} href={`/work?service=${s.slug}`} className={`mosaic-tile ${TILE_STYLE[i]}`}>
-                <div className="tile-num">0{i + 1}</div>
-                <div className="ghost-art" aria-hidden="true"><Art /></div>
-                <div className="tile-copy">
-                  <h3>{s.name}</h3>
-                  <p>{s.scope}</p>
-                </div>
-                <div className="tile-arrow">View work <span aria-hidden="true">→</span></div>
+        <ol className="disc-row">
+          {SERVICES.map((s, i) => (
+            <li key={s.slug}>
+              <Link href={`/work?service=${s.slug}`} className="disc-item">
+                <span className="disc-head">
+                  <span className="disc-num" aria-hidden="true">0{i + 1}</span>
+                  <h3 className="disc-name">{s.name}</h3>
+                </span>
+                <p className="disc-line">{s.line}</p>
+                <span className="disc-more">View work <span aria-hidden="true">→</span></span>
               </Link>
-            )
-          })}
-        </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   )

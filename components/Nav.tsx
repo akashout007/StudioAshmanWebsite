@@ -59,7 +59,19 @@ export default function Nav() {
         <MobileMenu open={mobileOpen} onClose={closeMobile}>
           <Link href="/" onClick={closeMobile}>Home</Link>
           <Link href="/work" onClick={closeMobile}>Brand stories</Link>
-          <Link href="/#what-we-do" onClick={closeMobile}>What we do</Link>
+          <div className="mobile-services">
+            <p className="mobile-services-title">What we do</p>
+            <ul>
+              {SERVICES.map((s) => (
+                <li key={s.slug}>
+                  <Link href={`/work?service=${s.slug}`} onClick={closeMobile}>
+                    <span className="mobile-service-name">{s.name}</span>
+                    <span className="mobile-service-line">{s.line}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
           <Link href="/studio" onClick={closeMobile}>Studio</Link>
           <Link href="/contact" onClick={closeMobile}>Contact</Link>
         </MobileMenu>
@@ -93,40 +105,19 @@ export default function Nav() {
 
         {menuOpen && (
           <div id="nav-services" className="mega-menu">
-            <div className="mega-col">
-              <p className="mega-heading">Disciplines</p>
-              <ul className="mega-list">
-                {SERVICES.map((s) => (
-                  <li key={s.slug}>
-                    <Link href={`/work?service=${s.slug}`} onClick={() => setMenuOpen(false)}>
-                      {s.name}
-                      <span className="mm-meta">View work</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="mega-col">
-              <p className="mega-heading">Explore</p>
-              <ul className="mega-list">
-                <li><Link href="/#what-we-do" onClick={() => setMenuOpen(false)}>How the four fit together<span className="mm-meta">Overview</span></Link></li>
-                <li><Link href="/work" onClick={() => setMenuOpen(false)}>Brand stories<span className="mm-meta">All work</span></Link></li>
-                <li><Link href="/studio" onClick={() => setMenuOpen(false)}>About the studio<span className="mm-meta">Studio</span></Link></li>
-              </ul>
-            </div>
-
-            <Link href="/contact" className="mega-feature" onClick={() => setMenuOpen(false)}>
-              <div>
-                <div className="ash-eyebrow on-dark">
-                  <span className="dash" />Start a project
-                </div>
-                <h3>Have a brand or a <em>space</em> in mind?</h3>
-              </div>
-              <div className="mm-meta-row">
-                <div>{CTA.reply}</div>
-                <span className="mm-arrow" aria-hidden="true">↗</span>
-              </div>
+            <ul className="mega-services">
+              {SERVICES.map((s, i) => (
+                <li key={s.slug}>
+                  <Link href={`/work?service=${s.slug}`} onClick={() => setMenuOpen(false)}>
+                    <span className="mega-num" aria-hidden="true">0{i + 1}</span>
+                    <span className="mega-name">{s.name}</span>
+                    <span className="mega-line">{s.line}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <Link href="/work" className="mega-all" onClick={() => setMenuOpen(false)}>
+              All brand stories <span aria-hidden="true">→</span>
             </Link>
           </div>
         )}

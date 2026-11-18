@@ -16,35 +16,36 @@ export const SITE = {
 
 export type ServiceSlug = 'brand-identity' | 'wayfinding-signage' | 'spatial-branding' | 'digital-collateral'
 
-// `short` labels project cards; `chip` is the one-word label in the hero sentence.
-export const SERVICES: { slug: ServiceSlug; name: string; short: string; chip: string; scope: string }[] = [
+// `short` labels project cards; `chip` is the one-word label in the hero sentence; `line` is the
+// single sentence shown wherever services are listed.
+export const SERVICES: { slug: ServiceSlug; name: string; short: string; chip: string; line: string }[] = [
   {
     slug: 'brand-identity',
     name: 'Brand Identity & Storytelling',
     short: 'Brand Identity',
     chip: 'Identity',
-    scope: 'Strategy, naming, logo, visual system, brand story',
+    line: 'The brand, and the story it tells.',
   },
   {
     slug: 'wayfinding-signage',
     name: 'Wayfinding & Signage',
     short: 'Wayfinding',
     chip: 'Wayfinding',
-    scope: 'Wayfinding strategy, sign families, pictograms, fabrication and install supervision',
+    line: 'Helping people find their way.',
   },
   {
     slug: 'spatial-branding',
     name: 'Spatial Branding',
     short: 'Spatial',
     chip: 'Spaces',
-    scope: 'Environmental graphics, facades, interiors, activations, retail',
+    line: 'The brand, built into the space.',
   },
   {
     slug: 'digital-collateral',
     name: 'Digital & Brand Collateral',
     short: 'Digital & Collateral',
     chip: 'Collateral',
-    scope: 'Social, web, packaging, print, launch assets',
+    line: 'Everything the brand puts out.',
   },
 ]
 
