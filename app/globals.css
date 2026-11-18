@@ -48,23 +48,21 @@ img, svg { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; cursor: pointer; }
 
-/* ── CURSOR ── */
-.cursor {
-  position: fixed; width: 10px; height: 10px;
-  background: var(--accent); border-radius: 50%;
-  pointer-events: none; z-index: 9999; top: 0; left: 0;
-  box-shadow: 0 0 0 1.5px rgba(242, 239, 232, .9), 0 0 6px rgba(14, 14, 13, .35);
-  transition: width .15s, height .15s, background .15s;
-}
+/* ── CURSOR ACCENT ──
+   Decorative ring that trails the system cursor (which always stays visible). Stacked below
+   the header (500), menus (490–510), the hero service menu (470) and the WhatsApp button (480). */
 .cursor-ring {
-  position: fixed; width: 36px; height: 36px;
+  position: fixed; top: 0; left: 0; width: 36px; height: 36px; margin: -18px 0 0 -18px;
   border: 1.5px solid var(--accent); border-radius: 50%;
   box-shadow: 0 0 0 1px rgba(242, 239, 232, .55), inset 0 0 0 1px rgba(242, 239, 232, .55);
-  pointer-events: none; z-index: 9998; top: 0; left: 0; opacity: .85;
-  transition: width .2s, height .2s, opacity .2s;
+  pointer-events: none; z-index: 460; opacity: .85; will-change: transform;
+  transition: width .2s, height .2s, margin .2s, opacity .2s;
 }
-.cursor.hovered { width: 16px; height: 16px; background: var(--ink); }
-.cursor-ring.hovered { width: 52px; height: 52px; opacity: .5; }
+.cursor-ring.hovered { width: 52px; height: 52px; margin: -26px 0 0 -26px; opacity: .5; }
+.cursor-ring.is-hidden { opacity: 0; }
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .cursor-ring { display: none; }
+}
 
 /* ── LAYOUT ── */
 .ash-wrap { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
@@ -150,6 +148,13 @@ nav.scrolled {
   padding: 8px 0; cursor: pointer;
   transition: color .2s, border-color .2s;
   display: inline-flex; align-items: center; gap: 6px;
+}
+.nav-links a, .nav-links button { white-space: nowrap; }
+/* Narrow desktops: tighter tracking and gaps keep the nav on one line (type stays 12–13px) */
+@media (max-width: 1200px) {
+  .nav-links { gap: 20px; }
+  .nav-links a, .nav-links button, .nav-links a.nav-cta { letter-spacing: .1em; }
+  .nav-links a.nav-cta { padding-inline: 16px; }
 }
 .nav-links a:hover, .nav-links button:hover, .nav-links a.active { color: var(--ink); }
 .nav-links a.active { border-bottom-color: var(--accent); }
@@ -889,17 +894,8 @@ footer {
   .contact-right { padding: 4rem 2.5rem; }
 }
 
-/* ══════════════════════════════════════════════════════════
-   RESPONSIVE — MOBILE  (≤ 768px)
-══════════════════════════════════════════════════════════ */
-@media (max-width: 768px) {
-  /* Cursor hidden on touch */
-  .cursor, .cursor-ring { display: none; }
-  * { cursor: auto !important; }
-
-  /* NAV */
-  nav { padding: 14px 20px; }
-  nav.scrolled { padding: 12px 20px; }
+/* Hamburger menu from 1000px down, so the one-line desktop nav never has to squeeze */
+@media (max-width: 1000px) {
   .nav-links { display: none; }
   .nav-hamburger {
     display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
@@ -935,7 +931,16 @@ footer {
     margin-top: 40px; font-family: var(--font-label); font-size: 12px;
     font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--mid);
   }
+}
 
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE — MOBILE  (≤ 768px)
+══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* NAV */
+  nav { padding: 14px 20px; }
+  nav.scrolled { padding: 12px 20px; }
   /* WRAP & SECTIONS */
   .ash-wrap { padding: 0 20px; }
   .ash-section { padding: 56px 0; }
@@ -1675,6 +1680,8 @@ address { font-style: normal; }
 .form-group [aria-invalid="true"], .form-row [aria-invalid="true"] { border-bottom-color: #a3321a; }
 .form-submit:disabled { opacity: .6; cursor: progress; transform: none; }
 .form-note { margin-top: 1.4rem; font-size: 13px; color: var(--mid); line-height: 1.7; max-width: 52ch; }
+.form-consent { margin-top: .9rem; font-size: 13px; color: var(--mid); line-height: 1.6; }
+.form-consent a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
 .form-success, .form-failure { margin-top: 1.4rem; padding: 16px 18px; font-size: 14px; line-height: 1.6; }
 .form-success { background: var(--ink); color: var(--paper); }
 .form-failure { background: #fbeae4; color: #6e2412; border-left: 3px solid #a3321a; }
@@ -1755,10 +1762,15 @@ ol.bordered-grid, ul.ash-stats { list-style: none; padding: 0; }
   width: 56px; height: 56px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   background: #1f7a4d; color: #fff; box-shadow: 0 6px 20px rgba(14,14,13,.22);
-  transition: background .2s, transform .2s;
+  /* Hidden (and out of the tab order) until the script reveals it */
+  opacity: 0; visibility: hidden; transform: translateY(12px);
+  transition: opacity .3s, transform .3s, visibility 0s .3s, background .2s;
 }
-.wa-float:hover { background: #17603c; transform: translateY(-2px); }
-@media (max-width: 768px) { footer { padding-bottom: 104px; } }
+.wa-float.is-visible {
+  opacity: 1; visibility: visible; transform: none;
+  transition: opacity .3s, transform .3s, visibility 0s, background .2s;
+}
+.wa-float.is-visible:hover { background: #17603c; transform: translateY(-2px); }
 
 /* ── STUDIO PAGE ── */
 ul.bordered-grid { list-style: none; padding: 0; }

@@ -1,79 +1,78 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 
+// Only for a real mouse: never on touch, hover-less devices, or with reduced motion
+const QUERY = '(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)'
+// Over these the ring would sit under the header or menus, so it steps aside
+const COVERED = 'header, .mega-menu, .mobile-nav, [role="listbox"]'
+
+/** Decorative ring that trails the system cursor. The system cursor always stays visible. */
 export default function Cursor() {
-  const dotRef = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
   const [enabled, setEnabled] = useState(false)
+  // Where the pointer first moved; the ring only exists from then on
+  const [start, setStart] = useState<{ x: number; y: number } | null>(null)
 
   useEffect(() => {
-    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    setEnabled(fine && !reduce && navigator.maxTouchPoints === 0)
+    const mq = window.matchMedia(QUERY)
+    const update = () => setEnabled(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
   }, [])
 
   useEffect(() => {
     if (!enabled) return
-    const dot = dotRef.current
-    const ring = ringRef.current
-    if (!dot || !ring) return
-    let cleanup = () => {}
-    let cancelled = false
-    import('gsap').then(({ default: gsap }) => {
-      if (cancelled) return
+    let raf = 0
+    const target = { x: 0, y: 0 }
+    const pos = { x: 0, y: 0 }
+    let started = false
 
-    gsap.set([dot, ring], { xPercent: -50, yPercent: -50 })
-
-    const xDot = gsap.quickTo(dot, 'x', { duration: 0.1, ease: 'power3' })
-    const yDot = gsap.quickTo(dot, 'y', { duration: 0.1, ease: 'power3' })
-    const xRing = gsap.quickTo(ring, 'x', { duration: 0.35, ease: 'power3' })
-    const yRing = gsap.quickTo(ring, 'y', { duration: 0.35, ease: 'power3' })
-
-    const onMove = (e: MouseEvent) => {
-      xDot(e.clientX)
-      yDot(e.clientY)
-      xRing(e.clientX)
-      yRing(e.clientY)
+    const tick = () => {
+      pos.x += (target.x - pos.x) * 0.25
+      pos.y += (target.y - pos.y) * 0.25
+      if (ringRef.current) ringRef.current.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`
+      raf = Math.abs(target.x - pos.x) + Math.abs(target.y - pos.y) > 0.1 ? requestAnimationFrame(tick) : 0
     }
 
-    const onOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      if (target.closest('a, button')) {
-        dot.classList.add('hovered')
-        ring.classList.add('hovered')
+    const onMove = (e: PointerEvent) => {
+      if (e.pointerType !== 'mouse') return
+      target.x = e.clientX
+      target.y = e.clientY
+      if (!started) {
+        // Appear right at the pointer on the first real move, never from the corner
+        started = true
+        pos.x = target.x
+        pos.y = target.y
+        setStart({ x: target.x, y: target.y })
       }
+      const ring = ringRef.current
+      if (ring) {
+        const el = e.target as Element
+        ring.classList.toggle('is-hidden', !!el.closest?.(COVERED))
+        ring.classList.toggle('hovered', !!el.closest?.('a, button, [role="option"]'))
+      }
+      if (!raf) raf = requestAnimationFrame(tick)
     }
+    const onLeave = () => ringRef.current?.classList.add('is-hidden')
 
-    const onOut = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      if (target.closest('a, button')) {
-        dot.classList.remove('hovered')
-        ring.classList.remove('hovered')
-      }
-    }
-
-    window.addEventListener('mousemove', onMove)
-    document.addEventListener('mouseover', onOver)
-    document.addEventListener('mouseout', onOut)
-
-      cleanup = () => {
-        window.removeEventListener('mousemove', onMove)
-        document.removeEventListener('mouseover', onOver)
-        document.removeEventListener('mouseout', onOut)
-      }
-    })
+    window.addEventListener('pointermove', onMove, { passive: true })
+    document.documentElement.addEventListener('pointerleave', onLeave)
     return () => {
-      cancelled = true
-      cleanup()
+      cancelAnimationFrame(raf)
+      window.removeEventListener('pointermove', onMove)
+      document.documentElement.removeEventListener('pointerleave', onLeave)
+      setStart(null)
     }
   }, [enabled])
 
-  if (!enabled) return null
-
+  if (!enabled || !start) return null
   return (
-    <>
-      <div ref={dotRef} className="cursor" aria-hidden="true" />
-      <div ref={ringRef} className="cursor-ring" aria-hidden="true" />
-    </>
+    <div
+      ref={ringRef}
+      className="cursor-ring"
+      aria-hidden="true"
+      style={{ transform: `translate3d(${start.x}px, ${start.y}px, 0)` }}
+    />
   )
 }

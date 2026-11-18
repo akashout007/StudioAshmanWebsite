@@ -66,7 +66,7 @@ export default function Nav() {
 
         <ul className="nav-links">
           <li>
-            <Link href="/work" className={isActive('/work') ? 'active' : ''}>Work</Link>
+            <Link href="/work" className={isActive('/work') ? 'active' : ''}>Brand stories</Link>
           </li>
           <li>
             <button

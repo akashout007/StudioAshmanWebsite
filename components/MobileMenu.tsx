@@ -34,7 +34,7 @@ export default function MobileMenu({ open, onClose, children }: {
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
-    const desktop = window.matchMedia('(min-width: 769px)')
+    const desktop = window.matchMedia('(min-width: 1001px)')
     const onResize = (e: MediaQueryListEvent) => { if (e.matches) onClose() }
     document.addEventListener('keydown', onKey)
     desktop.addEventListener('change', onResize)

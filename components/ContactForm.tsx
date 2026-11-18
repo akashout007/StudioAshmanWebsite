@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link'
 import { useRef, useState, type FormEvent } from 'react'
 import { EMAIL, SERVICES } from '@/lib/site'
 
@@ -169,6 +170,9 @@ export default function ContactForm() {
       <button type="submit" className="form-submit" disabled={status === 'submitting'} aria-busy={status === 'submitting'}>
         {status === 'submitting' ? 'Sending…' : 'Send message →'}
       </button>
+      <p className="form-consent">
+        By sending this form you agree to our <Link href="/privacy">Privacy Policy</Link>.
+      </p>
 
       <p className="form-note">
         Every project is scoped and priced to its requirements. Tell us what you&apos;re building and
