@@ -10,7 +10,7 @@ export default function ProjectPageNav({ prev, next }: Props) {
   return (
     <div role="navigation" className="proj-page-nav" aria-label="Project navigation">
       <div className="ash-wrap proj-page-nav-inner">
-        <Link href="/?section=work" className="proj-page-nav-back">
+        <Link href="/work" className="proj-page-nav-back">
           ← Back to work
         </Link>
 

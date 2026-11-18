@@ -2,41 +2,9 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { usePage } from '@/context/PageContext'
-import Footer from '@/components/Footer'
+import Link from 'next/link'
 
 gsap.registerPlugin(ScrollTrigger)
-
-const TEAM = [
-  {
-    name: 'Akash Manna', initial: 'A',
-    role: 'Founder · Principal',
-    bio: 'Architect and wayfinding specialist. Leads strategy across every engagement and is in the room for every major design review.',
-  },
-  {
-    name: 'Anamika', initial: 'An',
-    role: 'Architect & Spatial Designer',
-    bio: 'Leads spatial identity and architectural collaboration. Background in interiors and exhibition design.',
-  },
-]
-
-const TIMELINE = [
-  { year: '2025', what: 'Artnest Studio — Charmwood Village, Faridabad', where: 'Environmental identity for an artist\'s atelier. The studio\'s first dedicated EGD engagement.' },
-  { year: '2026', what: 'Regency Kanpur Hospital — wayfinding concept', where: 'Concept pitch for a hospital campus in Kanpur. Bilingual (English / Hindi) wayfinding, colour-coded cores and a sign family from gate pylons to corridor signs.' },
-  { year: '2026', what: 'Delhigrapher — brand identity', where: 'Brand identity for a Delhi-based wedding photography practice.' },
-  { year: '2026', what: 'Chopra\'s Lemon Soda — brand collaterals', where: 'A soda bar on Ferozepur Road, Zira: the existing badge carried onto cups, packaging, print, uniform and the menu.' },
-]
-
-const AWARDS = [
-  { year: '2024', title: 'Brand New — Noted', org: 'Studio launch identity', cat: 'Brand' },
-]
-
-const ROLES = [
-  { title: (<>Senior Wayfinding <em>Designer</em></>), type: 'Permanent · Full-time', loc: 'New Delhi', meta: '4+ years experience' },
-  { title: 'Junior Graphic Designer', type: 'Permanent · Full-time', loc: 'New Delhi', meta: 'Recent NID / Srishti graduate' },
-  { title: 'Sign Production Coordinator', type: 'Permanent · Full-time', loc: 'New Delhi', meta: 'Fabrication background' },
-  { title: (<>Studio <em>Internship</em> 2026</>), type: '6 months · Paid', loc: 'New Delhi', meta: 'Applications open Jan' },
-]
 
 const BELIEFS = [
   {
@@ -60,15 +28,10 @@ const BELIEFS = [
 ]
 
 export default function StudioPage() {
-  const { navigateTo } = usePage()
   const heroRef     = useRef<HTMLDivElement>(null)
   const storyRef    = useRef<HTMLElement>(null)
   const pullRef     = useRef<HTMLDivElement>(null)
   const beliefsRef  = useRef<HTMLDivElement>(null)
-  const teamRef     = useRef<HTMLDivElement>(null)
-  const timelineRef = useRef<HTMLDivElement>(null)
-  const awardsRef   = useRef<HTMLDivElement>(null)
-  const rolesRef    = useRef<HTMLDivElement>(null)
   const ctaRef      = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -134,74 +97,6 @@ export default function StudioPage() {
         })
       }
 
-      /* ─── Team cards ─── */
-      if (teamRef.current) {
-        const cards = teamRef.current.querySelectorAll('.team-card')
-        ScrollTrigger.create({
-          trigger: teamRef.current, start: 'top 78%',
-          onEnter: () => {
-            gsap.fromTo(cards,
-              { opacity: 0, y: 32, scale: .97 },
-              { opacity: 1, y: 0, scale: 1, duration: .65, stagger: .1, ease: 'power3.out' }
-            )
-          },
-        })
-      }
-
-      /* ─── Timeline rows ─── */
-      if (timelineRef.current) {
-        const rows = timelineRef.current.querySelectorAll('.timeline-row')
-        ScrollTrigger.create({
-          trigger: timelineRef.current, start: 'top 80%',
-          onEnter: () => {
-            gsap.fromTo(rows,
-              { opacity: 0, x: -20 },
-              { opacity: 1, x: 0, duration: .6, stagger: .1, ease: 'power3.out' }
-            )
-          },
-        })
-        /* Animate timeline dots */
-        rows.forEach((row) => {
-          gsap.fromTo(row, {}, {
-            scrollTrigger: {
-              trigger: row, start: 'top 88%',
-              onEnter: () => {
-                const pseudo = row as HTMLElement
-                pseudo.style.setProperty('--dot-scale', '1')
-              },
-            },
-          })
-        })
-      }
-
-      /* ─── Awards ─── */
-      if (awardsRef.current) {
-        const rows = awardsRef.current.querySelectorAll('.award-row')
-        ScrollTrigger.create({
-          trigger: awardsRef.current, start: 'top 80%',
-          onEnter: () => {
-            gsap.fromTo(rows,
-              { opacity: 0, y: 16 },
-              { opacity: 1, y: 0, duration: .55, stagger: .09, ease: 'power3.out' }
-            )
-          },
-        })
-      }
-
-      /* ─── Roles ─── */
-      if (rolesRef.current) {
-        const rows = rolesRef.current.querySelectorAll('.role-row')
-        ScrollTrigger.create({
-          trigger: rolesRef.current, start: 'top 80%',
-          onEnter: () => {
-            gsap.fromTo(rows,
-              { opacity: 0, y: 16 },
-              { opacity: 1, y: 0, duration: .55, stagger: .09, ease: 'power3.out' }
-            )
-          },
-        })
-      }
-
       /* ─── CTA ─── */
       if (ctaRef.current) {
         gsap.fromTo(ctaRef.current, { opacity: 0, y: 28 }, {
@@ -221,7 +116,7 @@ export default function StudioPage() {
         <div ref={heroRef} className="page-hero">
           <div>
             <div className="breadcrumb">
-              <span>Ashman.Studio</span>
+              <Link href="/" className="breadcrumb-link">Ashman Studio</Link>
               <span className="sep">/</span>
               <span className="current">Studio</span>
             </div>
@@ -328,119 +223,6 @@ export default function StudioPage() {
         </div>
       </section>
 
-      {/* TEAM */}
-      <section className="ash-section" style={{ paddingTop: 0 }}>
-        <div className="ash-wrap">
-          <div className="section-head">
-            <div className="left">
-              <div className="num">— 03 / Team</div>
-              <h2>A small <em>team</em>,<br />four named here.</h2>
-            </div>
-            <p className="lede">
-              The founder and four senior designers. The rest of the studio — assistants,
-              junior designers and a small fabrication partner — are not listed here.
-            </p>
-          </div>
-          <div ref={teamRef} className="team-grid">
-            {TEAM.map((p) => (
-              <div key={p.name} className="team-card">
-                <div className="photo">
-                  <div className="photo-initial">{p.initial}</div>
-                </div>
-                <div className="team-name">{p.name}</div>
-                <div className="team-role">{p.role}</div>
-                <div className="team-bio">{p.bio}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* TIMELINE */}
-      <section className="ash-section" style={{ paddingTop: 0 }}>
-        <div className="ash-wrap">
-          <div className="section-head">
-            <div className="left">
-              <div className="num">— 04 / Timeline</div>
-              <h2>Seven <em>moments</em>.</h2>
-            </div>
-            <p className="lede">
-              The shorthand version of how the studio got here. Other things happened in between,
-              but these are the ones that changed the shape of the practice.
-            </p>
-          </div>
-          <div ref={timelineRef} className="timeline">
-            {TIMELINE.map((t, i) => (
-              <div key={i} className="timeline-row">
-                <div className="timeline-year">{t.year}</div>
-                <div>
-                  <div className="timeline-what">{t.what}</div>
-                  <div className="timeline-where">{t.where}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* AWARDS */}
-      <section className="ash-section" style={{ paddingTop: 0 }} id="awards">
-        <div className="ash-wrap">
-          <div className="section-head">
-            <div className="left">
-              <div className="num">— 05 / Awards</div>
-              <h2>Honours &amp;<br /><em>recognition</em>.</h2>
-            </div>
-            <p className="lede">
-              Five honours and shortlists in two years — most for the wayfinding and heritage
-              retail work. We don&apos;t enter every competition; the ones below are the ones that
-              mattered to the team or the client.
-            </p>
-          </div>
-          <div ref={awardsRef} className="awards-list">
-            {AWARDS.map((a, i) => (
-              <div key={i} className="award-row">
-                <div className="award-year">{a.year}</div>
-                <div className="award-title">{a.title}</div>
-                <div className="award-org">{a.org}</div>
-                <div className="award-cat">{a.cat}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CAREERS */}
-      <section className="ash-section" style={{ paddingTop: 0 }} id="careers">
-        <div className="ash-wrap">
-          <div className="section-head">
-            <div className="left">
-              <div className="num">— 06 / Careers</div>
-              <h2>Currently <em>hiring</em>.</h2>
-            </div>
-            <p className="lede">
-              Four open roles in New Delhi. We hire roughly two or three
-              people a year — most arrive through a portfolio cold-email or a personal recommendation.
-            </p>
-          </div>
-          <div ref={rolesRef} className="role-list">
-            {ROLES.map((r, i) => (
-              <a
-                key={i}
-                href="mailto:careers@ashmanstudios.com"
-                className="role-row"
-                style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 200px 80px', gap: 32 }}
-              >
-                <div className="role-title">{r.title}</div>
-                <div className="role-meta">{r.type} · {r.meta}</div>
-                <div className="role-loc">{r.loc}</div>
-                <div className="role-arrow">Apply →</div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section ref={ctaRef} className="ash-cta-strip">
         <div className="inner">
@@ -451,13 +233,12 @@ export default function StudioPage() {
               we&apos;d love to hear from you.
             </p>
           </div>
-          <button className="btn-primary" onClick={() => navigateTo('contact')}>
+          <Link href="/contact" className="btn-primary">
             Get in touch →
-          </button>
+          </Link>
         </div>
       </section>
 
-      <Footer />
     </>
   )
 }

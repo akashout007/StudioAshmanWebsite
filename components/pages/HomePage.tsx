@@ -2,10 +2,10 @@
 import { useEffect, useRef, type ComponentType } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { usePage } from '@/context/PageContext'
+import Link from 'next/link'
 import NextProjectArt from '@/components/NextProjectArt'
 import HeroShowcase from '@/components/HeroShowcase'
-import Footer from '@/components/Footer'
+import { EXTERNAL, STUDIOS } from '@/lib/site'
 import {
   DiagWayfinding, DiagSign, DiagActivation, DiagFacade,
   DiagFloorplan, DiagRetail, DiagSection
@@ -76,54 +76,54 @@ const ArtMap: Record<string, ComponentType> = {
 
 const FEATURED = [
   {
-    tag: 'Wayfinding · Healthcare', year: '2026', hero: true,
+    slug: 'regency-hospital', tag: 'Wayfinding · Healthcare', year: '2026', hero: true,
     title: (<>Regency Kanpur Hospital — bilingual <em>wayfinding</em> concept for a hospital campus.</>),
     loc: 'Kanpur, Uttar Pradesh · 2026 · Concept', diag: 'wayfinding',
     imgSrc: '/projects/regency/regency-cover.jpg', imgPos: '72% 50%',
   },
   {
-    tag: 'Wayfinding · Commercial', year: '',
+    slug: 'central-square', tag: 'Wayfinding · Commercial', year: '',
     title: 'Central Square — signage and wayfinding for a three-plaza commercial complex',
     loc: 'North Delhi · Design development', diag: 'section',
     imgSrc: '/projects/central-square/central-square-hero.jpg',
   },
   {
-    tag: 'Wayfinding · Residential', year: '26',
+    slug: 'kaamya-greens', tag: 'Wayfinding · Residential', year: '26',
     title: 'Kaamya Greens — brass-and-grey signage for a residential development',
     loc: 'Greater Noida · 2026', diag: 'section', imgSrc: '/projects/kaamya-greens/kaamya-hero.jpg',
   },
   {
-    tag: 'Wayfinding · Mixed-use', year: '26',
+    slug: 'mall-of-expressway', tag: 'Wayfinding · Mixed-use', year: '26',
     title: 'Mall of Expressway — one sign system for a mall and studio apartments',
     loc: 'Greater Noida · 2026', diag: 'section', imgSrc: '/projects/mall-of-expressway/mall-banner.jpg', imgPos: '50% 50%',
   },
   {
-    tag: 'Spatial Identity · Heritage', year: '24',
+    slug: 'chopra-soda', tag: 'Spatial Identity · Heritage', year: '24',
     title: 'Chopra\'s Lemon Soda — brand collaterals and menu for a soda bar',
     loc: 'Zira, Punjab · 2026', diag: 'retail', imgSrc: '/projects/chopra-soda/chopra-hero.jpg',
   },
   {
-    tag: 'Brand Identity', year: '',
+    slug: 'artnest-studio', tag: 'Brand Identity', year: '',
     title: 'ArtNest Studio — brand identity for a community art studio',
     loc: 'Charmwood Village, Faridabad', diag: 'facade', imgSrc: '/projects/artnest/artnest-cover.jpg',
   },
   {
-    tag: 'Brand Identity', year: '26',
+    slug: 'delhigrapher', tag: 'Brand Identity', year: '26',
     title: 'Delhigrapher — brand identity for a wedding photography practice',
     loc: 'New Delhi · 2026', diag: 'floorplan', imgSrc: '/delhigrapher/delhigrapher-cover.jpg',
   },
   {
-    tag: 'Brand Identity · Signage', year: '',
+    slug: 'bollywood-kabab', tag: 'Brand Identity · Signage', year: '',
     title: 'Bollywood Kabab — cinema-inspired identity and facade signage for a kebab restaurant',
     loc: 'Greater Noida', diag: 'sign', imgSrc: '/projects/bollywood-kabab/bollywood-kabab-hero.jpg',
   },
   {
-    tag: 'Brand Identity · Packaging', year: '',
+    slug: 'intiva', tag: 'Brand Identity · Packaging', year: '',
     title: 'Intiva — brand identity and packaging for a foaming intimate wash',
     loc: 'Label, carton and product imagery', diag: 'sign', imgSrc: '/projects/intiva/intiva-cover.jpg',
   },
   {
-    tag: 'Wayfinding · Healthcare', year: '26',
+    slug: 'regency-hospital', tag: 'Wayfinding · Healthcare', year: '26',
     title: 'Regency Kanpur Hospital — gate, drop-off and corridor sign family',
     loc: 'Kanpur · 2026 · Concept', diag: 'section', imgSrc: '/projects/regency/regency-dr01.jpg',
   },
@@ -146,8 +146,6 @@ const STATS = [
 ]
 
 export default function HomePage() {
-  const { navigateTo } = usePage()
-
   const mosaicRef    = useRef<HTMLDivElement>(null)
   const featuredRef  = useRef<HTMLDivElement>(null)
   const statementRef = useRef<HTMLElement>(null)
@@ -310,10 +308,10 @@ export default function HomePage() {
             {PRACTICES.map((p, i) => {
               const Art = ArtMap[p.art]
               return (
-                <button
+                <Link
                   key={i}
+                  href="/work"
                   className={`mosaic-tile ${p.cls}`}
-                  onClick={() => navigateTo(p.page)}
                   style={{ textAlign: 'left', width: '100%', height: '100%' }}
                 >
                   <div className="tile-num">{p.num}</div>
@@ -323,7 +321,7 @@ export default function HomePage() {
                     <p>{p.body}</p>
                   </div>
                   <div className="tile-arrow">{p.arrow} <span>→</span></div>
-                </button>
+                </Link>
               )
             })}
           </div>
@@ -348,11 +346,10 @@ export default function HomePage() {
             {FEATURED.map((p, i) => {
               const Art = ProjArtMap[p.diag] || DiagWayfinding
               return (
-                <button
+                <Link
                   key={i}
+                  href={`/work/${p.slug}`}
                   className={`project-card${p.hero ? ' hero' : ''}`}
-                  onClick={() => navigateTo('work')}
-                  style={{ border: 'none', background: 'none', padding: 0, textAlign: 'left', cursor: 'pointer' }}
                 >
                   <div className="pc-img">
                     {p.imgSrc ? (
@@ -367,28 +364,24 @@ export default function HomePage() {
                   </div>
                   <h3>{p.title}</h3>
                   <div className="pc-loc">{p.loc}</div>
-                </button>
+                </Link>
               )
             })}
             {FEATURED.filter((p) => !p.hero).length % 2 === 1 && (
-              <button
-                className="project-card project-card-next"
-                onClick={() => navigateTo('contact')}
-                style={{ border: 'none', background: 'none', padding: 0, textAlign: 'left', cursor: 'pointer' }}
-              >
+              <Link href="/contact" className="project-card project-card-next">
                 <div className="pc-img"><NextProjectArt /></div>
                 <div className="pc-meta">
                   <span className="pc-tag">Coming soon</span>
                 </div>
                 <h3>Your project — tell us what you&apos;re building</h3>
                 <div className="pc-loc">New Delhi · Dubai</div>
-              </button>
+              </Link>
             )}
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 56 }}>
-            <button className="btn-outline" onClick={() => navigateTo('work')}>
+            <Link href="/work" className="btn-outline">
               View all projects <span>→</span>
-            </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -440,33 +433,22 @@ export default function HomePage() {
             </p>
           </div>
           <div ref={studiosRef} className="office-grid">
-            <button className="office-card" onClick={() => navigateTo('contact')} style={{ border: 'none', textAlign: 'left' }}>
-              <div>
-                <div className="city-role">Headquarters · Strategy · Wayfinding</div>
-                <div className="city"><em>New Delhi</em></div>
-                <div className="city-addr">
-                  Block 4, Hauz Khas Village<br />South Delhi 110016<br />India
+            {STUDIOS.map((st) => (
+              <div key={st.key} className="office-card">
+                <div>
+                  <div className="city-role">{st.role}</div>
+                  <div className="city">{st.key === 'new-delhi' ? <em>{st.city}</em> : st.city}</div>
+                  <address className="city-addr">
+                    {st.addressLines.map((l) => <span key={l}>{l}<br /></span>)}
+                  </address>
+                </div>
+                <div className="city-meta">
+                  <span className="city-clock">{st.timezone}</span>
+                  <a className="city-tz" href={st.tel}>{st.phone}</a>
+                  <a className="city-tz" href={st.mapsUrl} {...EXTERNAL}>Get directions ↗</a>
                 </div>
               </div>
-              <div className="city-meta">
-                <span className="city-clock">IST +5:30</span>
-                <span className="city-tz">+91 83830 27996 ↗</span>
-              </div>
-            </button>
-
-            <button className="office-card" onClick={() => navigateTo('contact')} style={{ border: 'none', textAlign: 'left' }}>
-              <div>
-                <div className="city-role">Activation · Retail · Gulf</div>
-                <div className="city">Dubai</div>
-                <div className="city-addr">
-                  Unit 17, Alserkal Avenue<br />Al Quoz 1, Dubai<br />United Arab Emirates
-                </div>
-              </div>
-              <div className="city-meta">
-                <span className="city-clock">GST +4:00</span>
-                <span className="city-tz">+971 56 655 2845 ↗</span>
-              </div>
-            </button>
+            ))}
           </div>
         </div>
       </section>
@@ -481,13 +463,12 @@ export default function HomePage() {
               we&apos;ll be in touch within two working days.
             </p>
           </div>
-          <button className="btn-primary" onClick={() => navigateTo('contact')}>
+          <Link href="/contact" className="btn-primary">
             Start a project →
-          </button>
+          </Link>
         </div>
       </section>
 
-      <Footer />
     </>
   )
 }

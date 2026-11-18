@@ -2,10 +2,9 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Footer from '@/components/Footer'
+import Link from 'next/link'
 import ProjectCard from '@/components/ProjectCard'
 import NextProjectArt from '@/components/NextProjectArt'
-import { usePage } from '@/context/PageContext'
 import { PROJECTS } from '@/data/projects'
 import type { ProjectCategory } from '@/data/projects'
 import { EDITORIAL_COVERS } from '@/components/project/EditorialCover'
@@ -43,9 +42,9 @@ const FEATURED_SLUGS = ['mall-of-expressway', 'artnest-studio', 'regency-hospita
 // Wide (7fr) and narrow (5fr) cards share a row, so narrow = wide × 5/7 keeps both the same height
 const FEATURED_RATIOS = ['4/3', '20/21', '20/21', '4/3']
 
-function NextProjectCard({ aspectRatio, onClick }: { aspectRatio: string; onClick: () => void }) {
+function NextProjectCard({ aspectRatio }: { aspectRatio: string }) {
   return (
-    <button type="button" className="proj-card proj-card-link proj-card-next" onClick={onClick}>
+    <Link href="/contact" className="proj-card proj-card-link proj-card-next">
       <div className="proj-img">
         <div className="proj-img-inner" style={{ aspectRatio }}>
           <NextProjectArt />
@@ -56,12 +55,11 @@ function NextProjectCard({ aspectRatio, onClick }: { aspectRatio: string; onClic
         <div className="proj-title">Your project</div>
         <div className="proj-sub">Have something in mind? Start a conversation →</div>
       </div>
-    </button>
+    </Link>
   )
 }
 
 export default function WorkPage() {
-  const { navigateTo } = usePage()
   const [activeFilter, setActiveFilter] = useState<FilterValue>('all')
   const heroRef = useRef<HTMLDivElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
@@ -198,7 +196,6 @@ export default function WorkPage() {
               {featuredFiltered.length % 2 === 1 && (
                 <NextProjectCard
                   aspectRatio={FEATURED_RATIOS[featuredFiltered.length % FEATURED_RATIOS.length]}
-                  onClick={() => navigateTo('contact')}
                 />
               )}
             </div>
@@ -217,7 +214,7 @@ export default function WorkPage() {
                 <ProjectCard key={p.slug} project={p} Cover={getCover(p.slug)} aspectRatio="4/3" />
               ))}
               {selectedFiltered.length % 2 === 1 && (
-                <NextProjectCard aspectRatio="4/3" onClick={() => navigateTo('contact')} />
+                <NextProjectCard aspectRatio="4/3" />
               )}
             </div>
           </div>
@@ -237,7 +234,7 @@ export default function WorkPage() {
                 <ProjectCard key={p.slug} project={p} Cover={getCover(p.slug)} aspectRatio="4/3" />
               ))}
               {allFiltered.length % 2 === 1 && (
-                <NextProjectCard aspectRatio="4/3" onClick={() => navigateTo('contact')} />
+                <NextProjectCard aspectRatio="4/3" />
               )}
             </div>
           </div>
@@ -250,7 +247,6 @@ export default function WorkPage() {
         )}
       </div>
 
-      <Footer />
     </>
   )
 }

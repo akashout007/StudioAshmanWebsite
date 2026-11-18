@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Playfair_Display, Syne, DM_Sans } from 'next/font/google'
 import './globals.css'
 import Cursor from '@/components/Cursor'
+import Nav from '@/components/Nav'
+import Footer from '@/components/Footer'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -37,10 +39,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={`${playfair.variable} ${syne.variable} ${dmSans.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${syne.variable} ${dmSans.variable}`}>
+      <body>
+        <a href="#main" className="skip-link">Skip to content</a>
         <Cursor />
-        {children}
+        <Nav />
+        <main id="main">{children}</main>
+        <Footer />
       </body>
     </html>
   )

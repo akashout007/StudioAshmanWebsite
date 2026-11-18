@@ -1,258 +1,136 @@
 'use client'
-import { useEffect, useRef, useState, useCallback, type ReactNode } from 'react'
-import gsap from 'gsap'
-import { usePage, PageName } from '@/context/PageContext'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import MobileMenu, { MenuToggle } from '@/components/MobileMenu'
-
-type MegaKey = 'work' | 'services' | 'studio' | null
-
-interface MegaData {
-  colA: { title: string; items: { name: string; meta: string; page: PageName }[] }
-  colB: { title: string; items: { name: string; meta: string; page: PageName }[] }
-  feature: { eyebrow: string; title: ReactNode; meta: string[]; page: PageName }
-}
-
-const MEGA: Record<string, MegaData> = {
-  work: {
-    colA: {
-      title: 'Practice areas',
-      items: [
-        { name: 'Wayfinding', meta: '24 projects', page: 'services' },
-        { name: 'Sign Design', meta: '18 projects', page: 'services' },
-        { name: 'Environmental Graphics', meta: '15 projects', page: 'services' },
-        { name: 'Brand Activation', meta: '12 projects', page: 'services' },
-        { name: 'Spatial Identity', meta: '9 projects', page: 'services' },
-      ],
-    },
-    colB: {
-      title: 'Sectors',
-      items: [
-        { name: 'Healthcare', meta: 'Hospital campus', page: 'work' },
-        { name: 'Retail & Heritage', meta: 'Flagship · F&B', page: 'work' },
-        { name: 'Civic & Cultural', meta: 'Gallery · studio', page: 'work' },
-        { name: 'Workplace', meta: 'Office campus', page: 'work' },
-        { name: 'Hospitality', meta: 'Hotel · resort', page: 'work' },
-      ],
-    },
-    feature: {
-      eyebrow: 'Featured case study',
-      title: <><em>Regency Kanpur Hospital</em> — bilingual wayfinding concept for a hospital campus.</>,
-      meta: ['Healthcare · Kanpur', '2026'],
-      page: 'work',
-    },
-  },
-  services: {
-    colA: {
-      title: 'Spatial',
-      items: [
-        { name: 'Wayfinding strategy', meta: 'Audit → masterplan', page: 'services' },
-        { name: 'Sign design', meta: 'Family · spec · supply', page: 'services' },
-        { name: 'Environmental graphics', meta: 'Surface · facade', page: 'services' },
-      ],
-    },
-    colB: {
-      title: 'Brand',
-      items: [
-        { name: 'Brand activation', meta: 'Pop-ups · live', page: 'services' },
-        { name: 'Retail environments', meta: 'Flagship · concept', page: 'services' },
-        { name: 'Spatial identity', meta: 'Architecture-led', page: 'services' },
-      ],
-    },
-    feature: {
-      eyebrow: 'How we work',
-      title: <>Six disciplines, <em>one</em> studio.</>,
-      meta: ['Capabilities', 'Read more →'],
-      page: 'services',
-    },
-  },
-  studio: {
-    colA: {
-      title: 'About us',
-      items: [
-        { name: 'Our story', meta: 'New Delhi · Dubai', page: 'studio' },
-        { name: 'Team', meta: '2 people', page: 'studio' },
-        { name: 'Awards & press', meta: '1 honour', page: 'studio' },
-      ],
-    },
-    colB: {
-      title: 'Connect',
-      items: [
-        { name: 'Get in touch', meta: 'New projects', page: 'contact' },
-        { name: 'Studios', meta: 'NDL · DXB', page: 'contact' },
-        { name: 'Careers', meta: 'Currently hiring', page: 'studio' },
-      ],
-    },
-    feature: {
-      eyebrow: 'In the studio',
-      title: <>A practice that&apos;s stayed <em>independent</em>.</>,
-      meta: ['Hauz Khas, New Delhi', 'Independent'],
-      page: 'studio',
-    },
-  },
-}
+import { CTA, SERVICES } from '@/lib/site'
 
 export default function Nav() {
-  const { currentPage, navigateTo } = usePage()
+  const pathname = usePathname()
   const navRef = useRef<HTMLElement>(null)
-  const megaRef = useRef<HTMLDivElement>(null)
-  const [openMega, setOpenMega] = useState<MegaKey>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const [menuOpen, setMenuOpen] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const closeMobile = useCallback(() => setMobileOpen(false), [])
 
   useEffect(() => {
     const nav = navRef.current
     if (!nav) return
     const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40)
+    onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpenMega(null) }
+    setMenuOpen(false)
+    setMobileOpen(false)
+  }, [pathname])
+
+  useEffect(() => {
+    if (!menuOpen) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMenuOpen(false)
+        triggerRef.current?.focus()
+      }
+    }
     const onClick = (e: MouseEvent) => {
-      if (navRef.current && !navRef.current.contains(e.target as Node)) setOpenMega(null)
+      if (navRef.current && !navRef.current.contains(e.target as Node)) setMenuOpen(false)
     }
     document.addEventListener('keydown', onKey)
     document.addEventListener('click', onClick)
-    return () => { document.removeEventListener('keydown', onKey); document.removeEventListener('click', onClick) }
-  }, [])
-
-  // Animate mega menu open
-  useEffect(() => {
-    if (!megaRef.current) return
-    if (openMega) {
-      gsap.fromTo(megaRef.current,
-        { opacity: 0, y: -8 },
-        { opacity: 1, y: 0, duration: .22, ease: 'power3.out' }
-      )
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.removeEventListener('click', onClick)
     }
-  }, [openMega])
+  }, [menuOpen])
 
-  const openMenu = useCallback((key: MegaKey) => {
-    if (closeTimer.current) clearTimeout(closeTimer.current)
-    setOpenMega(key)
-  }, [])
-
-  const scheduleClose = useCallback(() => {
-    closeTimer.current = setTimeout(() => setOpenMega(null), 120)
-  }, [])
-
-  const cancelClose = useCallback(() => {
-    if (closeTimer.current) clearTimeout(closeTimer.current)
-  }, [])
-
-  const go = useCallback((page: PageName) => {
-    setOpenMega(null)
-    setMobileOpen(false)
-    navigateTo(page)
-  }, [navigateTo])
-
-  const NAV_ITEMS: { label: string; key: MegaKey; page: PageName }[] = [
-    { label: 'Work', key: 'work', page: 'work' },
-    { label: 'What we do', key: 'services', page: 'services' },
-    { label: 'Studio', key: 'studio', page: 'studio' },
-  ]
-
-  const mega = openMega ? MEGA[openMega] : null
+  const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href))
 
   return (
-    <nav ref={navRef} onMouseLeave={scheduleClose} onMouseEnter={cancelClose}>
-      <button className="nav-logo" onClick={() => go('home')}>
-        Ashman<span>.</span>Studio
-      </button>
+    <header>
+      <nav ref={navRef} aria-label="Main">
+        <Link href="/" className="nav-logo" aria-label="Ashman Studio, home">
+          ashman<span>.</span>studio
+        </Link>
 
-      <MenuToggle open={mobileOpen} onToggle={() => setMobileOpen((o) => !o)} />
-      <MobileMenu open={mobileOpen} onClose={closeMobile}>
-        <button onClick={() => go('home')}>Home</button>
-        <button onClick={() => go('work')}>Work</button>
-        <button onClick={() => go('services')}>What we do</button>
-        <button onClick={() => go('studio')}>Studio</button>
-        <button onClick={() => go('contact')}>Contact</button>
-      </MobileMenu>
+        <MenuToggle open={mobileOpen} onToggle={() => setMobileOpen((o) => !o)} />
+        <MobileMenu open={mobileOpen} onClose={closeMobile}>
+          <Link href="/" onClick={closeMobile}>Home</Link>
+          <Link href="/work" onClick={closeMobile}>Brand stories</Link>
+          <Link href="/#what-we-do" onClick={closeMobile}>What we do</Link>
+          <Link href="/studio" onClick={closeMobile}>Studio</Link>
+          <Link href="/contact" onClick={closeMobile}>Contact</Link>
+        </MobileMenu>
 
-      <ul className="nav-links">
-        {NAV_ITEMS.map(({ label, key, page }) => (
-          <li key={key}>
+        <ul className="nav-links">
+          <li>
+            <Link href="/work" className={isActive('/work') ? 'active' : ''}>Work</Link>
+          </li>
+          <li>
             <button
-              className={currentPage === page ? 'active' : ''}
-              onClick={() => { setOpenMega(null); go(page) }}
-              onMouseEnter={() => openMenu(key)}
-              aria-expanded={openMega === key}
+              ref={triggerRef}
+              type="button"
+              aria-expanded={menuOpen}
+              aria-controls="nav-services"
+              onClick={() => setMenuOpen((o) => !o)}
             >
-              {label}
-              <span className={`nav-caret${openMega === key ? ' open' : ''}`}>▾</span>
+              What we do
+              <span className={`nav-caret${menuOpen ? ' open' : ''}`} aria-hidden="true">▾</span>
             </button>
           </li>
-        ))}
-        <li>
-          <button
-            className={currentPage === 'contact' ? 'active' : ''}
-            onClick={() => go('contact')}
-            onMouseEnter={scheduleClose}
-            style={{ letterSpacing: '.2em' }}
-          >
-            Contact
-          </button>
-        </li>
-        <li>
-          <button className="nav-cta" onClick={() => go('contact')} onMouseEnter={scheduleClose}>
-            Start a project →
-          </button>
-        </li>
-      </ul>
+          <li>
+            <Link href="/studio" className={isActive('/studio') ? 'active' : ''}>Studio</Link>
+          </li>
+          <li>
+            <Link href="/contact" className={isActive('/contact') ? 'active' : ''}>Contact</Link>
+          </li>
+          <li>
+            <Link href="/contact" className="nav-cta">{CTA.primary}</Link>
+          </li>
+        </ul>
 
-      {mega && openMega && (
-        <div
-          ref={megaRef}
-          className="mega-menu"
-          onMouseEnter={cancelClose}
-          onMouseLeave={scheduleClose}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="mega-col">
-            <h4>{mega.colA.title}</h4>
-            <ul className="mega-list">
-              {mega.colA.items.map((it) => (
-                <li key={it.name}>
-                  <button onClick={() => go(it.page)}>
-                    {it.name}
-                    <span className="mm-meta">{it.meta}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+        {menuOpen && (
+          <div id="nav-services" className="mega-menu">
+            <div className="mega-col">
+              <h4>Disciplines</h4>
+              <ul className="mega-list">
+                {SERVICES.map((s) => (
+                  <li key={s.slug}>
+                    <Link href={`/work?service=${s.slug}`} onClick={() => setMenuOpen(false)}>
+                      {s.name}
+                      <span className="mm-meta">View work</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          <div className="mega-col">
-            <h4>{mega.colB.title}</h4>
-            <ul className="mega-list">
-              {mega.colB.items.map((it) => (
-                <li key={it.name}>
-                  <button onClick={() => go(it.page)}>
-                    {it.name}
-                    <span className="mm-meta">{it.meta}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+            <div className="mega-col">
+              <h4>Explore</h4>
+              <ul className="mega-list">
+                <li><Link href="/#what-we-do" onClick={() => setMenuOpen(false)}>How the four fit together<span className="mm-meta">Overview</span></Link></li>
+                <li><Link href="/work" onClick={() => setMenuOpen(false)}>Brand stories<span className="mm-meta">All work</span></Link></li>
+                <li><Link href="/studio" onClick={() => setMenuOpen(false)}>About the studio<span className="mm-meta">Studio</span></Link></li>
+              </ul>
+            </div>
 
-          <button className="mega-feature" onClick={() => go(mega.feature.page)}>
-            <div>
-              <div className="ash-eyebrow on-dark">
-                <span className="dash" />
-                {mega.feature.eyebrow}
+            <Link href="/contact" className="mega-feature" onClick={() => setMenuOpen(false)}>
+              <div>
+                <div className="ash-eyebrow on-dark">
+                  <span className="dash" />Start a project
+                </div>
+                <h3>Have a brand or a <em>space</em> in mind?</h3>
               </div>
-              <h3>{mega.feature.title}</h3>
-            </div>
-            <div className="mm-meta-row">
-              <div>{mega.feature.meta.map((m, i) => <div key={i}>{m}</div>)}</div>
-              <span className="mm-arrow">↗</span>
-            </div>
-          </button>
-        </div>
-      )}
-    </nav>
+              <div className="mm-meta-row">
+                <div>{CTA.reply}</div>
+                <span className="mm-arrow" aria-hidden="true">↗</span>
+              </div>
+            </Link>
+          </div>
+        )}
+      </nav>
+    </header>
   )
 }

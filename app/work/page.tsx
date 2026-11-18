@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation'
+import WorkPage from '@/components/pages/WorkPage'
 
-export default function WorkRedirect() {
-  redirect('/?section=work')
+export default function Page() {
+  return <WorkPage />
 }

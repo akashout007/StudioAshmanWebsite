@@ -3,8 +3,6 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { PROJECTS, getProject, getAdjacentProjects } from '@/data/projects'
-import NavProject from '@/components/NavProject'
-import FooterProject from '@/components/FooterProject'
 import ProjectHero from '@/components/project/ProjectHero'
 import ProjectGallery from '@/components/project/ProjectGallery'
 import ProjectPageNav from '@/components/project/ProjectPageNav'
@@ -47,13 +45,12 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <>
-      <NavProject />
 
-      <main className="proj-detail proj-entrance">
+      <div className="proj-detail proj-entrance">
         {/* ── HEADER ── */}
         <header className="proj-detail-header ash-wrap">
           <div role="navigation" aria-label="Breadcrumb" className="breadcrumb">
-            <Link href="/?section=work" className="breadcrumb-link">Work</Link>
+            <Link href="/work" className="breadcrumb-link">Work</Link>
             <span className="sep">/</span>
             <span className="current">{project.title}</span>
           </div>
@@ -196,9 +193,8 @@ export default async function ProjectPage({ params }: Props) {
 
         {/* ── PROJECT NAV ── */}
         <ProjectPageNav prev={prev} next={next} />
-      </main>
+      </div>
 
-      <FooterProject />
     </>
   )
 }
