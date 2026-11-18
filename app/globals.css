@@ -1491,11 +1491,12 @@ a.nav-cta {
 ══════════════════════════════════════════════════════════ */
 .showcase { background: var(--paper); }
 .showcase-stage {
-  position: relative; overflow: hidden; background: var(--ink);
+  position: relative; background: var(--ink);
   height: clamp(420px, 68svh, 820px);
 }
+/* Slides clip their own images, so the service menu can open past the stage edge */
 .showcase-slide {
-  position: absolute; inset: 0; display: block;
+  position: absolute; inset: 0; display: block; overflow: hidden;
   opacity: 0; transition: opacity 1s var(--ease);
 }
 .showcase-slide.is-active { opacity: 1; z-index: 1; }
@@ -1507,36 +1508,55 @@ a.nav-cta {
   background: linear-gradient(to top, rgba(14, 14, 13, .62), rgba(14, 14, 13, 0));
 }
 
-.showcase-pill {
-  position: absolute; z-index: 3; left: 50%; top: 32px;
-  transform: translateX(-50%);
-  margin: 0; padding: 12px 22px; white-space: nowrap;
-  background: rgba(242, 239, 232, .88);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  font-family: var(--font-body); font-size: 15px; font-weight: 400; color: var(--ink);
-  pointer-events: none;
+/* Chip on top, caption at the bottom: one grid, so the two can never overlap */
+.showcase-ui {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  display: grid; grid-template-rows: auto 1fr auto;
+  padding: 32px 48px 36px;
 }
-.showcase-pill { line-height: 1.4; }
-.slot {
-  position: relative; display: inline-block; vertical-align: top;
-  height: 1.4em; overflow: hidden; white-space: nowrap;
-  transition: width .55s var(--ease);
+.showcase-ui.is-open { z-index: 470; }
+.showcase-switch { grid-row: 1; justify-self: center; position: relative; z-index: 2; pointer-events: auto; max-width: 100%; }
+.showcase-chip {
+  display: inline-flex; align-items: center; max-width: 100%;
+  padding-left: 20px; background: var(--paper); color: var(--ink);
+  font-family: var(--font-body); font-size: 15px; font-weight: 400; line-height: 1.3;
+  box-shadow: 0 4px 18px rgba(14, 14, 13, .18);
 }
-.slot-word, .slot-measure {
-  display: inline-block; font-family: var(--font-display); font-style: italic;
-  font-weight: 700; color: var(--accent); white-space: nowrap; padding-right: .08em;
+.showcase-chip-lead { white-space: nowrap; margin-right: 8px; }
+.showcase-trigger {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 48px; min-width: 0;
+  padding: 6px 16px 6px 12px; border: 0; border-left: 1px solid var(--light2);
+  background: transparent; color: var(--accent-text); text-align: left;
+  font-family: var(--font-display); font-style: italic; font-weight: 700; font-size: 16px;
 }
-.slot-measure { position: absolute; visibility: hidden; pointer-events: none; }
-.slot-in { animation: slotIn .6s var(--ease) both; }
-.slot-out { position: absolute; left: 0; top: 0; animation: slotOut .6s var(--ease) both; }
-@keyframes slotIn {
-  from { transform: translateY(110%) rotate(4deg); opacity: 0; }
-  to   { transform: none; opacity: 1; }
+.showcase-trigger:hover, .showcase-trigger[aria-expanded="true"] { background: var(--light); }
+.showcase-trigger-text { display: grid; }
+.showcase-trigger-text > span { grid-area: 1 / 1; visibility: hidden; }
+.showcase-trigger-text > .is-current { visibility: visible; animation: showcaseWord .5s var(--ease) both; }
+.showcase-caret { font-style: normal; font-size: 12px; color: var(--ink); }
+.showcase-rotate {
+  width: 48px; min-height: 48px; flex: none; border: 0; border-left: 1px solid var(--light2);
+  background: transparent; color: var(--ink);
+  display: flex; align-items: center; justify-content: center;
 }
-@keyframes slotOut {
-  from { transform: none; opacity: 1; }
-  to   { transform: translateY(-110%) rotate(-4deg); opacity: 0; }
+.showcase-rotate:hover { background: var(--light); }
+.showcase-options {
+  position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+  min-width: 100%; width: max-content; max-width: calc(100vw - 32px);
+  margin: 0; padding: 6px 0; list-style: none;
+  background: var(--paper); color: var(--ink);
+  box-shadow: 0 12px 36px rgba(14, 14, 13, .28);
 }
+.showcase-options[hidden] { display: none; }
+.showcase-options:focus { outline: none; }
+.showcase-options:focus-visible { outline: 2px solid var(--accent-dk); outline-offset: 2px; }
+.showcase-options li {
+  display: flex; justify-content: space-between; align-items: center; gap: 24px;
+  min-height: 44px; padding: 8px 20px; cursor: pointer; font-size: 15px;
+}
+.showcase-options li.is-active { background: var(--light); }
+.showcase-options li[aria-selected="true"] { font-weight: 600; color: var(--accent-text); }
+.showcase-option-count { color: var(--mid); font-variant-numeric: tabular-nums; }
 
 .showcase-arrow {
   position: absolute; z-index: 3; top: 50%; transform: translateY(-50%);
@@ -1555,10 +1575,18 @@ a.nav-cta {
 @keyframes showcaseWord { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 .showcase-caption {
-  position: absolute; z-index: 3; left: 48px; bottom: 36px;
-  max-width: min(640px, calc(100% - 300px)); color: var(--white);
+  grid-row: 3; justify-self: start; pointer-events: auto; position: relative; z-index: 1;
+  /* Clear of the dots on the right: up to 10 × 44px */
+  max-width: min(640px, calc(100% - 480px)); color: var(--white);
 }
+.showcase-all {
+  display: inline-block; padding-block: 13px 12px; line-height: 1.6;
+  font-family: var(--font-label); font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--white); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px;
+}
+.showcase-all:hover { color: var(--accent-lt); }
 .showcase-title {
+  display: inline-flex; align-items: center; min-height: 44px;
   font-family: var(--font-display); font-size: clamp(22px, 2.4vw, 32px);
   font-weight: 700; letter-spacing: -.015em; line-height: 1.1; color: var(--white);
 }
@@ -1588,27 +1616,36 @@ a.nav-cta {
   outline: 2px solid var(--accent); outline-offset: 3px;
 }
 
+/* Tablet down: a counter replaces the dots, and the arrows move to the bottom-right corner */
 @media (max-width: 1024px) {
-  .showcase-caption { left: 28px; }
-  .showcase-dots { right: 28px; }
+  .showcase-ui { padding: 28px 28px 68px; }
+  .showcase-caption { max-width: min(640px, 100%); }
+  .showcase-dots { display: none; }
+  .showcase-count {
+    display: block; position: absolute; z-index: 3; left: 28px; bottom: 22px; margin: 0;
+    font-family: var(--font-label); font-size: 13px; font-weight: 700; letter-spacing: .12em; color: var(--white);
+  }
+  .showcase-arrow { top: auto; bottom: 12px; transform: none; width: 44px; height: 44px; font-size: 17px; opacity: 1; }
+  .showcase-prev { left: auto; right: 80px; }
+  .showcase-next { right: 28px; }
 }
 @media (max-width: 768px) {
   .showcase { padding-top: 64px; }
-  .showcase-stage { height: clamp(420px, 72svh, 640px); }
-  .showcase-pill { top: 24px; font-size: 13px; padding: 10px 16px; }
-  .showcase-caption { left: 20px; right: 20px; bottom: 56px; max-width: none; }
+  .showcase-stage { height: clamp(460px, 76svh, 660px); }
+  /* Phone: chip sits just above the caption; the menu opens as a full-width sheet under it */
+  .showcase-ui { grid-template-rows: 1fr auto auto; gap: 14px; padding: 20px 20px 64px; }
+  .showcase-switch { grid-row: 2; justify-self: stretch; }
+  .showcase-chip { font-size: 14px; padding-left: 14px; }
+  .showcase-trigger { font-size: 15px; flex: 1 1 auto; }
+  .showcase-options { left: 0; right: 0; transform: none; width: auto; min-width: 0; max-width: none; }
+  .showcase-caption { max-width: none; }
   .showcase-line { font-size: 13px; }
-  .showcase-dots { left: 20px; right: auto; bottom: 24px; }
-  .showcase-arrow { top: auto; bottom: 9px; transform: none; width: 40px; height: 40px; font-size: 17px; opacity: 1; }
-  .showcase-prev { left: auto; right: 68px; }
   .showcase-next { right: 20px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .showcase-slide, .showcase-slide img { transition: none; }
   .showcase-slide img, .showcase-slide.is-active img { transform: none; }
-  .slot-in, .slot-out, .showcase-line { animation: none; }
-  .slot-out { display: none; }
-  .slot { transition: none; }
+  .showcase-line, .showcase-trigger-text > .is-current { animation: none; }
 }
 
 /* ── SKIP LINK ── */
@@ -1790,12 +1827,8 @@ footer :focus-visible, .ash-statement :focus-visible, .mosaic-tile.ink:focus-vis
 .form-group input:focus-visible, .form-group textarea:focus-visible, .form-group select:focus-visible,
 .form-row input:focus-visible { outline: 2px solid var(--accent-dk); outline-offset: 2px; }
 @media (max-width: 768px) {
-  .showcase-dots { display: none; }
-  .showcase-count {
-    display: block; position: absolute; z-index: 3; left: 20px; bottom: 20px;
-    font-family: var(--font-label); font-size: 13px; font-weight: 700; letter-spacing: .12em; color: var(--white);
-  }
-  .showcase-arrow { width: 44px; height: 44px; bottom: 8px; }
+  .showcase-count { left: 20px; bottom: 20px; }
+  .showcase-arrow { bottom: 8px; }
   .showcase-prev { right: 72px; }
 }
 @media (prefers-reduced-motion: reduce) {
