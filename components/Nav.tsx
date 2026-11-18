@@ -27,6 +27,24 @@ export default function Nav() {
     setMobileOpen(false)
   }, [pathname])
 
+  // On the homepage the hero has its own "Start a project" button, so the header one stays tucked
+  // away until that button has scrolled up under the header. Starts tucked to avoid a flash on load.
+  const [heroCtaInView, setHeroCtaInView] = useState(pathname === '/')
+  useEffect(() => {
+    const heroCta = pathname === '/' ? document.querySelector('.home-hero .hero-ctas') : null
+    if (!heroCta) {
+      setHeroCtaInView(false)
+      return
+    }
+    // The nav is fixed, so measure it (its <header> wrapper has no height of its own)
+    const headerHeight = navRef.current?.getBoundingClientRect().height || 72
+    const io = new IntersectionObserver(([e]) => setHeroCtaInView(e.isIntersecting), {
+      rootMargin: `-${Math.round(headerHeight)}px 0px 0px 0px`,
+    })
+    io.observe(heroCta)
+    return () => io.disconnect()
+  }, [pathname])
+
   useEffect(() => {
     if (!menuOpen) return
     const onKey = (e: KeyboardEvent) => {
@@ -99,7 +117,7 @@ export default function Nav() {
             <Link href="/contact" className={isActive('/contact') ? 'active' : ''}>Contact</Link>
           </li>
           <li>
-            <Link href="/contact" className="nav-cta">{CTA.primary}</Link>
+            <Link href="/contact" className={`nav-cta${heroCtaInView ? ' is-tucked' : ''}`}>{CTA.primary}</Link>
           </li>
         </ul>
 

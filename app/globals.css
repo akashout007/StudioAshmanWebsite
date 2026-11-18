@@ -165,9 +165,14 @@ nav.scrolled {
   letter-spacing: .2em; text-transform: uppercase;
   color: var(--paper); background: var(--ink); border: none;
   padding: 12px 20px; cursor: pointer; margin-left: 4px;
-  transition: background .2s;
+  transition: background .2s, opacity .25s, transform .25s, visibility 0s;
 }
 .nav-links a.nav-cta:hover { background: var(--accent); color: var(--paper); }
+/* Homepage: hidden while the hero's own button is on screen; keeps its space so the nav never shifts */
+.nav-links a.nav-cta.is-tucked {
+  opacity: 0; visibility: hidden; transform: translateY(-4px);
+  transition: background .2s, opacity .25s, transform .25s, visibility 0s .25s;
+}
 
 /* Mega menu */
 .mega-menu-overlay {

@@ -6,8 +6,8 @@ import { EXTERNAL, LINKS } from '@/lib/site'
 const SCROLL_REVEAL = 400
 
 /**
- * Floating WhatsApp button. On the homepage it waits until the hero (which has its own
- * WhatsApp button) has fully scrolled away; elsewhere it appears after 400px of scroll.
+ * Floating WhatsApp button. On the homepage it waits until the hero has fully scrolled away,
+ * so the hero leads with "Start a project"; elsewhere it appears after 400px of scroll.
  * It always steps aside while the footer is in view, and never shows on /contact.
  */
 export default function WhatsAppFloat() {

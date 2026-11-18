@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import HeroShowcase from '@/components/HeroShowcase'
-import { CTA, EXTERNAL, LINKS, SERVICES, SITE } from '@/lib/site'
+import { CTA, SERVICES, SITE } from '@/lib/site'
 import { Belief, Cities, Clients, CtaBand, Disciplines, HowWeWork, Testimonials } from '@/components/sections'
 import HomeBrandStories from '@/components/BrandStories'
 import Reveal from '@/components/Reveal'
@@ -15,7 +15,6 @@ export default function HomePage() {
             <p>{SITE.heroSub}</p>
             <div className="hero-ctas">
               <Link href="/contact" className="btn-primary">{CTA.primary}</Link>
-              <a href={LINKS.whatsapp} {...EXTERNAL} className="btn-whatsapp">{CTA.whatsapp} ↗</a>
             </div>
           </div>
         </div>
