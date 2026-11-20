@@ -2,7 +2,8 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { CTA, EXTERNAL, LINKS } from '@/lib/site'
-import { FORMATS, STYLES, drawSign, loadSignFonts, readLook, type Arrow, type SignFormat, type SignStyle } from '@/lib/play/sign'
+import { FORMATS, SIGN_ROLE, STYLES, drawSign, loadSignFonts, readLook, type Arrow, type SignFormat, type SignStyle } from '@/lib/play/sign'
+import { DEFAULT_PAIRING, pairingById } from '@/lib/play/fonts'
 import { SIGN_MAX, checkSignText, signFileName } from '@/lib/play/signText'
 
 const ARROWS: { value: Arrow; glyph: string; label: string }[] = [
@@ -118,6 +119,9 @@ export default function SignMaker({ onClose }: { onClose: () => void }) {
   }
 
   const { w, h } = FORMATS[format]
+  // The exact font this sign is drawn in, from the visitor's current pairing
+  const pairing = pairingById(document.documentElement.dataset.fonts ?? DEFAULT_PAIRING) ?? pairingById(DEFAULT_PAIRING)!
+  const setIn = pairing[SIGN_ROLE[style]].family
 
   return createPortal(
     <div className="sign-modal" role="presentation" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose() }}>
@@ -209,7 +213,10 @@ export default function SignMaker({ onClose }: { onClose: () => void }) {
 
           <figure className="sign-preview">
             <canvas ref={canvasRef} width={w} height={h} role="img" aria-label={`Preview: ${STYLES[style]} reading “${check.ok && check.text ? check.text : 'Your name'}”`} />
-            <figcaption>{FORMATS[format].label} · {w} × {h}</figcaption>
+            <figcaption>
+              {FORMATS[format].label} · {w} × {h}
+              <span className="sign-font">Set in {setIn}</span>
+            </figcaption>
           </figure>
         </div>
       </div>

@@ -13,6 +13,9 @@ export const FORMATS: Record<SignFormat, { label: string; w: number; h: number }
 
 export const STYLES: Record<SignStyle, string> = { door: 'Door plate', directional: 'Directional', street: 'Street sign' }
 
+/** Which role of the current pairing each sign is set in: the door plate in the heading font, and so on. */
+export const SIGN_ROLE: Record<SignStyle, 'display' | 'body' | 'label'> = { door: 'display', directional: 'body', street: 'label' }
+
 type Look = {
   colors: Record<'paper' | 'surface' | 'ink' | 'muted' | 'accent' | 'accentStrong' | 'onAccent' | 'darkBg' | 'darkSurface' | 'darkInk' | 'accentSoft' | 'brandInk' | 'brandAccent', string>
   fonts: { display: string; body: string; label: string; wordmark: string }
@@ -32,8 +35,8 @@ export function readLook(): Look {
       accentSoft: v('--color-accent-soft'), brandInk: v('--brand-ink'), brandAccent: v('--brand-accent'),
     },
     fonts: { display: v('--font-display'), body: v('--font-body'), label: v('--font-label'), wordmark: v('--font-wordmark') },
-    // Instrument Serif (Gallery) has a single weight; draw it as designed rather than faux-bold
-    displayWeight: fonts === 'gallery' ? 400 : 800,
+    // Instrument Serif has a single weight; draw it as designed rather than faux-bold
+    displayWeight: fonts === 'instrument-serif-manrope' ? 400 : 800,
   }
 }
 

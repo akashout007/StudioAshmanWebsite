@@ -1,4 +1,5 @@
 // Play choices in localStorage. Every access is guarded: private mode or blocked storage just means defaults.
+import { LEGACY_PAIRING_IDS } from '@/lib/play/fonts'
 
 export const PLAY_KEY = 'ashman-play'
 export const TIP_KEY = 'ashman-play-tip'
@@ -8,7 +9,9 @@ export type PlayState = { k: number; f: string; v: Record<string, string> }
 export function readPlay(): PlayState | null {
   try {
     const s = JSON.parse(localStorage.getItem(PLAY_KEY) || 'null')
-    return s && typeof s.k === 'number' && typeof s.f === 'string' ? s : null
+    if (!(s && typeof s.k === 'number' && typeof s.f === 'string')) return null
+    // Pairings saved under their old style names carry over to the font-named ids
+    return { ...s, f: LEGACY_PAIRING_IDS[s.f] ?? s.f }
   } catch {
     return null
   }

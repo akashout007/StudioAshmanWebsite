@@ -1,4 +1,5 @@
 import { TOKENS, paletteAt } from '@/lib/play/temperature'
+import { DEFAULT_PAIRING } from '@/lib/play/fonts'
 
 /** CSS variables for a temperature, ready to set on <html> (and to store for the pre-paint script). */
 export function temperatureVars(kelvin: number): Record<string, string> {
@@ -19,9 +20,9 @@ export function clearTemperature() {
   for (const t of TOKENS) root.style.removeProperty(`--color-${t}`)
 }
 
-/** Switches the type pairing; the studio default is the stylesheet's own fonts. */
+/** Switches the type pairing; the default (Playfair Display + DM Sans) is the stylesheet's own fonts. */
 export function applyFonts(id: string) {
   const root = document.documentElement
-  if (id === 'studio') delete root.dataset.fonts
+  if (id === DEFAULT_PAIRING) delete root.dataset.fonts
   else root.dataset.fonts = id
 }

@@ -28,7 +28,10 @@ const pending = new Map()
 ws.onmessage = (e) => { const m = JSON.parse(e.data); if (m.id && pending.has(m.id)) { pending.get(m.id)(m); pending.delete(m.id) } }
 const send = (method, params = {}) => new Promise((r) => { const i = ++id; pending.set(i, r); ws.send(JSON.stringify({ id: i, method, params })) })
 const evaluate = async (expression) => {
-  const r = await send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true })
+  const r = await Promise.race([
+    send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true }),
+    sleep(30000).then(() => { throw new Error('page did not answer within 30s: ' + expression.slice(0, 80)) }),
+  ])
   if (r.result.exceptionDetails) throw new Error(r.result.exceptionDetails.exception?.description ?? 'evaluate failed')
   return r.result.result.value
 }
@@ -106,14 +109,38 @@ const SWEEP = `(() => {
   return out
 })()`
 
+// The Play panel's font chips: names stay inside their chip, the "A + B" line is at most two lines
+const PLAY_CHECK = `(async () => {
+  const out = []
+  document.querySelector('.play-button').click()
+  for (let i = 0; i < 40 && !document.querySelector('.pairing-chip'); i++) await new Promise((x) => setTimeout(x, 100))
+  await document.fonts.ready; await new Promise((x) => setTimeout(x, 300))
+  for (const chip of document.querySelectorAll('.pairing-chip')) {
+    const c = chip.getBoundingClientRect(), label = chip.querySelector('input').getAttribute('aria-label')
+    for (const n of chip.querySelectorAll('.pairing-name')) {
+      const b = n.getBoundingClientRect()
+      if (b.right > c.right + 0.5 || b.left < c.left - 0.5) out.push('font name runs out of its chip: ' + n.textContent + ' (' + label + ')')
+    }
+    const pair = chip.querySelector('.pairing-pair'), lh = parseFloat(getComputedStyle(pair).lineHeight)
+    if (pair.getBoundingClientRect().height > lh * 2 + 2) out.push('more than two lines: ' + pair.textContent)
+    if (chip.scrollWidth > chip.clientWidth + 1) out.push('chip overflows: ' + label)
+  }
+  const panel = document.querySelector('#play-panel').getBoundingClientRect()
+  if (panel.right > innerWidth + 0.5 || panel.left < -0.5) out.push('Play panel off screen')
+  document.querySelector('.play-close').click()
+  return out
+})()`
+
 const failures = []
 let checks = 0
 const record = (where, problems) => { checks++; for (const p of problems) failures.push(`${where}: ${p}`) }
+const phase = (name) => console.log(`… ${name}`)
 const serviceWords = SERVICES.map((s) => s.chip)
 const sectorNames = SECTORS.map((s) => s.name)
 
 // 1a. Every pairing × word × width, instant swaps
 for (const width of WIDTHS) {
+  phase(`chip words at ${width}px`)
   await open('/', width, true)
   for (const p of PAIRINGS) {
     await setPairing(p.id)
@@ -128,6 +155,7 @@ for (const width of WIDTHS) {
 }
 // 1b. Real flips at desktop and phone: check after each flip has settled and released its width
 for (const width of [1440, 375]) {
+  phase(`real flips at ${width}px`)
   await open('/', width, false)
   for (const p of PAIRINGS) {
     await setPairing(p.id)
@@ -135,8 +163,15 @@ for (const width of [1440, 375]) {
     await pick(0, 'Everything', 900)
   }
 }
+// 1c. Play panel font chips
+for (const width of [375, 768, 1440]) {
+  phase(`Play panel at ${width}px`)
+  await open('/studio', width, true)
+  record(`Play panel ${width}px`, await evaluate(PLAY_CHECK))
+}
 // 2. Site-wide sweep per pairing
 for (const path of PAGES) {
+  phase(`sweep ${path}`)
   for (const width of [375, 1440]) {
     await open(path, width, true)
     for (const p of PAIRINGS) { await setPairing(p.id); record(`sweep ${path} ${width}px ${p.id}`, await evaluate(SWEEP)) }

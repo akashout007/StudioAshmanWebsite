@@ -48,7 +48,6 @@
   --font-body:    var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
   --font-label:   var(--font-syne), 'Syne', sans-serif;
   --font-wordmark: var(--font-syne), 'Syne', sans-serif;           /* fixed */
-  --font-helvetica: 'Helvetica Neue', Helvetica, Arial, sans-serif;  /* Play's Swiss pairing: the device's own copy, never downloaded */
   --font-wordmark-display: var(--font-playfair), 'Playfair Display', serif; /* fixed: footer watermark */
 
   --border:    0.5px solid var(--color-rule);
@@ -1962,13 +1961,13 @@ footer :focus-visible, .ash-statement :focus-visible, .ash-cta-strip :focus-visi
 /* ── Play: font pairings ──
    Set by Play as html[data-fonts]. --h1-* keep the homepage heading to two lines on desktop with each
    display face (measured widths of "Wayfinding & Spatial" vs "… Branding"). */
-html[data-fonts="editorial"] {
+html[data-fonts="fraunces-inter"] {
   --h1-scale: .924; --h1-measure: 11.05em;
   --font-display: var(--font-fraunces), Georgia, serif;
   --font-body: var(--font-inter), system-ui, sans-serif;
   --font-label: var(--font-space-grotesk), system-ui, sans-serif;
 }
-html[data-fonts="gallery"] {
+html[data-fonts="instrument-serif-manrope"] {
   --h1-scale: 1.18; --h1-measure: 7.3em;
   --font-display: var(--font-instrument-serif), Georgia, serif;
   --font-body: var(--font-manrope), system-ui, sans-serif;
@@ -1976,20 +1975,20 @@ html[data-fonts="gallery"] {
   /* Instrument Serif has one weight; render it as drawn rather than with a faked bold */
   font-synthesis-weight: none;
 }
-html[data-fonts="signal"] {
+html[data-fonts="space-grotesk"] {
   --h1-scale: 1; --h1-measure: 10.3em;
   --font-display: var(--font-space-grotesk), system-ui, sans-serif;
   --font-body: var(--font-space-grotesk), system-ui, sans-serif;
   --font-label: var(--font-space-mono), ui-monospace, monospace;
 }
-html[data-fonts="modern"] {
+html[data-fonts="bricolage-dm-sans"] {
   --h1-scale: .972; --h1-measure: 10.6em;
   --font-display: var(--font-bricolage), system-ui, sans-serif;
   --font-body: var(--font-dm-sans), system-ui, sans-serif;
   --font-label: var(--font-dm-mono), ui-monospace, monospace;
   font-synthesis-weight: none;
 }
-html[data-fonts="classic"] {
+html[data-fonts="bodoni-jost"] {
   --h1-scale: .883; --h1-measure: 11.6em;
   --font-display: var(--font-bodoni), Georgia, serif;
   --font-body: var(--font-jost), system-ui, sans-serif;
@@ -1998,15 +1997,26 @@ html[data-fonts="classic"] {
 
 /* ── Play: pairing chips ── */
 .pairings { border: 0; margin: 0; padding: 0; display: grid; gap: 10px; min-width: 0; }
-.pairing-chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; } /* 9 pairings: 3 × 3 */
+/* Each chip names its exact fonts, each in its own face; the grid wraps rather than squeezing a name */
+.pairing-chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; }
 .pairing-chip {
-  position: relative; display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 6px 8px;
+  position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 3px;
+  min-height: 52px; padding: 8px 10px; min-width: 0;
   border: 1px solid var(--color-control-border); background: var(--color-surface-raised); color: var(--color-ink);
-  font-size: 17px; font-weight: 600; line-height: 1.1; text-align: center; cursor: pointer; transition: background .15s, border-color .15s;
+  text-align: left; cursor: pointer; transition: background .15s, border-color .15s;
 }
 .pairing-chip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.pairing-pair { font-size: 15px; font-weight: 500; line-height: 1.25; }
+.pairing-name { white-space: nowrap; }
+.pairing-plus { color: var(--color-muted); }
+.pairing-labels { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; font-size: 12px; line-height: 1.3; color: var(--color-muted); }
+.pairing-default {
+  font-family: var(--font-body); font-size: 12px; line-height: 1; padding: 3px 6px; border-radius: 999px;
+  border: 1px solid currentColor;
+}
 .pairing-chip:hover { border-color: var(--color-ink); }
 .pairing-chip.is-on { background: var(--color-dark-bg); border-color: var(--color-dark-bg); color: var(--color-dark-ink); }
+.pairing-chip.is-on .pairing-plus, .pairing-chip.is-on .pairing-labels { color: color-mix(in srgb, var(--color-dark-ink) 78%, transparent); }
 .pairing-chip:has(input:focus-visible) { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 .pairing-credit { font-size: 13px; line-height: 1.5; color: var(--color-muted); }
 .pairing-credit a { color: var(--color-ink); text-decoration: underline; text-underline-offset: 3px; }
@@ -2133,7 +2143,8 @@ html[data-fonts="classic"] {
   display: block; width: auto; height: auto; max-width: 100%; max-height: min(62svh, 560px);
   box-shadow: 0 8px 28px color-mix(in srgb, var(--color-ink) 18%, transparent); border: .5px solid var(--color-rule-strong);
 }
-.sign-preview figcaption { font-size: 12px; color: var(--color-muted); font-variant-numeric: tabular-nums; }
+.sign-preview figcaption { display: grid; gap: 2px; justify-items: center; font-size: 12px; color: var(--color-muted); font-variant-numeric: tabular-nums; }
+.sign-font { color: var(--color-ink); }
 @media (max-width: 720px) {
   .sign-modal { padding: 0; place-items: end stretch; }
   .sign-dialog { max-height: 100svh; height: 100svh; padding: 16px 20px 28px; }
@@ -2142,19 +2153,19 @@ html[data-fonts="classic"] {
   .sign-preview canvas { max-height: 38svh; }
   .sign-title { font-size: 24px; }
 }
-html[data-fonts="swiss"] {
-  --h1-scale: 1; --h1-measure: 10.1em;
-  --font-display: var(--font-helvetica);
-  --font-body: var(--font-helvetica);
-  --font-label: var(--font-helvetica);
+html[data-fonts="inter-tight"] {
+  --h1-scale: 1; --h1-measure: 10.2em;
+  --font-display: var(--font-inter-tight), system-ui, sans-serif;
+  --font-body: var(--font-inter-tight), system-ui, sans-serif;
+  --font-label: var(--font-inter-tight), system-ui, sans-serif;
 }
-html[data-fonts="transit"] {
+html[data-fonts="source-sans-3"] {
   --h1-scale: 1.06; --h1-measure: 9.6em;
   --font-display: var(--font-source-sans), system-ui, sans-serif;
   --font-body: var(--font-source-sans), system-ui, sans-serif;
   --font-label: var(--font-source-sans), system-ui, sans-serif;
 }
-html[data-fonts="global"] {
+html[data-fonts="noto-sans"] {
   --h1-scale: .93; --h1-measure: 11em;
   --font-display: var(--font-noto-sans), system-ui, sans-serif;
   --font-body: var(--font-noto-sans), system-ui, sans-serif;
