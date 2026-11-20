@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { CTA, EXTERNAL, LINKS, SERVICES, SITE, STUDIOS } from '@/lib/site'
+import { CTA, EXTERNAL, LINKS, SERVICES, SITE } from '@/lib/site'
 import { CLIENTS, TESTIMONIALS } from '@/lib/proof'
 
 export function Services({ id, headingLevel = 'h2' }: { id?: string; headingLevel?: 'h1' | 'h2' }) {
@@ -87,43 +87,6 @@ export function HowWeWork() {
             </li>
           ))}
         </ol>
-      </div>
-    </section>
-  )
-}
-
-export function Cities() {
-  return (
-    <section className="ash-section">
-      <div className="ash-wrap">
-        <div className="section-head">
-          <div className="left">
-            <div className="num">Studios</div>
-            <h2>One practice,<br />two <em>cities</em>.</h2>
-          </div>
-          <p className="lede">
-            New Delhi is the head office. Dubai works with clients across the Gulf. Call, message or
-            drop by either studio.
-          </p>
-        </div>
-        <div className="office-grid">
-          {STUDIOS.map((st) => (
-            <div key={st.key} className="office-card">
-              <div>
-                <div className="city-role">{st.role}</div>
-                <h3 className="city">{st.key === 'new-delhi' ? <em>{st.city}</em> : st.city}</h3>
-                <address className="city-addr">
-                  {st.addressLines.map((l) => <span key={l}>{l}<br /></span>)}
-                </address>
-              </div>
-              <div className="city-actions">
-                <a href={st.tel}>Call {st.phone}</a>
-                <a href={LINKS.whatsapp} {...EXTERNAL}>WhatsApp ↗</a>
-                <a href={st.mapsUrl} {...EXTERNAL}>Get directions ↗</a>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   )

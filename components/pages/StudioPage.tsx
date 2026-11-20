@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { SITE } from '@/lib/site'
-import { Belief, Cities, CtaBand, HowWeWork, Services } from '@/components/sections'
+import { Belief, CtaBand, HowWeWork, Services } from '@/components/sections'
 
 const BELIEFS = [
   {
@@ -60,7 +60,7 @@ export default function StudioPage() {
                 <em>ArtNest Studio</em>, a community art studio in Faridabad.{' '}
                 <Link href="/work">See all brand stories</Link>.
               </p>
-              <p>A second studio in Dubai works with clients across the Gulf. New Delhi remains the head office.</p>
+              <p>Based in New Delhi, working across India and the Gulf from Dubai.</p>
             </div>
           </div>
         </div>
@@ -89,7 +89,6 @@ export default function StudioPage() {
         </div>
       </section>
 
-      <Cities />
       <CtaBand />
     </>
   )

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import HeroShowcase from '@/components/HeroShowcase'
 import { CTA, SERVICES, SITE } from '@/lib/site'
-import { Belief, Cities, Clients, CtaBand, HowWeWork, Services, Testimonials } from '@/components/sections'
+import { Belief, Clients, CtaBand, HowWeWork, Services, Testimonials } from '@/components/sections'
 import HomeBrandStories from '@/components/BrandStories'
 import Reveal from '@/components/Reveal'
 
@@ -41,7 +41,6 @@ export default function HomePage() {
       <Testimonials />
       <Belief />
       <HowWeWork />
-      <Cities />
       <Reveal />
     </>
   )

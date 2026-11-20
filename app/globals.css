@@ -453,34 +453,6 @@ nav.scrolled {
 }
 
 /* ── OFFICE / STUDIOS ── */
-.office-grid {
-  display: grid; grid-template-columns: repeat(2, 1fr);
-  gap: 4px; background: var(--color-rule);
-}
-.office-card {
-  background: var(--color-paper); padding: 40px 36px; min-height: 280px;
-  display: flex; flex-direction: column; justify-content: space-between;
-  cursor: pointer; transition: background .3s; text-decoration: none; color: inherit;
-}
-.office-card:hover { background: var(--color-surface-raised); }
-.office-card .city {
-  font-family: var(--font-display); font-size: 36px; font-weight: 700;
-  letter-spacing: -.02em; margin-bottom: 12px;
-}
-.office-card .city em { font-style: italic; color: var(--color-accent); font-weight: 600; }
-.office-card .city-addr { font-size: 13px; color: var(--color-muted); line-height: 1.8; font-weight: 300; }
-.office-card .city-role {
-  font-family: var(--font-label); font-size: 12px; font-weight: 700;
-  letter-spacing: .22em; text-transform: uppercase; color: var(--color-accent-text); margin-bottom: 18px;
-}
-.office-card .city-meta {
-  margin-top: 28px; padding-top: 22px; border-top: .5px solid var(--color-rule);
-  display: flex; justify-content: space-between; align-items: center;
-  font-family: var(--font-label); font-size: 12px; font-weight: 700;
-  letter-spacing: .2em; text-transform: uppercase;
-}
-.office-card .city-clock { color: var(--color-ink); }
-.office-card .city-tz { color: var(--color-muted); }
 
 /* ── CTA STRIP ── */
 .ash-cta-strip { background: var(--color-accent-strong); padding: 96px 0; position: relative; overflow: hidden; }
@@ -830,7 +802,7 @@ footer {
 }
 .footer-inner { max-width: 1280px; margin: 0 auto; padding: 0 48px; position: relative; z-index: 1; }
 .footer-top {
-  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1.2fr;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr;
   gap: 48px; padding-bottom: 64px;
   border-bottom: .5px solid color-mix(in srgb, var(--color-dark-ink) 10%, transparent);
 }
@@ -846,10 +818,6 @@ footer {
   color: var(--color-dark-ink); line-height: 1.3; max-width: 22ch; margin-bottom: 24px;
 }
 .footer-tagline em { font-style: italic; color: var(--color-accent-soft); font-weight: 500; }
-.footer-tag-sub {
-  font-size: 13px; color: color-mix(in srgb, var(--color-dark-ink) 75%, transparent); font-weight: 300;
-  line-height: 1.7; max-width: 32ch;
-}
 .footer-col-title {
   font-family: var(--font-label); font-size: 12px; font-weight: 700;
   letter-spacing: .24em; text-transform: uppercase;
@@ -871,6 +839,18 @@ footer {
   font-family: var(--font-label); font-size: 12px; font-weight: 700;
   letter-spacing: .2em; text-transform: uppercase;
   color: color-mix(in srgb, var(--color-dark-ink) 72%, transparent);
+}
+/* One quiet line for the two studios; full details live on /contact */
+.footer-locations {
+  grid-column: 1 / -1; margin: 0; font-weight: 600; letter-spacing: .14em; line-height: 1.7;
+  color: color-mix(in srgb, var(--color-dark-ink) 72%, transparent);
+}
+.footer-locations a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, var(--color-dark-ink) 40%, transparent); }
+.footer-locations-sep { padding: 0 .6em; }
+/* Phones: one studio per line, so the separator never hangs off the end of a line */
+@media (max-width: 600px) {
+  .footer-locations > span { display: block; }
+  .footer-locations-sep { display: none; }
 }
 .footer-bottom .center { text-align: center; }
 .footer-bottom .right { text-align: right; }
@@ -908,7 +888,6 @@ footer {
   .service-row { padding: 72px 28px; gap: 56px; }
   .team-grid { grid-template-columns: repeat(3, 1fr); }
   .bordered-grid { grid-template-columns: repeat(2, 1fr); }
-  .office-grid { grid-template-columns: 1fr; }
   .footer-inner { padding: 0 28px; }
   .footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
   .footer-bottom { padding: 28px 28px 0; }
@@ -996,7 +975,6 @@ footer {
   .ash-statement-bg { font-size: 36vw; }
 
   /* OFFICES */
-  .office-grid { grid-template-columns: 1fr; }
 
   /* CTA STRIP */
   .ash-cta-strip { padding: 56px 0; }
@@ -1805,17 +1783,6 @@ ol.bordered-grid, ul.ash-stats { list-style: none; padding: 0; }
 .ash-stats .ash-stat-label { font-size: 13px; letter-spacing: .14em; line-height: 1.5; }
 
 /* ── CITY ACTIONS ── */
-.office-card .city-actions {
-  margin-top: 28px; padding-top: 22px; border-top: .5px solid var(--color-rule);
-  display: flex; flex-wrap: wrap; gap: 10px 24px;
-}
-.office-card .city-actions a {
-  font-family: var(--font-label); font-size: 13px; font-weight: 700; letter-spacing: .06em;
-  color: var(--color-ink); text-decoration: underline; text-underline-offset: 4px;
-  min-height: 44px; display: inline-flex; align-items: center;
-}
-.office-card .city-actions a:hover { color: var(--color-accent-strong); }
-.office-card { cursor: default; }
 
 /* ── CTA BAND ── */
 .ash-cta-strip .cta-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }

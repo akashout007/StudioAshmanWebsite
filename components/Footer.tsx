@@ -14,7 +14,6 @@ export default function Footer() {
             <p className="footer-tagline">
               {SITE.positioning}. We build brands from scratch, and <em>every place</em> they live.
             </p>
-            <p className="footer-tag-sub">Studios in New Delhi and Dubai.</p>
           </div>
 
           <div>
@@ -36,17 +35,6 @@ export default function Footer() {
           </div>
 
           <div>
-            <h2 className="footer-col-title">Studios</h2>
-            <ul className="footer-links">
-              {STUDIOS.map((s) => (
-                <li key={s.key}>
-                  <a href={s.mapsUrl} {...EXTERNAL}>{s.city}{s.key === 'new-delhi' ? ' · HQ' : ''} ↗</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
             <h2 className="footer-col-title">Get in touch</h2>
             <ul className="footer-links">
               <li><a href={`mailto:${EMAIL.work}`}>{EMAIL.work}</a></li>
@@ -61,6 +49,14 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
+        <p className="footer-locations">
+          {STUDIOS.map((s, i) => (
+            <span key={s.key}>
+              {i > 0 && <span className="footer-locations-sep" aria-hidden="true"> · </span>}
+              <a href={s.mapsUrl} {...EXTERNAL}>{s.city}<span className="sr-only"> (opens in Google Maps)</span></a> · {s.shortAddress}
+            </span>
+          ))}
+        </p>
         <span>© 2026 {SITE.name} · Founded by {SITE.founder}</span>
         <span className="center">{SITE.positioning}</span>
         <span className="right">
