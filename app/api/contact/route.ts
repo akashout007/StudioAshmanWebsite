@@ -52,6 +52,9 @@ export async function POST(req: Request) {
   const service = clean(body.service, 80);
   const city = clean(body.city, 40);
   const timeline = clean(body.timeline, 40);
+  // Lead source, from a fixed list only (e.g. /contact?ref=sign from Play's "Make your sign")
+  const SOURCES: Record<string, string> = { "play-sign": "Play: Make your sign" };
+  const source = typeof body.source === "string" && Object.prototype.hasOwnProperty.call(SOURCES, body.source) ? SOURCES[body.source] : "";
 
   if (!name || !message || !isEmail(rawEmail)) {
     return Response.json({ ok: false, error: "Please add your name, a valid email and a message." }, { status: 400 });
@@ -63,7 +66,7 @@ export async function POST(req: Request) {
   }
 
   // The notify template has no slots for service, city or timeline, so they lead the message.
-  const details = [service && `Service: ${service}`, city && `City: ${city}`, timeline && `Timeline: ${timeline}`]
+  const details = [service && `Service: ${service}`, city && `City: ${city}`, timeline && `Timeline: ${timeline}`, source && `Source: ${source}`]
     .filter(Boolean)
     .join("\n");
   const notifyMessage = details ? `${details}\n\n${message}` : message;

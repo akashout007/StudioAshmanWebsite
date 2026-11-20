@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { useRef, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { EMAIL, SERVICES } from '@/lib/site'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
@@ -31,6 +31,11 @@ function validate(f: Fields) {
 
 export default function ContactForm() {
   const [fields, setFields] = useState<Fields>(EMPTY)
+  // Where the lead came from: /contact?ref=sign is the "Make your sign" CTA in Play. Nothing is preselected.
+  const [source, setSource] = useState('')
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('ref') === 'sign') setSource('play-sign')
+  }, [])
   const [errors, setErrors] = useState<Partial<Record<FieldKey, string>>>({})
   const [status, setStatus] = useState<Status>('idle')
   const formRef = useRef<HTMLFormElement>(null)
@@ -59,7 +64,7 @@ export default function ContactForm() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...fields, submissionId: submissionId.current }),
+        body: JSON.stringify({ ...fields, source, submissionId: submissionId.current }),
       })
       const data = await res.json().catch(() => null)
       if (!res.ok || !data?.ok) throw new Error(String(res.status))
@@ -166,6 +171,7 @@ export default function ContactForm() {
         <input type="text" id="cf-website" name="website" tabIndex={-1} autoComplete="off"
           value={fields.website} onChange={set('website')} />
       </div>
+      <input type="hidden" name="source" value={source} />
 
       <button type="submit" className="form-submit" disabled={status === 'submitting'} aria-busy={status === 'submitting'}>
         {status === 'submitting' ? 'Sending…' : 'Send message →'}
