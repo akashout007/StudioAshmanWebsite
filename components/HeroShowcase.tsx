@@ -1,5 +1,5 @@
 'use client'
-import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -88,19 +88,19 @@ const useReducedMotion = () => {
 
 /**
  * A word that changes like an airport split-flap board: each changed letter flips through two random
- * letters before landing. The slot's width eases to the new word's width so the chip never jumps.
- * Screen readers only ever get the final word.
+ * letters before landing. Screen readers only ever get the final word.
+ *
+ * Sizing: the final word sits invisibly in the same grid cell as the animated letters, so the box always
+ * fits the real text in whatever font is active (Play pairings, late font loads, resizes). A width is held
+ * only while a flip animates (eased from the old word to the new one), then released to auto.
  */
 function FlapWord({ text, still, replay = 0 }: { text: string; still: boolean; replay?: number }) {
   const [chars, setChars] = useState(() => text.split(''))
   const [ticks, setTicks] = useState<number[]>(() => text.split('').map(() => 0))
-  const [width, setWidth] = useState<number>()
   const shown = useRef(text)
-  const measureRef = useRef<HTMLSpanElement>(null)
-
-  useLayoutEffect(() => {
-    if (measureRef.current) setWidth(measureRef.current.getBoundingClientRect().width)
-  }, [text])
+  const boxRef = useRef<HTMLSpanElement>(null)
+  const charsRef = useRef<HTMLSpanElement>(null)
+  const sizerRef = useRef<HTMLSpanElement>(null)
 
   const lastReplay = useRef(replay)
   useEffect(() => {
@@ -111,11 +111,28 @@ function FlapWord({ text, still, replay = 0 }: { text: string; still: boolean; r
     if (from === text) return
     shown.current = text
     if (still) { setChars(text.split('')); setTicks(text.split('').map(() => 0)); return }
+
     const n = Math.max(from.length, text.length)
     const cur = Array.from({ length: n }, (_, i) => from[i] ?? '')
     const tick = cur.map(() => 0)
     setChars([...cur])
     const timers: number[] = []
+    const end = n * FLAP_STAGGER + 3 * FLAP_STEP + 10
+
+    // Hold the width during the flip only: from the letters on screen now to the new word, measured
+    // in the current font. Growing words widen at once; shrinking ones wait for their extra letters to go.
+    const box = boxRef.current, oldW = charsRef.current?.getBoundingClientRect().width, newW = sizerRef.current?.getBoundingClientRect().width
+    if (box && oldW && newW) {
+      box.style.transition = 'none'
+      box.style.width = `${oldW}px`
+      void box.offsetWidth
+      box.style.transition = ''
+      const settle = () => { box.style.width = `${newW}px` }
+      if (newW >= oldW) settle()
+      else timers.push(window.setTimeout(settle, from.length * FLAP_STAGGER))
+      timers.push(window.setTimeout(() => { box.style.width = '' }, end + 320))
+    }
+
     for (let i = 0; i < n; i++) {
       const target = text[i] ?? ''
       if (from[i] === target) continue
@@ -134,21 +151,24 @@ function FlapWord({ text, still, replay = 0 }: { text: string; still: boolean; r
     timers.push(window.setTimeout(() => {
       setChars(text.split(''))
       setTicks(text.split('').map((_, i) => tick[i] ?? 0))
-    }, n * FLAP_STAGGER + 3 * FLAP_STEP + 10))
-    return () => timers.forEach(window.clearTimeout)
+    }, end))
+    return () => {
+      timers.forEach(window.clearTimeout)
+      if (box) box.style.width = ''
+    }
   }, [text, still, replay])
 
   return (
-    <span className="flap" style={width ? { width } : undefined}>
+    <span ref={boxRef} className="flap">
       <span className="sr-only">{text}</span>
-      <span className="flap-chars" aria-hidden="true">
+      <span ref={sizerRef} className="flap-sizer" aria-hidden="true">{text}</span>
+      <span ref={charsRef} className="flap-chars" aria-hidden="true">
         {chars.map((c, i) => (
           <span key={`${i}-${ticks[i] ?? 0}`} className={ticks[i] ? 'flap-char is-flipped' : 'flap-char'}>
-            {c === ' ' ? ' ' : c}
+            {c === ' ' ? '\u00a0' : c}
           </span>
         ))}
       </span>
-      <span ref={measureRef} className="flap-measure" aria-hidden="true">{text}</span>
     </span>
   )
 }

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test tests/*.test.ts"
+    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test tests/*.test.ts",
+    "check:layout": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-layout.mjs"
   },
   "dependencies": {
     "next": "^15.3.1",
