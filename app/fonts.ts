@@ -1,6 +1,6 @@
 import {
   Bodoni_Moda, Bricolage_Grotesque, DM_Mono, DM_Sans, Fraunces, Inter, Instrument_Serif, Jost, Manrope,
-  Playfair_Display, Space_Grotesk, Space_Mono, Syne,
+  Noto_Sans, Playfair_Display, Source_Sans_3, Space_Grotesk, Space_Mono, Syne,
 } from 'next/font/google'
 
 // The studio pairing is preloaded. Every other face is self-hosted with preload off: its @font-face is
@@ -23,8 +23,11 @@ const bricolage = Bricolage_Grotesque({ subsets: ['latin'], display: 'swap', adj
 const dmMono = DM_Mono({ subsets: ['latin'], display: 'swap', adjustFontFallback: false, preload: false, variable: '--font-dm-mono', weight: ['400', '500'] })
 const bodoni = Bodoni_Moda({ subsets: ['latin'], display: 'swap', adjustFontFallback: false, preload: false, variable: '--font-bodoni', style: ['normal', 'italic'] })
 const jost = Jost({ subsets: ['latin'], display: 'swap', adjustFontFallback: false, preload: false, variable: '--font-jost' })
+const sourceSans = Source_Sans_3({ subsets: ['latin'], display: 'swap', adjustFontFallback: false, preload: false, variable: '--font-source-sans' })
+const notoSans = Noto_Sans({ subsets: ['latin'], display: 'swap', adjustFontFallback: false, preload: false, variable: '--font-noto-sans' })
 
 /** Class names that define every --font-* variable; they go on <html>. */
 export const fontVariables = [
   playfair, syne, dmSans, fraunces, inter, spaceGrotesk, instrumentSerif, manrope, spaceMono, bricolage, dmMono, bodoni, jost,
+  sourceSans, notoSans,
 ].map((f) => f.variable).join(' ')

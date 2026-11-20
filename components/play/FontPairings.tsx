@@ -1,6 +1,6 @@
 'use client'
 import { useId } from 'react'
-import { PAIRINGS, familiesOf, pairingById, specimenUrl, type PairingId } from '@/lib/play/fonts'
+import { PAIRINGS, facesOf, pairingById, specimenUrl, type PairingId } from '@/lib/play/fonts'
 
 /** Font pairing chips: a radio group, each chip set in its own display face. */
 export default function FontPairings({ value, onChange }: { value: PairingId; onChange: (id: PairingId) => void }) {
@@ -24,14 +24,21 @@ export default function FontPairings({ value, onChange }: { value: PairingId; on
         ))}
       </div>
       <p className="pairing-credit">
-        These fonts are free and open source:{' '}
-        {familiesOf(current).map((f, i) => (
-          <span key={f}>
-            {i > 0 && ' · '}
-            <a href={specimenUrl(f)} target="_blank" rel="noopener noreferrer">{f}</a>
-          </span>
-        ))}
-        .
+        {current.display.system ? (
+          // Helvetica is commercial: it's used only where the visitor's device already has it
+          <>Helvetica is a system font: Apple devices have it built in, and Arial stands in elsewhere. Nothing is downloaded.</>
+        ) : (
+          <>
+            These fonts are free and open source:{' '}
+            {facesOf(current).map((f, i) => (
+              <span key={f.family}>
+                {i > 0 && ' · '}
+                <a href={specimenUrl(f.family)} target="_blank" rel="noopener noreferrer">{f.family}</a>
+              </span>
+            ))}
+            {current.note ? `, ${current.note}.` : '.'}
+          </>
+        )}
       </p>
     </fieldset>
   )

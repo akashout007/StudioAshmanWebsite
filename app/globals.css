@@ -48,6 +48,7 @@
   --font-body:    var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
   --font-label:   var(--font-syne), 'Syne', sans-serif;
   --font-wordmark: var(--font-syne), 'Syne', sans-serif;           /* fixed */
+  --font-helvetica: 'Helvetica Neue', Helvetica, Arial, sans-serif;  /* Play's Swiss pairing: the device's own copy, never downloaded */
   --font-wordmark-display: var(--font-playfair), 'Playfair Display', serif; /* fixed: footer watermark */
 
   --border:    0.5px solid var(--color-rule);
@@ -1990,7 +1991,7 @@ html[data-fonts="classic"] {
 
 /* ── Play: pairing chips ── */
 .pairings { border: 0; margin: 0; padding: 0; display: grid; gap: 10px; min-width: 0; }
-.pairing-chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.pairing-chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; } /* 9 pairings: 3 × 3 */
 .pairing-chip {
   position: relative; display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 6px 8px;
   border: 1px solid var(--color-control-border); background: var(--color-surface-raised); color: var(--color-ink);
@@ -2133,4 +2134,22 @@ html[data-fonts="classic"] {
   .sign-preview { order: -1; position: static; }
   .sign-preview canvas { max-height: 38svh; }
   .sign-title { font-size: 24px; }
+}
+html[data-fonts="swiss"] {
+  --h1-scale: 1; --h1-measure: 10.1em;
+  --font-display: var(--font-helvetica);
+  --font-body: var(--font-helvetica);
+  --font-label: var(--font-helvetica);
+}
+html[data-fonts="transit"] {
+  --h1-scale: 1.06; --h1-measure: 9.6em;
+  --font-display: var(--font-source-sans), system-ui, sans-serif;
+  --font-body: var(--font-source-sans), system-ui, sans-serif;
+  --font-label: var(--font-source-sans), system-ui, sans-serif;
+}
+html[data-fonts="global"] {
+  --h1-scale: .93; --h1-measure: 11em;
+  --font-display: var(--font-noto-sans), system-ui, sans-serif;
+  --font-body: var(--font-noto-sans), system-ui, sans-serif;
+  --font-label: var(--font-noto-sans), system-ui, sans-serif;
 }
