@@ -40,7 +40,7 @@ const SLIDES: Slide[] = [
     slug, project: p, title: p.title, src,
     alt: art?.alt ?? p.hero.alt,
     focal: p.focal ?? p.hero.position ?? '50% 50%',
-    line: art?.line ?? p.discipline ?? '',
+    line: art?.line ?? p.tagline ?? '',
     service: primaryServiceOf(p), sector: primarySectorOf(p),
   }]
 })

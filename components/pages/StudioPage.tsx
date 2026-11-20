@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { SITE } from '@/lib/site'
-import { Belief, Cities, CtaBand, Disciplines, HowWeWork } from '@/components/sections'
+import { Belief, Cities, CtaBand, HowWeWork, Services } from '@/components/sections'
 
 const BELIEFS = [
   {
@@ -32,7 +32,7 @@ export default function StudioPage() {
               <span className="current">Studio</span>
             </div>
             <div className="ash-eyebrow"><span className="dash" />Studio</div>
-            <h1>A <em>multidisciplinary</em><br />practice.</h1>
+            <h1>A <em>spatial branding</em> studio.</h1>
           </div>
           <p className="lede">{SITE.summary}</p>
         </div>
@@ -66,7 +66,7 @@ export default function StudioPage() {
         </div>
       </section>
 
-      <Disciplines />
+      <Services />
       <HowWeWork />
 
       <section className="ash-section" style={{ paddingTop: 0 }}>

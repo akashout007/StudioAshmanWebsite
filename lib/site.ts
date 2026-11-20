@@ -11,7 +11,7 @@ export const SITE = {
     'We build brand identities from scratch, along with their digital and spatial branding collateral, and we build the story each brand tells.',
   metaTitle: 'Ashman Studio | Wayfinding & Spatial Branding Agency, New Delhi & Dubai',
   metaDescription:
-    'Ashman Studio builds brand identities from scratch, with wayfinding, signage, spatial and digital branding. Studios in New Delhi and Dubai.',
+    'Ashman Studio is a spatial branding studio in New Delhi and Dubai. We build brand identities from scratch, with wayfinding, signage, spatial and digital branding.',
 } as const
 
 export type ServiceSlug = 'brand-identity' | 'wayfinding-signage' | 'spatial-branding' | 'digital-collateral'

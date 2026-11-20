@@ -3,18 +3,19 @@ import Link from 'next/link'
 import { CTA, EXTERNAL, LINKS, SERVICES, SITE, STUDIOS } from '@/lib/site'
 import { CLIENTS, TESTIMONIALS } from '@/lib/proof'
 
-export function Disciplines({ id, headingLevel = 'h2' }: { id?: string; headingLevel?: 'h1' | 'h2' }) {
+export function Services({ id, headingLevel = 'h2' }: { id?: string; headingLevel?: 'h1' | 'h2' }) {
   const Heading = headingLevel
   return (
-    <section className="ash-section disciplines" id={id}>
+    <section className="ash-section services-section" id={id}>
       <div className="ash-wrap">
         <div className="section-head">
           <div className="left">
             <div className="num">What we do</div>
-            <Heading>One brand,<br /><em>four</em> disciplines.</Heading>
+            <Heading>Spatial branding,<br /><em>end to end</em>.</Heading>
           </div>
           <p className="lede">
-            Most projects run across all four, end-to-end, from the first workshop to installation.
+            {SITE.name} is a spatial branding studio. We build brands from scratch and carry them into every
+            place they live: on screen, in print and in space.
           </p>
         </div>
         <ol className="disc-row">
@@ -44,16 +45,15 @@ export function Belief() {
         <div className="ash-eyebrow on-dark"><span className="dash" />Our belief</div>
         <h2>The best brands don&apos;t just look good, they feel like <em>somewhere</em>.</h2>
         <p>
-          {SITE.name} is a multidisciplinary, transdisciplinary practice founded by {SITE.founder}. We
-          build brands from the first idea to the last sign: strategy, identity, story, digital and
-          spatial collateral, designed as one system by one team. Brand designers, wayfinding
-          specialists and spatial thinkers work across the line, not in sequence, so the logo, the
-          website, the facade and the corridor sign all tell the same story.
+          {SITE.name} is a spatial branding studio founded by {SITE.founder}. We build brands from the first
+          idea to the last sign: the strategy, the identity, the story, and the digital and spatial collateral
+          that carry it, designed as one system by one team. So the logo, the website, the facade and the
+          corridor sign all tell the same story.
         </p>
         <ul className="ash-stats">
-          <li className="ash-stat-label">4 disciplines · one brand system</li>
           <li className="ash-stat-label">Identity → Digital → Space</li>
-          <li className="ash-stat-label">2 studios · New Delhi · Dubai</li>
+          <li className="ash-stat-label">From first idea to installed sign</li>
+          <li className="ash-stat-label">One studio, one brand story</li>
         </ul>
       </div>
     </section>

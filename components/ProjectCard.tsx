@@ -24,7 +24,7 @@ export default function ProjectCard({
   priority = false,
 }: Props) {
   const services = project.services.map((s) => serviceBySlug(s)?.short).filter(Boolean).join(' · ')
-  const hook = [project.hook, project.discipline].find(filled)
+  const hook = [project.hook, project.tagline].find(filled)
   const meta = projectMeta(project)
 
   return (

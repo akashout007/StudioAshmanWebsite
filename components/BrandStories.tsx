@@ -62,7 +62,7 @@ export default function HomeBrandStories() {
           </p>
         </div>
       </div>
-      <FilterChips value={filter} onChange={setFilter} label="Filter brand stories by discipline" />
+      <FilterChips value={filter} onChange={setFilter} label="Filter brand stories by service" />
       <p className="sr-only" aria-live="polite">{projects.length} brand stories shown</p>
       <div className="selected-grid story-grid">
         {projects.map((p) => (

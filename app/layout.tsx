@@ -24,6 +24,7 @@ const jsonLd = {
       '@id': `${SITE.url}/#organization`,
       name: SITE.name,
       url: SITE.url,
+      description: SITE.metaDescription,
       logo: `${SITE.url}/icon.png`,
       founder: { '@type': 'Person', name: SITE.founder },
       email: EMAIL.work,

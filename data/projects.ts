@@ -40,7 +40,7 @@ export interface Project {
   primaryService?: ServiceSlug
   // object-position for the homepage hero image (where the subject sits), e.g. '60% 40%'
   focal?: string
-  discipline?: string
+  tagline?: string // one line on what we did, shown on cards and as the story hook
   location?: string
   year?: string
   client?: string
@@ -70,7 +70,7 @@ export const PROJECTS: Project[] = [
     number: '01',
     title: 'Regency Kanpur Hospital',
     category: 'Wayfinding · Signage',
-    discipline: 'Bilingual wayfinding concept and a gate, drop-off and corridor sign family for a hospital campus',
+    tagline: 'Bilingual wayfinding concept and a gate, drop-off and corridor sign family for a hospital campus',
     services: ['wayfinding-signage', 'spatial-branding'],
     sector: 'Healthcare',
     sectors: ['hospitals'],
@@ -104,7 +104,7 @@ export const PROJECTS: Project[] = [
     number: '02',
     title: 'ArtNest Studio',
     category: 'Brand Identity · Visual Communication',
-    discipline: 'Brand identity for a community art studio',
+    tagline: 'Brand identity for a community art studio',
     services: ['brand-identity', 'digital-collateral'],
     sector: 'Creative education',
     sectors: ['lifestyle-brands'],
@@ -138,7 +138,7 @@ export const PROJECTS: Project[] = [
     number: '03',
     title: 'Mall of Expressway',
     category: 'Wayfinding · Signage',
-    discipline: 'Signage and wayfinding for a retail mall with studio apartments',
+    tagline: 'Signage and wayfinding for a retail mall with studio apartments',
     services: ['wayfinding-signage', 'spatial-branding'],
     sector: 'Retail and residential',
     sectors: ['malls-mixed-use'],
@@ -174,7 +174,7 @@ export const PROJECTS: Project[] = [
     number: '04',
     title: 'Kaamya Greens',
     category: 'Wayfinding · Signage',
-    discipline: 'Signage and wayfinding for a mixed-use residential development',
+    tagline: 'Signage and wayfinding for a mixed-use residential development',
     services: ['wayfinding-signage', 'spatial-branding'],
     sector: 'Residential',
     sectors: ['real-estate'],
@@ -209,7 +209,7 @@ export const PROJECTS: Project[] = [
     number: '05',
     title: 'Bollywood Kabab',
     category: 'Brand Identity · Signage',
-    discipline: 'Cinema-inspired brand identity and facade signage for a kebab restaurant',
+    tagline: 'Cinema-inspired brand identity and facade signage for a kebab restaurant',
     services: ['brand-identity', 'spatial-branding', 'digital-collateral'],
     sector: 'Food and beverage',
     sectors: ['restaurants-cafes'],
@@ -241,7 +241,7 @@ export const PROJECTS: Project[] = [
     number: '06',
     title: 'Chopra\'s Lemon Soda',
     category: 'Brand Identity · Collaterals',
-    discipline: 'Brand collaterals and menu for a soda bar',
+    tagline: 'Brand collaterals and menu for a soda bar',
     services: ['brand-identity', 'digital-collateral'],
     sector: 'Food and beverage',
     sectors: ['restaurants-cafes'],
@@ -274,7 +274,7 @@ export const PROJECTS: Project[] = [
     number: '07',
     title: 'Delhigrapher',
     category: 'Brand Identity',
-    discipline: 'Brand identity for a wedding photography practice',
+    tagline: 'Brand identity for a wedding photography practice',
     services: ['brand-identity', 'digital-collateral'],
     sector: 'Wedding photography',
     sectors: ['lifestyle-brands'],
@@ -307,7 +307,7 @@ export const PROJECTS: Project[] = [
     number: '08',
     title: 'Sweta Films',
     category: 'Brand Identity',
-    discipline: 'Brand identity for a photography and visual storytelling practice',
+    tagline: 'Brand identity for a photography and visual storytelling practice',
     services: ['brand-identity', 'digital-collateral'],
     sector: 'Photography and film',
     sectors: ['lifestyle-brands'],
@@ -336,7 +336,7 @@ export const PROJECTS: Project[] = [
     number: '09',
     title: 'Central Square',
     category: 'Wayfinding · Signage',
-    discipline: 'Signage and wayfinding for a three-plaza commercial complex',
+    tagline: 'Signage and wayfinding for a three-plaza commercial complex',
     services: ['wayfinding-signage', 'spatial-branding'],
     sector: 'Commercial real estate',
     sectors: ['malls-mixed-use'],
@@ -373,7 +373,7 @@ export const PROJECTS: Project[] = [
     number: '10',
     title: 'Intiva',
     category: 'Brand Identity · Packaging',
-    discipline: 'Brand identity and packaging for a foaming intimate wash',
+    tagline: 'Brand identity and packaging for a foaming intimate wash',
     services: ['brand-identity', 'digital-collateral'],
     sector: 'Personal care',
     sectors: ['lifestyle-brands'],

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import HeroShowcase from '@/components/HeroShowcase'
 import { CTA, SERVICES, SITE } from '@/lib/site'
-import { Belief, Cities, Clients, CtaBand, Disciplines, HowWeWork, Testimonials } from '@/components/sections'
+import { Belief, Cities, Clients, CtaBand, HowWeWork, Services, Testimonials } from '@/components/sections'
 import HomeBrandStories from '@/components/BrandStories'
 import Reveal from '@/components/Reveal'
 
@@ -21,7 +21,7 @@ export default function HomePage() {
         <HeroShowcase />
       </section>
 
-      <div className="ticker" aria-label={`Disciplines: ${SERVICES.map((sv) => sv.name).join(', ')}`} role="region">
+      <div className="ticker" aria-label={`Services: ${SERVICES.map((sv) => sv.name).join(', ')}`} role="region">
         <div className="ticker-track" aria-hidden="true">
           {[...SERVICES, ...SERVICES, ...SERVICES, ...SERVICES].map((sv, i) => (
             <span key={i}>
@@ -32,7 +32,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <Disciplines id="what-we-do" />
+      <Services id="what-we-do" />
 
       <HomeBrandStories />
 

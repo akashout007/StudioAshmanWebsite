@@ -20,7 +20,7 @@ export function generateStaticParams() {
 }
 
 const primaryService = (p: Project) => serviceBySlug(p.services[0])?.name ?? SITE.positioning
-const hookOf = (p: Project) => [p.hook, p.discipline].find(filled)
+const hookOf = (p: Project) => [p.hook, p.tagline].find(filled)
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
@@ -72,7 +72,7 @@ export default async function ProjectPage({ params }: Props) {
 
   const { prev, next } = getAdjacentProjects(slug)
   const imagesFor = (s: StorySection) => project.images.filter((i) => (i.section ?? 'overview') === s)
-  // Discipline sections belong only to projects with that service, or with images tagged for it
+  // Service sections belong only to projects with that service, or with images tagged for it
   const applies = (s: Exclude<StorySection, 'overview'>) =>
     imagesFor(s).length > 0 || project.services.some((sv) => SECTION_SERVICES[s].includes(sv))
   const services = project.services.map((s) => serviceBySlug(s)?.name).filter(Boolean)

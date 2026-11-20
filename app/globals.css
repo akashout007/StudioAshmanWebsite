@@ -334,9 +334,9 @@ nav.scrolled {
 .ash-section { padding: 120px 0; }
 
 /* ── WHAT WE DO: four services in one compact row ── */
-.ash-section.disciplines { padding: 0 0 56px; }
-.disciplines .section-head { padding: 56px 0 28px; }
-.disciplines .section-head .left { gap: 12px; }
+.ash-section.services-section { padding: 0 0 56px; }
+.services-section .section-head { padding: 56px 0 28px; }
+.services-section .section-head .left { gap: 12px; }
 .disc-row {
   list-style: none; margin: 0; padding: 0;
   display: grid; grid-template-columns: repeat(4, 1fr);
@@ -367,8 +367,8 @@ nav.scrolled {
 }
 /* Phone: a stacked list */
 @media (max-width: 768px) {
-  .ash-section.disciplines { padding-bottom: 40px; }
-  .disciplines .section-head { padding: 32px 0 16px; gap: 12px; }
+  .ash-section.services-section { padding-bottom: 40px; }
+  .services-section .section-head { padding: 32px 0 16px; gap: 12px; }
   .disc-row { grid-template-columns: 1fr; border-bottom: 0; }
   .disc-row li + li { border-left: 0; border-top: var(--border); }
   .disc-row li:last-child { border-bottom: var(--border); }

@@ -81,7 +81,7 @@ export default function WorkPage() {
 
       <Suspense fallback={null}><FilterParams onChange={fromUrl} /></Suspense>
       <FilterChips
-        value={service} options={SERVICE_CHOICES} label="Filter brand stories by discipline"
+        value={service} options={SERVICE_CHOICES} label="Filter brand stories by service"
         onChange={(v) => apply({ service: v, sector })}
       />
       <FilterChips
