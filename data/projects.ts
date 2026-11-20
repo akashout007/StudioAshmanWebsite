@@ -245,7 +245,6 @@ export const PROJECTS: Project[] = [
     services: ['brand-identity', 'digital-collateral'],
     sector: 'Food and beverage',
     sectors: ['restaurants-cafes'],
-    primaryService: 'digital-collateral', // its own copy: "Brand collaterals and menu for a soda bar"
     focal: '50% 50%',
     location: 'Zira, Punjab',
     year: '2026',
