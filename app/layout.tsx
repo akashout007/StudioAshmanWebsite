@@ -5,6 +5,8 @@ import Cursor from '@/components/Cursor'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import WhatsAppFloat from '@/components/WhatsAppFloat'
+import PlayButton from '@/components/play/PlayButton'
+import { PREPAINT_SCRIPT } from '@/lib/play/prepaint'
 import { EMAIL, LINKS, SITE, STUDIOS } from '@/lib/site'
 import { DEFAULT_OG_IMAGE, pageMeta } from '@/lib/seo'
 
@@ -51,7 +53,11 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={fontVariables}>
+    <html lang="en" className={fontVariables} suppressHydrationWarning>
+      <head>
+        {/* Saved Play colours and fonts, applied before first paint */}
+        <script dangerouslySetInnerHTML={{ __html: PREPAINT_SCRIPT }} />
+      </head>
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <a href="#main" className="skip-link">Skip to content</a>
@@ -60,6 +66,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main">{children}</main>
         <Footer />
         <WhatsAppFloat />
+        <PlayButton />
       </body>
     </html>
   )
