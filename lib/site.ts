@@ -53,12 +53,13 @@ export const serviceBySlug = (slug: string) => SERVICES.find((s) => s.slug === s
 
 export type SectorSlug = 'hospitals' | 'real-estate' | 'malls-mixed-use' | 'restaurants-cafes' | 'lifestyle-brands'
 
-export const SECTORS: { slug: SectorSlug; name: string }[] = [
-  { slug: 'hospitals', name: 'Hospitals' },
-  { slug: 'real-estate', name: 'Real estate' },
-  { slug: 'malls-mixed-use', name: 'Malls & mixed-use' },
-  { slug: 'restaurants-cafes', name: 'Restaurants & cafés' },
-  { slug: 'lifestyle-brands', name: 'Lifestyle brands' },
+// `chip` is the short word in the homepage sentence; menus show the full `name`.
+export const SECTORS: { slug: SectorSlug; name: string; chip: string }[] = [
+  { slug: 'hospitals', name: 'Hospitals', chip: 'Hospitals' },
+  { slug: 'real-estate', name: 'Real estate', chip: 'Real estate' },
+  { slug: 'malls-mixed-use', name: 'Malls & mixed-use', chip: 'Malls' },
+  { slug: 'restaurants-cafes', name: 'Restaurants & cafés', chip: 'Restaurants' },
+  { slug: 'lifestyle-brands', name: 'Lifestyle brands', chip: 'Lifestyle' },
 ]
 
 export const sectorBySlug = (slug: string) => SECTORS.find((s) => s.slug === slug)

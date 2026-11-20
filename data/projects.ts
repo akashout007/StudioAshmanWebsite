@@ -33,8 +33,13 @@ export interface Project {
   category: string
   services: ServiceSlug[]
   sector: string
-  // Hero and /work sector filters; tag only from facts in the project's own data or copy
+  // Hero and /work sector filters; tag only from facts in the project's own data or copy.
+  // The first sector is the project's primary one: the homepage chip shows it while the slide is up.
   sectors: SectorSlug[]
+  // The service the homepage chip shows for this project; defaults to services[0]
+  primaryService?: ServiceSlug
+  // object-position for the homepage hero image (where the subject sits), e.g. '60% 40%'
+  focal?: string
   discipline?: string
   location?: string
   year?: string
@@ -69,6 +74,7 @@ export const PROJECTS: Project[] = [
     services: ['wayfinding-signage', 'spatial-branding'],
     sector: 'Healthcare',
     sectors: ['hospitals'],
+    focal: '50% 20%',
     location: 'Kanpur',
     year: '2026',
     status: 'concept',
@@ -102,6 +108,7 @@ export const PROJECTS: Project[] = [
     services: ['brand-identity', 'digital-collateral'],
     sector: 'Creative education',
     sectors: ['lifestyle-brands'],
+    focal: '50% 50%',
     location: 'Charmwood Village, Faridabad',
     client: 'ArtNest Studio',
     status: 'built',
@@ -135,6 +142,7 @@ export const PROJECTS: Project[] = [
     services: ['wayfinding-signage', 'spatial-branding'],
     sector: 'Retail and residential',
     sectors: ['malls-mixed-use'],
+    focal: '50% 55%',
     location: 'Greater Noida',
     year: '2026',
     status: 'built',
@@ -170,6 +178,7 @@ export const PROJECTS: Project[] = [
     services: ['wayfinding-signage', 'spatial-branding'],
     sector: 'Residential',
     sectors: ['real-estate'],
+    focal: '50% 50%',
     location: 'Greater Noida',
     year: '2026',
     status: 'built',
@@ -204,6 +213,7 @@ export const PROJECTS: Project[] = [
     services: ['brand-identity', 'spatial-branding', 'digital-collateral'],
     sector: 'Food and beverage',
     sectors: ['restaurants-cafes'],
+    focal: '60% 40%',
     location: 'Greater Noida',
     client: 'Bollywood Kabab',
     status: 'built',
@@ -235,6 +245,8 @@ export const PROJECTS: Project[] = [
     services: ['brand-identity', 'digital-collateral'],
     sector: 'Food and beverage',
     sectors: ['restaurants-cafes'],
+    primaryService: 'digital-collateral', // its own copy: "Brand collaterals and menu for a soda bar"
+    focal: '50% 50%',
     location: 'Zira, Punjab',
     year: '2026',
     client: 'Chopra\'s Lemon Soda',
@@ -267,6 +279,7 @@ export const PROJECTS: Project[] = [
     services: ['brand-identity', 'digital-collateral'],
     sector: 'Wedding photography',
     sectors: ['lifestyle-brands'],
+    focal: '40% 40%',
     location: 'New Delhi',
     year: '2026',
     client: 'Delhigrapher',
@@ -299,6 +312,7 @@ export const PROJECTS: Project[] = [
     services: ['brand-identity', 'digital-collateral'],
     sector: 'Photography and film',
     sectors: ['lifestyle-brands'],
+    focal: '50% 45%',
     location: 'Dubai',
     client: 'Sweta Films',
     status: 'built',
@@ -327,6 +341,7 @@ export const PROJECTS: Project[] = [
     services: ['wayfinding-signage', 'spatial-branding'],
     sector: 'Commercial real estate',
     sectors: ['malls-mixed-use'],
+    focal: '60% 55%',
     location: 'North Delhi',
     status: 'in-progress',
     hero: {
@@ -363,6 +378,7 @@ export const PROJECTS: Project[] = [
     services: ['brand-identity', 'digital-collateral'],
     sector: 'Personal care',
     sectors: ['lifestyle-brands'],
+    focal: '50% 50%',
     client: 'Intiva',
     status: 'built',
     hero: {
@@ -424,3 +440,7 @@ export function workHref(service: ServiceFilter, sector: SectorFilter) {
   const s = q.toString()
   return s ? `/work?${s}` : '/work'
 }
+
+/** The service and sector the homepage chip names while this project is on screen. */
+export const primaryServiceOf = (p: Project): ServiceSlug => p.primaryService ?? p.services[0]
+export const primarySectorOf = (p: Project): SectorSlug => p.sectors[0]
