@@ -42,6 +42,29 @@ export default function PlayButton() {
     return () => io.disconnect()
   }, [pathname])
 
+  // ...and while anything marked data-play-avoid (the hero caption) passes through the pill's strip
+  const [avoid, setAvoid] = useState(false)
+  useEffect(() => {
+    const targets = document.querySelectorAll('[data-play-avoid]')
+    if (!targets.length) { setAvoid(false); return }
+    const inBand = new Set<Element>()
+    let io: IntersectionObserver | undefined
+    const watch = () => {
+      io?.disconnect()
+      inBand.clear()
+      // The strip is the pill's own footprint (16px from the bottom, 44px tall) plus 8px either side
+      io = new IntersectionObserver((entries) => {
+        // A real overlap, not just touching edges
+        for (const e of entries) { if (e.intersectionRect.height > 0) inBand.add(e.target); else inBand.delete(e.target) }
+        setAvoid(inBand.size > 0)
+      }, { rootMargin: `-${Math.max(0, innerHeight - 68)}px 0px -8px 0px`, threshold: [0, 0.01, 0.5, 1] })
+      targets.forEach((t) => io!.observe(t))
+    }
+    watch()
+    window.addEventListener('resize', watch)
+    return () => { io?.disconnect(); window.removeEventListener('resize', watch) }
+  }, [pathname])
+
   const dismissTip = () => {
     tipDone.current = true
     setTip(false)
@@ -63,8 +86,8 @@ export default function PlayButton() {
     buttonRef.current?.focus()
   }, [])
 
-  // Hidden on /contact (the form's submit button sits where the pill would) and over the footer
-  const hidden = !open && (pathname === '/contact' || footerInView)
+  // Hidden on /contact (the form's submit button sits where the pill would), over the footer and the hero caption
+  const hidden = !open && (pathname === '/contact' || footerInView || avoid)
 
   return (
     <>
