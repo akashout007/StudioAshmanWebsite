@@ -15,11 +15,12 @@
   --color-muted:          #625e58;  /* secondary text */
   --color-rule:           #e2ddd4;  /* decorative dividers */
   --color-rule-strong:    #cdc8be;  /* stronger dividers */
+  --color-control-border: #8a857d;  /* form field outlines: 3:1 on paper */
   --color-accent:         #c8502a;  /* terracotta: large type, rules, fills */
   --color-accent-strong:  #9e3d1e;  /* deeper accent: CTA band, pressed fills */
   --color-accent-soft:    #e8b49e;  /* accent on dark backgrounds */
   --color-accent-text:    #a83f1c;  /* accent for small text on paper */
-  --color-on-accent:      #f2efe8;  /* text on accent fills */
+  --color-on-accent:      #ffffff;  /* text on accent fills: 4.5:1 on accent */
   --color-dark-bg:        #0e0e0d;  /* dark sections and buttons */
   --color-dark-surface:   #1c1c1a;  /* hover on dark */
   --color-dark-ink:       #f2efe8;  /* text on dark */
@@ -53,6 +54,29 @@
   --border-dk: 0.5px solid var(--color-rule-strong);
   --ease:      cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* ── Colour temperature (Play) ──
+   Registered so the themeable colours can transition; Play sets them inline on <html>. */
+@property --color-paper { syntax: '<color>'; inherits: true; initial-value: #f2efe8; }
+@property --color-surface { syntax: '<color>'; inherits: true; initial-value: #ebe7de; }
+@property --color-surface-raised { syntax: '<color>'; inherits: true; initial-value: #faf9f6; }
+@property --color-ink { syntax: '<color>'; inherits: true; initial-value: #0e0e0d; }
+@property --color-muted { syntax: '<color>'; inherits: true; initial-value: #625e58; }
+@property --color-rule { syntax: '<color>'; inherits: true; initial-value: #e2ddd4; }
+@property --color-rule-strong { syntax: '<color>'; inherits: true; initial-value: #cdc8be; }
+@property --color-control-border { syntax: '<color>'; inherits: true; initial-value: #8a857d; }
+@property --color-accent { syntax: '<color>'; inherits: true; initial-value: #c8502a; }
+@property --color-accent-strong { syntax: '<color>'; inherits: true; initial-value: #9e3d1e; }
+@property --color-accent-soft { syntax: '<color>'; inherits: true; initial-value: #e8b49e; }
+@property --color-accent-text { syntax: '<color>'; inherits: true; initial-value: #a83f1c; }
+@property --color-on-accent { syntax: '<color>'; inherits: true; initial-value: #ffffff; }
+@property --color-dark-bg { syntax: '<color>'; inherits: true; initial-value: #0e0e0d; }
+@property --color-dark-surface { syntax: '<color>'; inherits: true; initial-value: #1c1c1a; }
+@property --color-dark-ink { syntax: '<color>'; inherits: true; initial-value: #f2efe8; }
+html.play-tint {
+  transition: --color-paper .3s ease, --color-surface .3s ease, --color-surface-raised .3s ease, --color-ink .3s ease, --color-muted .3s ease, --color-rule .3s ease, --color-rule-strong .3s ease, --color-control-border .3s ease, --color-accent .3s ease, --color-accent-strong .3s ease, --color-accent-soft .3s ease, --color-accent-text .3s ease, --color-on-accent .3s ease, --color-dark-bg .3s ease, --color-dark-surface .3s ease, --color-dark-ink .3s ease;
+}
+@media (prefers-reduced-motion: reduce) { html.play-tint { transition: none; } }
 
 html { scroll-behavior: smooth; font-size: 16px; }
 
@@ -114,9 +138,9 @@ button { font: inherit; cursor: pointer; }
   padding: 16px 28px; border: 0; cursor: pointer;
   transition: background .2s, transform .15s;
 }
-.btn-primary:hover { background: var(--color-accent); transform: translateY(-1px); }
+.btn-primary:hover { background: var(--color-accent); color: var(--color-on-accent); transform: translateY(-1px); }
 .btn-primary:active { transform: scale(.97); }
-.btn-primary.accent { background: var(--color-accent); }
+.btn-primary.accent { background: var(--color-accent); color: var(--color-on-accent); }
 .btn-primary.accent:hover { background: var(--color-accent-strong); }
 
 .btn-outline {
@@ -192,7 +216,7 @@ nav.scrolled {
   padding: 12px 20px; cursor: pointer; margin-left: 4px;
   transition: background .2s, opacity .25s, transform .25s, visibility 0s;
 }
-.nav-links a.nav-cta:hover { background: var(--color-accent); color: var(--color-dark-ink); }
+.nav-links a.nav-cta:hover { background: var(--color-accent); color: var(--color-on-accent); }
 /* Homepage: hidden while the hero's own button is on screen; keeps its space so the nav never shifts */
 .nav-links a.nav-cta.is-tucked {
   opacity: 0; visibility: hidden; transform: translateY(-4px);
@@ -776,7 +800,7 @@ nav.scrolled {
 .form-group input, .form-group textarea, .form-group select, .form-row input {
   width: 100%; font-family: var(--font-body); font-size: 14px; font-weight: 300;
   color: var(--color-ink); background: transparent; border: none;
-  border-bottom: .5px solid var(--color-rule); padding: .75rem 0; outline: none;
+  border-bottom: 1px solid var(--color-control-border); padding: .75rem 0; outline: none;
   transition: border-color .2s; -webkit-appearance: none; appearance: none;
 }
 .form-group input:focus, .form-group textarea:focus, .form-group select:focus, .form-row input:focus {
@@ -791,7 +815,7 @@ nav.scrolled {
   padding: 16px 28px; cursor: pointer; margin-top: 1rem;
   transition: background .25s, transform .15s;
 }
-.form-submit:hover { background: var(--color-accent); transform: translateY(-1px); }
+.form-submit:hover { background: var(--color-accent); color: var(--color-on-accent); transform: translateY(-1px); }
 
 /* ── FOOTER ── */
 footer {
@@ -1598,7 +1622,7 @@ a.nav-cta {
 .showcase-prev { left: 24px; }
 .showcase-next { right: 24px; }
 .showcase:hover .showcase-arrow, .showcase-arrow:focus-visible { opacity: 1; }
-.showcase-arrow:hover { background: var(--color-accent); color: var(--on-photo); }
+.showcase-arrow:hover { background: var(--color-accent); color: var(--color-on-accent); }
 @media (hover: none) { .showcase-arrow { opacity: 1; } }
 @keyframes chipSheetUp { from { transform: translateY(100%); } to { transform: none; } }
 @keyframes showcaseWord { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
@@ -1904,3 +1928,24 @@ footer :focus-visible, .ash-statement :focus-visible,
 
 /* The dot in "ashman.studio" is part of the wordmark, so it never takes the theme accent */
 .wordmark-dot { color: var(--brand-accent); }
+
+/* ── Play: colour temperature slider ── */
+.play-label { font-family: var(--font-label); font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--color-muted); }
+.temp { display: grid; gap: 10px; }
+.temp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.temp-value { font-family: var(--font-label); font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--color-ink); }
+.temp-value span { font-weight: 400; color: var(--color-muted); margin-left: 4px; }
+/* Track runs from candlelight amber to daylight blue: a lighting-gel cue, fixed so it reads at any setting */
+.temp-range {
+  -webkit-appearance: none; appearance: none; width: 100%; height: 44px; background: transparent; cursor: pointer; margin: 0;
+}
+.temp-range::-webkit-slider-runnable-track { height: 6px; border-radius: 3px; background: linear-gradient(to right, #f0a35a, #f3dcb8 21%, #f2efe8 42%, #e8eef6 74%, #9cc3ee); box-shadow: inset 0 0 0 1px var(--color-control-border); }
+.temp-range::-moz-range-track { height: 6px; border-radius: 3px; background: linear-gradient(to right, #f0a35a, #f3dcb8 21%, #f2efe8 42%, #e8eef6 74%, #9cc3ee); box-shadow: inset 0 0 0 1px var(--color-control-border); }
+.temp-range::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; margin-top: -9px; border-radius: 50%; background: var(--color-paper); border: 2px solid var(--color-ink); box-shadow: 0 2px 6px color-mix(in srgb, var(--color-ink) 25%, transparent); }
+.temp-range::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--color-paper); border: 2px solid var(--color-ink); }
+.temp-range:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.temp-stops { position: relative; list-style: none; margin: 0 12px; padding: 0; height: 30px; font-size: 11px; line-height: 1.25; color: var(--color-muted); }
+.temp-stops li { position: absolute; top: 0; transform: translateX(-50%); text-align: center; white-space: nowrap; }
+.temp-stops li:first-child { transform: none; text-align: left; }
+.temp-stops li:last-child { transform: translateX(-100%); text-align: right; }
+.temp-stops b { display: block; font-weight: 600; color: var(--color-ink); }
