@@ -1,34 +1,12 @@
 import type { Metadata } from 'next'
-import { Playfair_Display, Syne, DM_Sans } from 'next/font/google'
 import './globals.css'
+import { fontVariables } from './fonts'
 import Cursor from '@/components/Cursor'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import WhatsAppFloat from '@/components/WhatsAppFloat'
 import { EMAIL, LINKS, SITE, STUDIOS } from '@/lib/site'
 import { DEFAULT_OG_IMAGE, pageMeta } from '@/lib/seo'
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair',
-  display: 'swap',
-  adjustFontFallback: false,
-  style: ['normal', 'italic'],
-})
-
-const syne = Syne({
-  subsets: ['latin'],
-  variable: '--font-syne',
-  display: 'swap',
-  adjustFontFallback: false,
-})
-
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  variable: '--font-dm-sans',
-  display: 'swap',
-  adjustFontFallback: false,
-})
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? SITE.url),
@@ -73,7 +51,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${syne.variable} ${dmSans.variable}`}>
+    <html lang="en" className={fontVariables}>
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <a href="#main" className="skip-link">Skip to content</a>

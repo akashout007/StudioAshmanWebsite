@@ -18,3 +18,10 @@ export function clearTemperature() {
   const root = document.documentElement
   for (const t of TOKENS) root.style.removeProperty(`--color-${t}`)
 }
+
+/** Switches the type pairing; the studio default is the stylesheet's own fonts. */
+export function applyFonts(id: string) {
+  const root = document.documentElement
+  if (id === 'studio') delete root.dataset.fonts
+  else root.dataset.fonts = id
+}
